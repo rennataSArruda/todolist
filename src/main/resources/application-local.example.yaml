@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    username: TODO_LIST
+    password: 1911
+
+app:
+  security:
+    jwt:
+      secret: todo-list-jwt-secret-key-with-32-chars-minimum
+      expiration-minutes: 15
+      refresh-expiration-days: 7
+      max-sessions: 1
+    cleanup:
+      cron: "0 0 * * * *"

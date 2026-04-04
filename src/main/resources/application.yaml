@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: todolist
+  config:
+    import: optional:classpath:application-local.yaml
+  datasource:
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+    driver-class-name: oracle.jdbc.OracleDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
+        format_sql: true
+    show-sql: true
+
+app:
+  security:
+    jwt:
+      secret: ${JWT_SECRET:}
+      expiration-minutes: ${JWT_EXPIRATION_MINUTES:15}
+      refresh-expiration-days: ${JWT_REFRESH_EXPIRATION_DAYS:7}
+      max-sessions: ${JWT_MAX_SESSIONS:1}
+    cleanup:
+      cron: ${TOKEN_CLEANUP_CRON:0 0 * * * *}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
