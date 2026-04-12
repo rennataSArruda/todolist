@@ -7,6 +7,8 @@ public record JwtProperties(
         String secret,
         long expirationMinutes,
         long refreshExpirationDays,
-        int maxSessions
+        int maxSessions,
+        String issuer,
+        String audience
 ) {
 }

@@ -27,8 +27,8 @@ public class RefreshToken {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TOKEN", nullable = false, unique = true, length = 255)
-    private String token;
+    @Column(name = "TOKEN_HASH", nullable = false, unique = true, length = 64)
+    private String tokenHash;
 
     @Column(name = "SESSION_ID", nullable = false, unique = true, length = 255)
     private String sessionId;
@@ -47,8 +47,8 @@ public class RefreshToken {
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public RefreshToken(String token, String sessionId, Usuario usuario, LocalDateTime expiresAt) {
-        this.token = token;
+    public RefreshToken(String tokenHash, String sessionId, Usuario usuario, LocalDateTime expiresAt) {
+        this.tokenHash = tokenHash;
         this.sessionId = sessionId;
         this.usuario = usuario;
         this.expiresAt = expiresAt;

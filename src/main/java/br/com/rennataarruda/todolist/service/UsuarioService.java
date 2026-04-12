@@ -1,11 +1,14 @@
 package br.com.rennataarruda.todolist.service;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
 import br.com.rennataarruda.todolist.dto.UsuarioDto;
 import br.com.rennataarruda.todolist.dto.filter.UsuarioSearchFilter;
+import br.com.rennataarruda.todolist.entity.Perfil;
 import br.com.rennataarruda.todolist.entity.Usuario;
+import br.com.rennataarruda.todolist.entity.Usuario_;
 import br.com.rennataarruda.todolist.mapper.UsuarioMapper;
+import br.com.rennataarruda.todolist.repository.PerfilRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
+import br.com.rennataarruda.todolist.security.PasswordService;
 import br.com.rennataarruda.todolist.service.commons.AbstractSearchCrudService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -20,13 +23,24 @@ import java.util.List;
 @Service
 public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, UsuarioDto, UsuarioSearchFilter> {
 
-    private final UsuarioRepository repository;
-    private final UsuarioMapper mapper;
+    private static final String PERFIL_PADRAO = "PADRAO";
 
-    public UsuarioService(UsuarioRepository repository, UsuarioMapper mapper) {
+    private final UsuarioRepository repository;
+    private final PerfilRepository perfilRepository;
+    private final UsuarioMapper mapper;
+    private final PasswordService passwordService;
+
+    public UsuarioService(
+            UsuarioRepository repository,
+            PerfilRepository perfilRepository,
+            UsuarioMapper mapper,
+            PasswordService passwordService
+    ) {
         super(repository);
         this.repository = repository;
+        this.perfilRepository = perfilRepository;
         this.mapper = mapper;
+        this.passwordService = passwordService;
     }
 
     @Override
@@ -54,7 +68,7 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
 
     @Override
     protected Usuario toNewEntity(UsuarioDto dto) {
-        return mapper.toEntity(dto, encodePassword(dto.password()));
+        return mapper.toEntity(dto, passwordService.encode(dto.password()), getDefaultPerfil());
     }
 
     @Override
@@ -71,14 +85,14 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
     ) {
         if (StringUtils.hasText(filter.username())) {
             predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get("username")),
+                    criteriaBuilder.lower(root.get(Usuario_.username)),
                     "%" + filter.username().toLowerCase() + "%"
             ));
         }
 
         if (StringUtils.hasText(filter.name())) {
             predicates.add(criteriaBuilder.like(
-                    criteriaBuilder.lower(root.get("name")),
+                    criteriaBuilder.lower(root.get(Usuario_.name)),
                     "%" + filter.name().toLowerCase() + "%"
             ));
         }
@@ -100,8 +114,11 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         }
     }
 
-    private String encodePassword(String password) {
-        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
+    private Perfil getDefaultPerfil() {
+        return perfilRepository.findByCodigo(PERFIL_PADRAO)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.INTERNAL_SERVER_ERROR,
+                        "Perfil padrao nao configurado"
+                ));
     }
-
 }

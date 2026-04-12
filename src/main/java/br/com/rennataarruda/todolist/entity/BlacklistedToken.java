@@ -24,8 +24,8 @@ public class BlacklistedToken {
     @Column(name = "ID")
     private Long id;
 
-    @Column(name = "TOKEN", nullable = false, unique = true, length = 2000)
-    private String token;
+    @Column(name = "TOKEN_HASH", nullable = false, unique = true, length = 64)
+    private String tokenHash;
 
     @Column(name = "EXPIRES_AT", nullable = false)
     private LocalDateTime expiresAt;
@@ -34,8 +34,8 @@ public class BlacklistedToken {
     @Column(name = "CREATED_AT", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public BlacklistedToken(String token, LocalDateTime expiresAt) {
-        this.token = token;
+    public BlacklistedToken(String tokenHash, LocalDateTime expiresAt) {
+        this.tokenHash = tokenHash;
         this.expiresAt = expiresAt;
     }
 }

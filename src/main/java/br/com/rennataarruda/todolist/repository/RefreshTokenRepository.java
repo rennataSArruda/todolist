@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface RefreshTokenRepository extends BaseRepository<RefreshToken, Long> {
 
-    Optional<RefreshToken> findByToken(String token);
+    Optional<RefreshToken> findByTokenHash(String tokenHash);
 
     Optional<RefreshToken> findBySessionId(String sessionId);
 

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Todo List API",
                 version = "v1",
-                description = "Documentacao da API do projeto Todo List"
+                description = "Documentacao da API do projeto Todo List. Para autenticacao do frontend web, use /public/auth/login. O endpoint /public/auth/token existe para suporte ao Swagger/OpenAPI."
         )
 )
 @SecurityScheme(

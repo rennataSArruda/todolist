@@ -44,6 +44,8 @@ Exemplo:
 
 ```yaml
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
     username: SEU_USUARIO
@@ -59,6 +61,12 @@ app:
     cleanup:
       cron: "0 0 * * * *"
 ```
+
+Importante:
+
+- o ambiente local deve subir com profile `dev`
+- o Swagger/OpenAPI fica liberado apenas em `dev`
+- fora de `dev`, `/v3/api-docs/**`, `/swagger-ui/**` e `/swagger-ui.html` ficam bloqueados pela configuração de segurança
 
 ## Executar
 
@@ -84,6 +92,16 @@ http://localhost:8080/swagger-ui.html
 
 O botão `Authorize` usa o endpoint OAuth password flow em `/public/auth/token`.
 
+Para a aplicação web, o endpoint oficial de login é:
+
+- `POST /public/auth/login`
+
+O endpoint abaixo não deve ser usado como contrato principal do frontend:
+
+- `POST /public/auth/token`
+
+Ele existe para suporte técnico ao Swagger/OpenAPI.
+
 ## Endpoints
 
 ### Públicos
@@ -92,7 +110,7 @@ O botão `Authorize` usa o endpoint OAuth password flow em `/public/auth/token`.
 - `POST /public/auth/login`
 - `POST /public/auth/refresh`
 - `POST /public/auth/logout`
-- `POST /public/auth/token`
+- `POST /public/auth/token` - suporte ao Swagger/OpenAPI
 
 ### Privados
 
@@ -106,6 +124,8 @@ O botão `Authorize` usa o endpoint OAuth password flow em `/public/auth/token`.
 ## Autenticação
 
 ### Login
+
+Este é o endpoint oficial para autenticação do frontend web.
 
 ```http
 POST /public/auth/login
@@ -163,6 +183,18 @@ Content-Type: application/json
 }
 ```
 
+### Token OAuth para Swagger
+
+```http
+POST /public/auth/token
+Content-Type: application/x-www-form-urlencoded
+```
+
+Uso recomendado:
+
+- somente para o botão `Authorize` do Swagger/OpenAPI
+- não usar como contrato principal do frontend web
+
 ## Segurança
 
 - access token com expiração configurável
@@ -171,6 +203,63 @@ Content-Type: application/json
 - blacklist global para invalidar access token no logout
 - limpeza automática de tokens expirados por agendamento
 - limitação de sessões simultâneas por usuário
+
+### Contrato de erro de autenticação
+
+As falhas de autenticação/autorização protegidas pela camada de segurança retornam JSON no formato:
+
+```json
+{
+  "status": 401,
+  "code": "AUTH_TOKEN_EXPIRED",
+  "action": "TOKEN_REFRESH",
+  "message": "Token expirado",
+  "path": "/api/usuario",
+  "timestamp": "2026-04-12T00:00:00"
+}
+```
+
+Campos:
+
+- `status`: status HTTP efetivo
+- `code`: código estável para tratamento no frontend
+- `action`: ação recomendada para UX do frontend
+- `message`: mensagem legível para log e exibição controlada
+- `path`: rota solicitada
+- `timestamp`: data/hora do erro
+
+Contratos estabilizados:
+
+- token expirado:
+  - HTTP `401`
+  - `code: AUTH_TOKEN_EXPIRED`
+  - `action: TOKEN_REFRESH`
+- token inválido:
+  - HTTP `401`
+  - `code: AUTH_TOKEN_INVALID`
+  - `action: LOGIN`
+- token invalidado em blacklist:
+  - HTTP `401`
+  - `code: AUTH_TOKEN_INVALIDATED`
+  - `action: LOGIN`
+- sessão revogada ou inválida:
+  - HTTP `401`
+  - `code: AUTH_SESSION_INVALID`
+  - `action: LOGIN`
+- sem permissão:
+  - HTTP `403`
+  - `code: AUTH_ACCESS_DENIED`
+  - `action: FORBIDDEN`
+- usuário sem perfil:
+  - HTTP `403`
+  - `code: AUTH_USER_WITHOUT_PROFILE`
+  - `action: FORBIDDEN`
+
+Leitura recomendada no frontend:
+
+- `TOKEN_REFRESH`: tentar refresh de token antes de redirecionar
+- `LOGIN`: limpar sessão local e redirecionar para login
+- `FORBIDDEN`: manter sessão e exibir acesso negado
 
 ## Modelagem
 
@@ -195,3 +284,7 @@ Usuário default:
 Collection disponível em:
 
 - `postman/todolist.postman_collection.json`
+
+## LOGIN ROOT
+user: root
+senha: admin123

@@ -1,6 +1,7 @@
 package br.com.rennataarruda.todolist.mapper;
 
 import br.com.rennataarruda.todolist.dto.UsuarioDto;
+import br.com.rennataarruda.todolist.entity.Perfil;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +17,8 @@ public class UsuarioMapper {
         );
     }
 
-    public Usuario toEntity(UsuarioDto dto, String encodedPassword) {
-        return new Usuario(dto.username(), dto.name(), encodedPassword);
+    public Usuario toEntity(UsuarioDto dto, String encodedPassword, Perfil perfil) {
+        return new Usuario(dto.username(), dto.name(), encodedPassword, perfil);
     }
 
     public void updateEntity(Usuario usuario, UsuarioDto dto) {

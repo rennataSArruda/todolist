@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Repository
 public interface BlacklistedTokenRepository extends BaseRepository<BlacklistedToken, Long> {
 
-    boolean existsByToken(String token);
+    boolean existsByTokenHash(String tokenHash);
 
     void deleteByExpiresAtBefore(LocalDateTime expiresAt);
 }

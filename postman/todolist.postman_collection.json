@@ -2,6 +2,7 @@
   "info": {
     "_postman_id": "7d8ec9bf-2dc4-486e-b9c3-6f9d7db3874d",
     "name": "todolist",
+    "description": "Collection atualizada para testar os fluxos atuais de autenticacao, sessao e usuarios. Use /public/auth/login como contrato oficial do frontend; /public/auth/token fica apenas como suporte ao Swagger/OpenAPI.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -20,6 +21,22 @@
     {
       "key": "usuarioId",
       "value": "1"
+    },
+    {
+      "key": "username",
+      "value": "admin"
+    },
+    {
+      "key": "password",
+      "value": "admin123"
+    },
+    {
+      "key": "currentPassword",
+      "value": "admin123"
+    },
+    {
+      "key": "newPassword",
+      "value": "admin12345"
     }
   ],
   "item": [
@@ -65,7 +82,56 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/public/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "public",
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Endpoint oficial para autenticacao da aplicacao."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.test('Retorna access e refresh token', function () {",
+              "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
+              "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
+              "});",
+              "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
+              "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Login Invalido",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"senha-invalida\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/public/auth/login",
@@ -85,17 +151,9 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "if (jsonData && jsonData.accessToken) {",
-              "    pm.collectionVariables.set('authToken', jsonData.accessToken);",
-              "}",
-              "if (jsonData && jsonData.refreshToken) {",
-              "    pm.collectionVariables.set('refreshToken', jsonData.refreshToken);",
-              "}"
+              "pm.test('Status 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});"
             ]
           }
         }
@@ -138,12 +196,12 @@
               "});",
               "",
               "var jsonData = pm.response.json();",
-              "if (jsonData && jsonData.accessToken) {",
-              "    pm.collectionVariables.set('authToken', jsonData.accessToken);",
-              "}",
-              "if (jsonData && jsonData.refreshToken) {",
-              "    pm.collectionVariables.set('refreshToken', jsonData.refreshToken);",
-              "}"
+              "pm.test('Retorna novo par de tokens', function () {",
+              "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
+              "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
+              "});",
+              "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
+              "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
             ]
           }
         }
@@ -178,6 +236,187 @@
             "logout"
           ]
         }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 204', function () {",
+              "    pm.response.to.have.status(204);",
+              "});",
+              "",
+              "pm.collectionVariables.set('authToken', '');",
+              "pm.collectionVariables.set('refreshToken', '');"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Token OAuth (Swagger)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            {
+              "key": "username",
+              "value": "{{username}}",
+              "type": "text"
+            },
+            {
+              "key": "password",
+              "value": "{{password}}",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/public/auth/token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "public",
+            "auth",
+            "token"
+          ]
+        },
+        "description": "Endpoint de suporte tecnico ao Swagger/OpenAPI. Nao usar como contrato principal do frontend."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Me",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.test('Retorna dados do usuario autenticado', function () {",
+              "    pm.expect(jsonData.id).to.exist;",
+              "    pm.expect(jsonData.username).to.be.a('string').and.not.empty;",
+              "    pm.expect(jsonData.authorities).to.be.an('array');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Me Sem Token",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/me",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "me"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 401', function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "var jsonData = pm.response.json();",
+              "pm.test('Contrato de erro de autenticacao', function () {",
+              "    pm.expect(jsonData.status).to.eql(401);",
+              "    pm.expect(jsonData.code).to.eql('AUTH_TOKEN_MISSING');",
+              "    pm.expect(jsonData.action).to.eql('LOGIN');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth - Alterar Senha",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{authToken}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"currentPassword\": \"{{currentPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/auth/password",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "auth",
+            "password"
+          ]
+        },
+        "description": "Ao trocar a senha, a sessao atual e invalidada. Apos sucesso, ajuste manualmente as variaveis de senha da collection e faca novo login."
       },
       "event": [
         {
@@ -283,7 +522,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda\",\n  \"password\": \"1911\"\n}"
+          "raw": "{\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda\",\n  \"password\": \"19112026\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/usuario",
