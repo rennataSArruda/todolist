@@ -13,6 +13,7 @@ public class UsuarioMapper {
                 usuario.getId(),
                 usuario.getUsername(),
                 usuario.getName(),
+                usuario.getAtivo(),
                 null
         );
     }

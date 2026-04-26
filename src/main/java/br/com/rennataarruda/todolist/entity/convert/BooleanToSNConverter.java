@@ -1,4 +1,4 @@
-package br.com.rennataarruda.todolist.entity;
+package br.com.rennataarruda.todolist.entity.convert;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;

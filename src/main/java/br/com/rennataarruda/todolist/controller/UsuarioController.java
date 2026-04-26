@@ -4,6 +4,7 @@ import br.com.rennataarruda.todolist.controller.commons.AbstractSearchCrudContro
 import br.com.rennataarruda.todolist.controller.commons.SearchPaginationRequest;
 import br.com.rennataarruda.todolist.dto.UsuarioDto;
 import br.com.rennataarruda.todolist.dto.filter.UsuarioSearchFilter;
+import br.com.rennataarruda.todolist.security.authorization.PodeBloquearUsuario;
 import br.com.rennataarruda.todolist.security.authorization.PodeCriarUsuario;
 import br.com.rennataarruda.todolist.security.authorization.PodeEditarUsuario;
 import br.com.rennataarruda.todolist.security.authorization.PodeVisualizarUsuario;
@@ -54,6 +55,12 @@ public class UsuarioController extends AbstractSearchCrudController<Long, Usuari
     @PodeEditarUsuario
     public ResponseEntity<UsuarioDto> update(@PathVariable Long id, @RequestBody UsuarioDto dto) {
         return super.update(id, dto);
+    }
+
+    @PutMapping("/{id}/bloquear")
+    @PodeBloquearUsuario
+    public ResponseEntity<UsuarioDto> bloquear(@PathVariable Long id) {
+        return ResponseEntity.ok(service().bloquear(id));
     }
 
     @Override

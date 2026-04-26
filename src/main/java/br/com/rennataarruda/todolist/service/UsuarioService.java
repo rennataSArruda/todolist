@@ -15,6 +15,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -74,6 +75,13 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
     @Override
     protected void updateEntity(Usuario usuario, UsuarioDto dto) {
         mapper.updateEntity(usuario, dto);
+    }
+
+    @Transactional
+    public UsuarioDto bloquear(Long id) {
+        Usuario usuario = findByIdOrThrow(id);
+        usuario.alternarAtivo();
+        return toDto(repository.save(usuario));
     }
 
     @Override

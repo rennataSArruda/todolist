@@ -1,6 +1,8 @@
 package br.com.rennataarruda.todolist.entity;
 
 
+import br.com.rennataarruda.todolist.entity.convert.BooleanToSNConverter;
+import br.com.rennataarruda.todolist.entity.commons.WithUpdatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -14,16 +16,13 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import java.time.LocalDateTime;
+import org.hibernate.type.NumericBooleanConverter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table(name = "USUARIO")
-public class Usuario {
+public class Usuario extends WithUpdatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,13 +46,9 @@ public class Usuario {
     @JoinColumn(name = "PERFIL_ID", nullable = false)
     private Perfil perfil;
 
-    @CreationTimestamp
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "UPDATED_AT")
-    private LocalDateTime updatedAt;
+    @Convert(converter = NumericBooleanConverter.class)
+    @Column(name = "ATIVO", nullable = false)
+    private Boolean ativo = true;
 
     public Usuario(String username, String name, String password, Perfil perfil) {
         this(username, name, password, Boolean.FALSE, perfil);
@@ -74,6 +69,10 @@ public class Usuario {
 
     public void alterarSenha(String encodedPassword) {
         this.password = encodedPassword;
+    }
+
+    public void alternarAtivo() {
+        this.ativo = !Boolean.TRUE.equals(this.ativo);
     }
 
     public boolean isRoot() {

@@ -1,5 +1,6 @@
 package br.com.rennataarruda.todolist.entity;
 
+import br.com.rennataarruda.todolist.entity.commons.WithCreatedAt;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,7 +13,6 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Table(name = "REFRESH_TOKEN")
-public class RefreshToken {
+public class RefreshToken extends WithCreatedAt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,10 +42,6 @@ public class RefreshToken {
 
     @Column(name = "REVOKED_AT")
     private LocalDateTime revokedAt;
-
-    @CreationTimestamp
-    @Column(name = "CREATED_AT", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     public RefreshToken(String tokenHash, String sessionId, Usuario usuario, LocalDateTime expiresAt) {
         this.tokenHash = tokenHash;
