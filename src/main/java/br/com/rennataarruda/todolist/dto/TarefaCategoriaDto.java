@@ -7,6 +7,8 @@ public record TarefaCategoriaDto(
         Long usuarioId,
         String nome,
         String descricao,
+        String corHex,
+        String icone,
         Boolean ativo,
         LocalDateTime createdAt,
         LocalDateTime updatedAt

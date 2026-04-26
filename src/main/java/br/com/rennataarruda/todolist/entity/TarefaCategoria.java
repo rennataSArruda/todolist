@@ -34,13 +34,21 @@ public class TarefaCategoria extends WithUpdatedAt implements UsuarioScopedEntit
     @Column(name = "DESCRICAO", length = 255)
     private String descricao;
 
+    @Column(name = "COR_HEX", length = 7)
+    private String corHex;
+
+    @Column(name = "ICONE", length = 100)
+    private String icone;
+
     @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "ATIVO", nullable = false)
     private Boolean ativo = true;
 
-    public TarefaCategoria(String nome, String descricao, Boolean ativo) {
+    public TarefaCategoria(String nome, String descricao, String corHex, String icone, Boolean ativo) {
         this.nome = nome;
         this.descricao = descricao;
+        this.corHex = corHex;
+        this.icone = icone;
         this.ativo = ativo == null ? true : ativo;
     }
 
@@ -49,9 +57,11 @@ public class TarefaCategoria extends WithUpdatedAt implements UsuarioScopedEntit
         this.usuarioId = usuarioId;
     }
 
-    public void atualizar(String nome, String descricao) {
+    public void atualizar(String nome, String descricao, String corHex, String icone) {
         this.nome = nome;
         this.descricao = descricao;
+        this.corHex = corHex;
+        this.icone = icone;
     }
 
     public void alternarAtivo() {

@@ -35,9 +35,20 @@ class TarefaCategoriaServiceTest {
     void shouldRejectCreateWhenNomeIsMissing() {
         TarefaCategoriaService service = newService();
 
-        assertThatThrownBy(() -> service.create(new TarefaCategoriaDto(null, null, null, "Descricao", true, null, null)))
+        assertThatThrownBy(() -> service.create(new TarefaCategoriaDto(null, null, null, "Descricao", null, null, true, null, null)))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("Nome e obrigatorio");
+    }
+
+    @Test
+    void shouldRejectCreateWhenCorHexIsInvalid() {
+        TarefaCategoriaService service = newService();
+
+        assertThatThrownBy(() -> service.create(new TarefaCategoriaDto(
+                null, null, "Trabalho", "Descricao", "#12ABGZ", "check_circle", true, null, null
+        )))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Cor HEX invalida");
     }
 
     @Test
@@ -51,6 +62,8 @@ class TarefaCategoriaServiceTest {
                 999L,
                 "Trabalho",
                 "Categorias de trabalho",
+                "#AABBCC",
+                "check_circle",
                 true,
                 null,
                 null
@@ -59,13 +72,15 @@ class TarefaCategoriaServiceTest {
         assertThat(dto.usuarioId()).isEqualTo(10L);
         assertThat(dto.nome()).isEqualTo("Trabalho");
         assertThat(dto.descricao()).isEqualTo("Categorias de trabalho");
+        assertThat(dto.corHex()).isEqualTo("#AABBCC");
+        assertThat(dto.icone()).isEqualTo("check_circle");
         assertThat(dto.ativo()).isTrue();
     }
 
     @Test
     void shouldKeepAuthenticatedUserIdAndAtivoOnUpdateIgnoringDtoValues() {
         TarefaCategoriaService service = newService();
-        TarefaCategoria entity = new TarefaCategoria("Casa", "Antiga", true);
+        TarefaCategoria entity = new TarefaCategoria("Casa", "Antiga", "#FFFFFF", "home", true);
         entity.definirUsuarioId(10L);
 
         when(authenticatedUserProvider.currentUserId()).thenReturn(10L);
@@ -78,6 +93,8 @@ class TarefaCategoriaServiceTest {
                 999L,
                 "Casa",
                 "Atualizada",
+                "#00AA11",
+                "star",
                 false,
                 null,
                 null
@@ -85,13 +102,15 @@ class TarefaCategoriaServiceTest {
 
         assertThat(dto.usuarioId()).isEqualTo(10L);
         assertThat(dto.descricao()).isEqualTo("Atualizada");
+        assertThat(dto.corHex()).isEqualTo("#00AA11");
+        assertThat(dto.icone()).isEqualTo("star");
         assertThat(dto.ativo()).isTrue();
     }
 
     @Test
     void shouldToggleAtivoWhenBloquear() {
         TarefaCategoriaService service = newService();
-        TarefaCategoria entity = new TarefaCategoria("Casa", "Antiga", true);
+        TarefaCategoria entity = new TarefaCategoria("Casa", "Antiga", "#FFFFFF", "home", true);
         entity.definirUsuarioId(10L);
 
         when(repository.findOne(org.mockito.ArgumentMatchers.<Specification<TarefaCategoria>>any()))

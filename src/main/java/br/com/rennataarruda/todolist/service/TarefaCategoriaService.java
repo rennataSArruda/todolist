@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Locale;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class TarefaCategoriaService extends AbstractUsuarioScopedSearchCrudService<
@@ -26,6 +28,8 @@ public class TarefaCategoriaService extends AbstractUsuarioScopedSearchCrudServi
         TarefaCategoriaDto,
         TarefaCategoriaSearchFilter
         > {
+
+    private static final Pattern COR_HEX_PATTERN = Pattern.compile("^#[0-9A-F]{6}$");
 
     private final TarefaCategoriaMapper mapper;
 
@@ -113,6 +117,13 @@ public class TarefaCategoriaService extends AbstractUsuarioScopedSearchCrudServi
     private void validateRequiredFields(TarefaCategoriaDto dto) {
         if (dto == null || !StringUtils.hasText(dto.nome())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome e obrigatorio");
+        }
+
+        if (StringUtils.hasText(dto.corHex())) {
+            String corHexUpper = dto.corHex().trim().toUpperCase(Locale.ROOT);
+            if (!COR_HEX_PATTERN.matcher(corHexUpper).matches()) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cor HEX invalida. Use o formato #RRGGBB");
+            }
         }
     }
 }
