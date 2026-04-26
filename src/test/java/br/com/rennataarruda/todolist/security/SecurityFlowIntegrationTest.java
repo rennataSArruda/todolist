@@ -308,7 +308,24 @@ class SecurityFlowIntegrationTest {
         mockMvc.perform(post("/public/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"admin\",\"password\":\"senhaErrada\"}"))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.message").value("Credenciais invalidas"))
+                .andExpect(jsonPath("$.path").value("/public/auth/login"));
+    }
+
+    @Test
+    void shouldReturnInternalServerErrorWhenUnexpectedExceptionHappens() throws Exception {
+        when(authService.login(new AuthRequest("admin", "senha123")))
+                .thenThrow(new RuntimeException("Falha inesperada"));
+
+        mockMvc.perform(post("/public/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"username\":\"admin\",\"password\":\"senha123\"}"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.status").value(500))
+                .andExpect(jsonPath("$.message").value("Falha inesperada"))
+                .andExpect(jsonPath("$.path").value("/public/auth/login"));
     }
 
     @Test
