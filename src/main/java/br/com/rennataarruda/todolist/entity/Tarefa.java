@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.type.NumericBooleanConverter;
 
 import java.time.LocalDateTime;
@@ -33,13 +34,9 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
     @Column(name = "CATEGORIA_ID")
     private Long categoriaId;
 
+    @Setter
     @Column(name = "STATUS_ID", nullable = false)
     private Long statusId;
-
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
-    }
-
 
     @Column(name = "PRIORIDADE_ID", nullable = false)
     private Long prioridadeId;
@@ -63,10 +60,6 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
     private Long posicao;
 
     @Convert(converter = NumericBooleanConverter.class)
-    @Column(name = "IMPORTANTE", nullable = false)
-    private Boolean importante = false;
-
-    @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "ATIVO", nullable = false)
     private Boolean ativo = true;
 
@@ -79,10 +72,9 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
             LocalDateTime dataInicio,
             LocalDateTime dataFim,
             LocalDateTime dataConclusao,
-            Long posicao,
-            Boolean importante
+            Long posicao
     ) {
-        atualizar(categoriaId, statusId, prioridadeId, titulo, descricao, dataInicio, dataFim, dataConclusao, posicao, importante);
+        atualizar(categoriaId, statusId, prioridadeId, titulo, descricao, dataInicio, dataFim, dataConclusao, posicao);
     }
 
     @Override
@@ -99,8 +91,7 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
             LocalDateTime dataInicio,
             LocalDateTime dataFim,
             LocalDateTime dataConclusao,
-            Long posicao,
-            Boolean importante
+            Long posicao
     ) {
         this.categoriaId = categoriaId;
         this.statusId = statusId;
@@ -111,7 +102,6 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
         this.dataFim = dataFim;
         this.dataConclusao = dataConclusao;
         this.posicao = posicao;
-        this.importante = Boolean.TRUE.equals(importante);
     }
 
     public void alternarAtivo() {

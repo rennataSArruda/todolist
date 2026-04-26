@@ -14,7 +14,6 @@ public record TarefaDto(
         LocalDateTime dataFim,
         LocalDateTime dataConclusao,
         Long posicao,
-        Boolean importante,
         Boolean ativo,
         LocalDateTime createdAt,
         LocalDateTime updatedAt

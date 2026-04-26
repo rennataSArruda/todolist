@@ -20,7 +20,6 @@ public class TarefaMapper {
                 entity.getDataFim(),
                 entity.getDataConclusao(),
                 entity.getPosicao(),
-                entity.getImportante(),
                 entity.getAtivo(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
@@ -37,8 +36,7 @@ public class TarefaMapper {
                 dto.dataInicio(),
                 dto.dataFim(),
                 dto.dataConclusao(),
-                dto.posicao(),
-                dto.importante()
+                dto.posicao()
         );
     }
 
@@ -52,8 +50,7 @@ public class TarefaMapper {
                 dto.dataInicio(),
                 dto.dataFim(),
                 dto.dataConclusao(),
-                dto.posicao(),
-                dto.importante()
+                dto.posicao()
         );
     }
 }

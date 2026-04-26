@@ -70,7 +70,7 @@ class TarefaServiceTest {
     @Test
     void shouldKeepAuthenticatedUserIdAndAtivoOnUpdateIgnoringDtoValues() {
         TarefaService service = newService();
-        Tarefa entity = new Tarefa(null, TarefaStatusEnum.PENDENTE.getId(), TarefaPrioridadeEnum.ALTA.getId(), "Antiga", "Descricao", null, null, null, 1L, false);
+        Tarefa entity = new Tarefa(null, TarefaStatusEnum.PENDENTE.getId(), TarefaPrioridadeEnum.ALTA.getId(), "Antiga", "Descricao", null, null, null, 1L);
         entity.definirUsuarioId(10L);
 
         when(authenticatedUserProvider.currentUserId()).thenReturn(10L);
@@ -104,7 +104,6 @@ class TarefaServiceTest {
                 null,
                 2L,
                 true,
-                false,
                 null,
                 null
         ));
@@ -112,14 +111,13 @@ class TarefaServiceTest {
         assertThat(dto.usuarioId()).isEqualTo(10L);
         assertThat(dto.titulo()).isEqualTo("Atualizada");
         assertThat(dto.prioridadeId()).isEqualTo(TarefaPrioridadeEnum.URGENTE.getId());
-        assertThat(dto.importante()).isTrue();
         assertThat(dto.ativo()).isTrue();
     }
 
     @Test
     void shouldToggleAtivoWhenBloquear() {
         TarefaService service = newService();
-        Tarefa entity = new Tarefa(2L, 1L, 3L, "Tarefa", "Descricao", null, null, null, 1L, false);
+        Tarefa entity = new Tarefa(2L, 1L, 3L, "Tarefa", "Descricao", null, null, null, 1L);
         entity.definirUsuarioId(10L);
 
         when(repository.findOne(org.mockito.ArgumentMatchers.<Specification<Tarefa>>any()))
@@ -133,8 +131,7 @@ class TarefaServiceTest {
     }
 
     private TarefaDto dto(String titulo, Long statusId, Long prioridadeId, Boolean ativo, Boolean importante) {
-        return new TarefaDto(null, null, null, statusId, prioridadeId, titulo, null, null, null, null, null,
-                importante, ativo, null, null);
+        return new TarefaDto(null, null, null, statusId, prioridadeId, titulo, null, null, null, null, null, ativo, null, null);
     }
 
     private TarefaService newService() {
