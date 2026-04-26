@@ -9,18 +9,21 @@ import br.com.rennataarruda.todolist.entity.view.TarefaAnaliticoView;
 import br.com.rennataarruda.todolist.entity.view.TarefaAnaliticoView_;
 import br.com.rennataarruda.todolist.repository.view.TarefaAnaliticoViewRepositoryCustom;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Expression;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.time.LocalDateTime;
 
 @Repository
+@ConditionalOnBean(EntityManagerFactory.class)
 public class TarefaAnaliticoViewRepositoryImpl implements TarefaAnaliticoViewRepositoryCustom {
 
     @PersistenceContext

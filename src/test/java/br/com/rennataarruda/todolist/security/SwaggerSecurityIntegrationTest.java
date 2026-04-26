@@ -12,6 +12,7 @@ import br.com.rennataarruda.todolist.repository.TarefaRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
 import br.com.rennataarruda.todolist.repository.fixed.TarefaPrioridadeRepository;
 import br.com.rennataarruda.todolist.repository.fixed.TarefaStatusRepository;
+import br.com.rennataarruda.todolist.repository.view.TarefaAnaliticoViewRepository;
 import br.com.rennataarruda.todolist.repository.view.TarefaViewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,9 @@ class SwaggerSecurityIntegrationTest {
 
     @MockBean
     private TarefaViewRepository tarefaViewRepository;
+
+    @MockBean
+    private TarefaAnaliticoViewRepository tarefaAnaliticoViewRepository;
 
     @MockBean
     private TarefaStatusRepository tarefaStatusRepository;
