@@ -1,690 +1,1000 @@
 {
-  "info": {
-    "_postman_id": "7d8ec9bf-2dc4-486e-b9c3-6f9d7db3874d",
-    "name": "todolist",
-    "description": "Collection atualizada para testar os fluxos atuais de autenticacao, sessao e usuarios. Use /public/auth/login como contrato oficial do frontend; /public/auth/token fica apenas como suporte ao Swagger/OpenAPI.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-  },
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:8080"
+    "info": {
+        "_postman_id": "7d8ec9bf-2dc4-486e-b9c3-6f9d7db3874d",
+        "name": "todolist",
+        "description": "Collection atualizada para testar os fluxos atuais de autenticacao, sessao, usuarios, perfis, tarefas, categorias de tarefa e tabelas fixas. Use /public/auth/login como contrato oficial do frontend; /public/auth/token fica apenas como suporte ao Swagger/OpenAPI.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
-    {
-      "key": "authToken",
-      "value": ""
-    },
-    {
-      "key": "refreshToken",
-      "value": ""
-    },
-    {
-      "key": "usuarioId",
-      "value": "1"
-    },
-    {
-      "key": "username",
-      "value": "admin"
-    },
-    {
-      "key": "password",
-      "value": "admin123"
-    },
-    {
-      "key": "currentPassword",
-      "value": "admin123"
-    },
-    {
-      "key": "newPassword",
-      "value": "admin12345"
-    }
-  ],
-  "item": [
-    {
-      "name": "App - On",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/public/on",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "on"
-          ]
-        }
-      },
-      "event": [
+    "variable": [
+        { "key": "baseUrl", "value": "http://localhost:8080" },
+        { "key": "authToken", "value": "" },
+        { "key": "refreshToken", "value": "" },
+        { "key": "usuarioId", "value": "1" },
+        { "key": "username", "value": "admin" },
+        { "key": "password", "value": "admin123" },
+        { "key": "currentPassword", "value": "admin123" },
+        { "key": "newPassword", "value": "admin12345" },
+        { "key": "perfilId", "value": "1" },
+        { "key": "tarefaCategoriaId", "value": "1" },
+        { "key": "tarefaId", "value": "1" },
+        { "key": "tarefaStatusId", "value": "1" },
+        { "key": "tarefaPrioridadeId", "value": "2" },
+        { "key": "papelId", "value": "1" }
+    ],
+    "item": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Login",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/public/auth/login",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "auth",
-            "login"
-          ]
-        },
-        "description": "Endpoint oficial para autenticacao da aplicacao."
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "pm.test('Retorna access e refresh token', function () {",
-              "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
-              "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
-              "});",
-              "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
-              "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Login Invalido",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"senha-invalida\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/public/auth/login",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "auth",
-            "login"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 401', function () {",
-              "    pm.response.to.have.status(401);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Refresh",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/public/auth/refresh",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "auth",
-            "refresh"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "pm.test('Retorna novo par de tokens', function () {",
-              "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
-              "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
-              "});",
-              "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
-              "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Logout",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
-        },
-        "url": {
-          "raw": "{{baseUrl}}/public/auth/logout",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "auth",
-            "logout"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 204', function () {",
-              "    pm.response.to.have.status(204);",
-              "});",
-              "",
-              "pm.collectionVariables.set('authToken', '');",
-              "pm.collectionVariables.set('refreshToken', '');"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Token OAuth (Swagger)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "body": {
-          "mode": "urlencoded",
-          "urlencoded": [
-            {
-              "key": "username",
-              "value": "{{username}}",
-              "type": "text"
+            "name": "App - On",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "{{baseUrl}}/public/on",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "on"]
+                }
             },
-            {
-              "key": "password",
-              "value": "{{password}}",
-              "type": "text"
-            }
-          ]
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/public/auth/token",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "public",
-            "auth",
-            "token"
-          ]
+        {
+            "name": "Auth - Login",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"{{password}}\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/login",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "login"]
+                },
+                "description": "Endpoint oficial para autenticacao da aplicacao."
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 200', function () { pm.response.to.have.status(200); });",
+                        "var jsonData = pm.response.json();",
+                        "pm.test('Retorna access e refresh token', function () {",
+                        "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
+                        "});",
+                        "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
+                        "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
+                    ]
+                }
+            }]
         },
-        "description": "Endpoint de suporte tecnico ao Swagger/OpenAPI. Nao usar como contrato principal do frontend."
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Me",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/auth/me",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "me"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "pm.test('Retorna dados do usuario autenticado', function () {",
-              "    pm.expect(jsonData.id).to.exist;",
-              "    pm.expect(jsonData.username).to.be.a('string').and.not.empty;",
-              "    pm.expect(jsonData.authorities).to.be.an('array');",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Me Sem Token",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{baseUrl}}/api/auth/me",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "me"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 401', function () {",
-              "    pm.response.to.have.status(401);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "pm.test('Contrato de erro de autenticacao', function () {",
-              "    pm.expect(jsonData.status).to.eql(401);",
-              "    pm.expect(jsonData.code).to.eql('AUTH_TOKEN_MISSING');",
-              "    pm.expect(jsonData.action).to.eql('LOGIN');",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Auth - Alterar Senha",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"currentPassword\": \"{{currentPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}"
+            "name": "Auth - Login Root",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"username\": \"root\",\n  \"password\": \"admin123\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/login",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "login"]
+                },
+                "description": "Login com usuario root para testes de administracao."
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 200', function () { pm.response.to.have.status(200); });",
+                        "var jsonData = pm.response.json();",
+                        "pm.test('Retorna access e refresh token', function () {",
+                        "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
+                        "});",
+                        "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
+                        "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
+                    ]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/api/auth/password",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "auth",
-            "password"
-          ]
+        {
+            "name": "Auth - Login Invalido",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"username\": \"{{username}}\",\n  \"password\": \"senha-invalida\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/login",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "login"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 401', function () { pm.response.to.have.status(401); });"]
+                }
+            }]
         },
-        "description": "Ao trocar a senha, a sessao atual e invalidada. Apos sucesso, ajuste manualmente as variaveis de senha da collection e faca novo login."
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 204', function () {",
-              "    pm.response.to.have.status(204);",
-              "});",
-              "",
-              "pm.collectionVariables.set('authToken', '');",
-              "pm.collectionVariables.set('refreshToken', '');"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Listar",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Buscar por Id",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          }
-        ],
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario/{{usuarioId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario",
-            "{{usuarioId}}"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Criar",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda\",\n  \"password\": \"19112026\"\n}"
+            "name": "Auth - Refresh",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/refresh",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "refresh"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 200', function () { pm.response.to.have.status(200); });",
+                        "var jsonData = pm.response.json();",
+                        "pm.test('Retorna novo par de tokens', function () {",
+                        "    pm.expect(jsonData.accessToken).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.refreshToken).to.be.a('string').and.not.empty;",
+                        "});",
+                        "pm.collectionVariables.set('authToken', jsonData.accessToken || '');",
+                        "pm.collectionVariables.set('refreshToken', jsonData.refreshToken || '');"
+                    ]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario"
-          ]
-        }
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 201', function () {",
-              "    pm.response.to.have.status(201);",
-              "});",
-              "",
-              "var jsonData = pm.response.json();",
-              "if (jsonData && jsonData.id) {",
-              "    pm.collectionVariables.set('usuarioId', jsonData.id);",
-              "}"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Atualizar",
-      "request": {
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"id\": {{usuarioId}},\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda Atualizada\"\n}"
+            "name": "Auth - Logout",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/logout",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "logout"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 204', function () { pm.response.to.have.status(204); });",
+                        "pm.collectionVariables.set('authToken', '');",
+                        "pm.collectionVariables.set('refreshToken', '');"
+                    ]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario/{{usuarioId}}",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario",
-            "{{usuarioId}}"
-          ]
-        }
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Search",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"renata\",\n  \"name\": \"Renata\"\n}"
+            "name": "Auth - Token OAuth (Swagger)",
+            "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/x-www-form-urlencoded" }],
+                "body": {
+                    "mode": "urlencoded",
+                    "urlencoded": [
+                        { "key": "username", "value": "{{username}}", "type": "text" },
+                        { "key": "password", "value": "{{password}}", "type": "text" }
+                    ]
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/public/auth/token",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["public", "auth", "token"]
+                },
+                "description": "Endpoint de suporte tecnico ao Swagger/OpenAPI. Nao usar como contrato principal do frontend."
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario/search",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario",
-            "search"
-          ]
-        }
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Usuario - Search Pagination",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Authorization",
-            "value": "Bearer {{authToken}}"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"filter\": {\n    \"username\": \"renata\",\n    \"name\": \"Renata\"\n  },\n  \"page\": 0,\n  \"size\": 10\n}"
+            "name": "Auth - Me",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/me",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "auth", "me"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 200', function () { pm.response.to.have.status(200); });",
+                        "var jsonData = pm.response.json();",
+                        "pm.test('Retorna dados do usuario autenticado', function () {",
+                        "    pm.expect(jsonData.id).to.exist;",
+                        "    pm.expect(jsonData.username).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.nome).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.perfil).to.be.an('object');",
+                        "    pm.expect(jsonData.perfil.id).to.exist;",
+                        "    pm.expect(jsonData.perfil.codigo).to.be.a('string').and.not.empty;",
+                        "    pm.expect(jsonData.authorities).to.be.an('array');",
+                        "    pm.expect(jsonData.root).to.be.a('boolean');",
+                        "});"
+                    ]
+                }
+            }]
         },
-        "url": {
-          "raw": "{{baseUrl}}/api/usuario/search-pagination",
-          "host": [
-            "{{baseUrl}}"
-          ],
-          "path": [
-            "api",
-            "usuario",
-            "search-pagination"
-          ]
-        }
-      },
-      "event": [
         {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function () {",
-              "    pm.response.to.have.status(200);",
-              "});"
-            ]
-          }
+            "name": "Auth - Me Sem Token",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/me",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "auth", "me"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 401', function () { pm.response.to.have.status(401); });",
+                        "var jsonData = pm.response.json();",
+                        "pm.test('Contrato de erro de autenticacao', function () {",
+                        "    pm.expect(jsonData.status).to.eql(401);",
+                        "    pm.expect(jsonData.code).to.eql('AUTH_TOKEN_MISSING');",
+                        "    pm.expect(jsonData.action).to.eql('LOGIN');",
+                        "});"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Auth - Alterar Senha",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"currentPassword\": \"{{currentPassword}}\",\n  \"newPassword\": \"{{newPassword}}\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/auth/password",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "auth", "password"]
+                },
+                "description": "Ao trocar a senha, a sessao atual e invalidada. Apos sucesso, ajuste manualmente as variaveis de senha da collection e faca novo login."
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 204', function () { pm.response.to.have.status(204); });",
+                        "pm.collectionVariables.set('authToken', '');",
+                        "pm.collectionVariables.set('refreshToken', '');"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Listar",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Buscar por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario/{{usuarioId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario", "{{usuarioId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Criar",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda\",\n  \"password\": \"19112026\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                        "var jsonData = pm.response.json();",
+                        "if (jsonData && jsonData.id) { pm.collectionVariables.set('usuarioId', jsonData.id); }"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Atualizar",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"id\": {{usuarioId}},\n  \"username\": \"renata.arruda\",\n  \"name\": \"Renata Arruda Atualizada\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario/{{usuarioId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario", "{{usuarioId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Search",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"username\": \"renata\",\n  \"name\": \"Renata\"\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario/search",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario", "search"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Search Pagination",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"filter\": {\n    \"username\": \"renata\",\n    \"name\": \"Renata\"\n  },\n  \"page\": 0,\n  \"size\": 10\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario/search-pagination",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario", "search-pagination"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Usuario - Bloquear",
+            "request": {
+                "method": "PUT",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/usuario/{{usuarioId}}/bloquear",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "usuario", "{{usuarioId}}", "bloquear"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Listar",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Buscar por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil/{{perfilId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil", "{{perfilId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Criar",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"codigo\": \"OPERADOR\",\n  \"descricao\": \"Perfil operador\",\n  \"permissoes\": [\n    {\n      \"papelCodigo\": \"USUARIO\",\n      \"permissaoCodigo\": \"VISUALIZAR\"\n    },\n    {\n      \"papelCodigo\": \"TAREFA_CATEGORIA\",\n      \"permissaoCodigo\": \"VISUALIZAR\"\n    },\n    {\n      \"papelCodigo\": \"TAREFA\",\n      \"permissaoCodigo\": \"VISUALIZAR\"\n    }\n  ]\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                        "var jsonData = pm.response.json();",
+                        "if (jsonData.id) { pm.collectionVariables.set('perfilId', jsonData.id); }"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Atualizar",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"codigo\": \"OPERADOR\",\n  \"descricao\": \"Perfil operador atualizado\",\n  \"permissoes\": [\n    {\n      \"papelCodigo\": \"USUARIO\",\n      \"permissaoCodigo\": \"VISUALIZAR\"\n    },\n    {\n      \"papelCodigo\": \"TAREFA_CATEGORIA\",\n      \"permissaoCodigo\": \"CRIAR\"\n    },\n    {\n      \"papelCodigo\": \"TAREFA_CATEGORIA\",\n      \"permissaoCodigo\": \"EDITAR\"\n    },\n    {\n      \"papelCodigo\": \"TAREFA\",\n      \"permissaoCodigo\": \"CRIAR\"\n    }\n  ]\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil/{{perfilId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil", "{{perfilId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Search",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"codigo\": \"OPERADOR\",\n  \"descricao\": null\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil/search",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil", "search"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Perfil - Search Pagination",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"filter\": {\n    \"codigo\": null,\n    \"descricao\": null\n  },\n  \"page\": 0,\n  \"size\": 10\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/perfil/search-pagination",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "perfil", "search-pagination"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Listar",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Buscar por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria/{{tarefaCategoriaId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria", "{{tarefaCategoriaId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Criar",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Trabalho\",\n  \"descricao\": \"Demandas profissionais\",\n  \"ativo\": true\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                        "var jsonData = pm.response.json();",
+                        "if (jsonData.id) { pm.collectionVariables.set('tarefaCategoriaId', jsonData.id); }"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Atualizar",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Trabalho\",\n  \"descricao\": \"Demandas profissionais atualizadas\",\n  \"ativo\": true\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria/{{tarefaCategoriaId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria", "{{tarefaCategoriaId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Bloquear",
+            "request": {
+                "method": "PUT",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria/{{tarefaCategoriaId}}/bloquear",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria", "{{tarefaCategoriaId}}", "bloquear"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Search",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Trabalho\",\n  \"descricao\": null,\n  \"ativo\": true\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria/search",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria", "search"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa Categoria - Search Pagination",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"filter\": {\n    \"nome\": null,\n    \"descricao\": null,\n    \"ativo\": true\n  },\n  \"page\": 0,\n  \"size\": 10\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa-categoria/search-pagination",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa-categoria", "search-pagination"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Listar",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Buscar por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa/{{tarefaId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa", "{{tarefaId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Criar",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"categoriaId\": {{tarefaCategoriaId}},\n  \"statusId\": {{tarefaStatusId}},\n  \"prioridadeId\": {{tarefaPrioridadeId}},\n  \"titulo\": \"Revisar pendencias\",\n  \"descricao\": \"Validar fluxo principal da aplicacao\",\n  \"dataInicio\": \"2026-04-25T09:00:00\",\n  \"dataFim\": \"2026-04-25T18:00:00\",\n  \"dataConclusao\": null,\n  \"posicao\": 1,\n  \"importante\": true\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                        "pm.test('Status 201', function () { pm.response.to.have.status(201); });",
+                        "var jsonData = pm.response.json();",
+                        "if (jsonData.id) { pm.collectionVariables.set('tarefaId', jsonData.id); }"
+                    ]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Atualizar",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"categoriaId\": {{tarefaCategoriaId}},\n  \"statusId\": {{tarefaStatusId}},\n  \"prioridadeId\": {{tarefaPrioridadeId}},\n  \"titulo\": \"Revisar pendencias atualizadas\",\n  \"descricao\": \"Validar fluxo principal da aplicacao atualizado\",\n  \"dataInicio\": \"2026-04-25T09:00:00\",\n  \"dataFim\": \"2026-04-25T18:00:00\",\n  \"dataConclusao\": null,\n  \"posicao\": 2,\n  \"importante\": false\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa/{{tarefaId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa", "{{tarefaId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Bloquear",
+            "request": {
+                "method": "PUT",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa/{{tarefaId}}/bloquear",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa", "{{tarefaId}}", "bloquear"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Search",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"categoriaId\": null,\n  \"statusId\": null,\n  \"prioridadeId\": null,\n  \"titulo\": \"Revisar\",\n  \"descricao\": null,\n  \"categoriaNome\": null,\n  \"statusCodigo\": null,\n  \"prioridadeCodigo\": null,\n  \"importante\": null,\n  \"ativo\": true,\n  \"dataInicioDe\": null,\n  \"dataInicioAte\": null,\n  \"dataFimDe\": null,\n  \"dataFimAte\": null,\n  \"dataConclusaoDe\": null,\n  \"dataConclusaoAte\": null\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa/search",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa", "search"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Tarefa - Search Pagination",
+            "request": {
+                "method": "POST",
+                "header": [
+                    { "key": "Authorization", "value": "Bearer {{authToken}}" },
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": { "mode": "raw", "raw": "{\n  \"filter\": {\n    \"categoriaId\": null,\n    \"statusId\": null,\n    \"prioridadeId\": null,\n    \"titulo\": null,\n    \"descricao\": null,\n    \"categoriaNome\": null,\n    \"statusCodigo\": null,\n    \"prioridadeCodigo\": null,\n    \"importante\": null,\n    \"ativo\": true,\n    \"dataInicioDe\": null,\n    \"dataInicioAte\": null,\n    \"dataFimDe\": null,\n    \"dataFimAte\": null,\n    \"dataConclusaoDe\": null,\n    \"dataConclusaoAte\": null\n  },\n  \"page\": 0,\n  \"size\": 10\n}" },
+                "url": {
+                    "raw": "{{baseUrl}}/api/tarefa/search-pagination",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "tarefa", "search-pagination"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Tarefa Status - Load All",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/tarefa-status/load-all",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "tarefa-status", "load-all"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Tarefa Status - Load por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/tarefa-status/load/{{tarefaStatusId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "tarefa-status", "load", "{{tarefaStatusId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Tarefa Prioridade - Load All",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/tarefa-prioridade/load-all",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "tarefa-prioridade", "load-all"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Tarefa Prioridade - Load por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/tarefa-prioridade/load/{{tarefaPrioridadeId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "tarefa-prioridade", "load", "{{tarefaPrioridadeId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Papel - Load All",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/papel/load-all",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "papel", "load-all"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
+        },
+        {
+            "name": "Fixed - Papel - Load por Id",
+            "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{authToken}}" }],
+                "url": {
+                    "raw": "{{baseUrl}}/api/fixed/papel/load/{{papelId}}",
+                    "host": ["{{baseUrl}}"],
+                    "path": ["api", "fixed", "papel", "load", "{{papelId}}"]
+                }
+            },
+            "event": [{
+                "listen": "test",
+                "script": {
+                    "type": "text/javascript",
+                    "exec": ["pm.test('Status 200', function () { pm.response.to.have.status(200); });"]
+                }
+            }]
         }
-      ]
-    }
-  ]
+    ]
 }
