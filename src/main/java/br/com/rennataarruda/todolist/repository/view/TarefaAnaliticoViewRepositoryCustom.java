@@ -4,7 +4,9 @@ import br.com.rennataarruda.todolist.dto.indicador.TarefaPorCategoriaIndicadorDt
 import br.com.rennataarruda.todolist.dto.indicador.TarefaPorCategoriaPrioridadeIndicadorDto;
 import br.com.rennataarruda.todolist.dto.indicador.TarefaPorStatusIndicadorDto;
 import br.com.rennataarruda.todolist.dto.indicador.TarefaPorPrioridadeIndicadorDto;
+import br.com.rennataarruda.todolist.dto.view.TarefaAnaliticoResumoDto;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TarefaAnaliticoViewRepositoryCustom {
@@ -16,4 +18,21 @@ public interface TarefaAnaliticoViewRepositoryCustom {
     List<TarefaPorCategoriaIndicadorDto> countTarefasAtivasPorCategoriaDoUsuarioId(Long usuarioId);
 
     List<TarefaPorCategoriaPrioridadeIndicadorDto> countTarefasAtivasPorCategoriaEPrioridadeDoUsuarioId(Long usuarioId);
+
+    List<TarefaAnaliticoResumoDto> findTarefasAtivasDaSemanaDoUsuarioId(
+            Long usuarioId,
+            LocalDateTime inicioSemana,
+            LocalDateTime fimSemana
+    );
+
+    List<TarefaAnaliticoResumoDto> findTarefasAtrasadasAtivasDoUsuarioId(
+            Long usuarioId,
+            LocalDateTime dataAtual
+    );
+
+    List<TarefaAnaliticoResumoDto> findTarefasQueVencemHojeENaoConcluidasDoUsuarioId(
+            Long usuarioId,
+            LocalDateTime inicioDia,
+            LocalDateTime fimDia
+    );
 }

@@ -48,6 +48,12 @@ public class TarefaAnaliticoView {
     @Column(name = "CATEGORIA_NOME")
     private String categoriaNome;
 
+    @Column(name = "TITULO")
+    private String titulo;
+
+    @Column(name = "DATA_INICIO")
+    private LocalDateTime dataInicio;
+
     @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "ATIVO")
     private Boolean ativo;
