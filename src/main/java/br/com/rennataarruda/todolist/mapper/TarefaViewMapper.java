@@ -26,6 +26,8 @@ public class TarefaViewMapper {
                 entity.getDataInicio(),
                 entity.getDataFim(),
                 entity.getDataConclusao(),
+                TarefaTempoMapper.calcularEmMinutos(entity.getDataInicio(), entity.getDataFim()),
+                TarefaTempoMapper.calcularEmMinutos(entity.getDataInicio(), entity.getDataConclusao()),
                 entity.getPosicao(),
                 entity.getImportante(),
                 entity.getAtivo(),

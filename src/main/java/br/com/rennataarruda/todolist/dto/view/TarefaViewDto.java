@@ -20,6 +20,8 @@ public record TarefaViewDto(
         LocalDateTime dataInicio,
         LocalDateTime dataFim,
         LocalDateTime dataConclusao,
+        Long tempoEstimado,
+        Long tempoGasto,
         Long posicao,
         Boolean importante,
         Boolean ativo,

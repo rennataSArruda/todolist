@@ -13,6 +13,8 @@ public record TarefaDto(
         LocalDateTime dataInicio,
         LocalDateTime dataFim,
         LocalDateTime dataConclusao,
+        Long tempoEstimado,
+        Long tempoGasto,
         Long posicao,
         Boolean ativo,
         LocalDateTime createdAt,

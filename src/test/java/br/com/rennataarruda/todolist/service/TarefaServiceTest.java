@@ -102,6 +102,8 @@ class TarefaServiceTest {
                 null,
                 null,
                 null,
+                null,
+                null,
                 2L,
                 true,
                 null,
@@ -131,7 +133,7 @@ class TarefaServiceTest {
     }
 
     private TarefaDto dto(String titulo, Long statusId, Long prioridadeId, Boolean ativo, Boolean importante) {
-        return new TarefaDto(null, null, null, statusId, prioridadeId, titulo, null, null, null, null, null, ativo, null, null);
+        return new TarefaDto(null, null, null, statusId, prioridadeId, titulo, null, null, null, null, null, null, null, ativo, null, null);
     }
 
     private TarefaService newService() {
