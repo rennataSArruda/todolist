@@ -1,7 +1,6 @@
 package br.com.rennataarruda.todolist.entity;
 
 import br.com.rennataarruda.todolist.entity.commons.WithCreatedAt;
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,16 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-@Table(name = "PERFIL_PAPEL_PERMISSAO")
-public class PerfilPapelPermissao extends WithCreatedAt {
+@Table(name = "PAPEL_PERMISSAO")
+public class PapelPermissao extends WithCreatedAt {
 
     @EmbeddedId
-    private PerfilPapelPermissaoId id;
-
-    @MapsId("perfilId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PERFIL_ID", nullable = false)
-    private Perfil perfil;
+    private PapelPermissaoId id;
 
     @MapsId("papelId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -37,14 +31,9 @@ public class PerfilPapelPermissao extends WithCreatedAt {
     @JoinColumn(name = "PERMISSAO_ID", nullable = false)
     private Permissao permissao;
 
-    public PerfilPapelPermissao(Perfil perfil, Papel papel, Permissao permissao) {
-        this.id = new PerfilPapelPermissaoId(perfil.getId(), papel.getId(), permissao.getId());
-        this.perfil = perfil;
+    public PapelPermissao(Papel papel, Permissao permissao) {
+        this.id = new PapelPermissaoId(papel.getId(), permissao.getId());
         this.papel = papel;
         this.permissao = permissao;
-    }
-
-    public String getAuthority() {
-        return papel.getCodigo() + "_" + permissao.getCodigo();
     }
 }

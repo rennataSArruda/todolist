@@ -4,6 +4,5 @@ public enum PermissaoCodigo {
     VISUALIZAR,
     CRIAR,
     EDITAR,
-    BLOQUEAR,
-    EXCLUIR
+    BLOQUEAR
 }
