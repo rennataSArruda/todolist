@@ -19,4 +19,8 @@ public class TarefaStatus extends AbstractTabelaFixaEntity<Long> {
     @Convert(converter = NumericBooleanConverter.class)
     @Column(name = "ATIVO", nullable = false)
     private Boolean ativo;
+
+    public Boolean isAtivo(){
+        return Boolean.TRUE.equals(this.ativo);
+    }
 }

@@ -1,8 +1,8 @@
 package br.com.rennataarruda.todolist.security;
 
-import br.com.rennataarruda.todolist.entity.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.entity.Perfil;
-import br.com.rennataarruda.todolist.entity.Permissao;
+import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
 import br.com.rennataarruda.todolist.repository.RefreshTokenRepository;
@@ -66,8 +66,8 @@ class TokenAuthenticationFilterTest {
 
         Perfil perfil = new Perfil("PADRAO", "Perfil padrao");
         ReflectionTestUtils.setField(perfil, "id", 10L);
-        perfil.adicionarAutorizacao(new Papel("USUARIO", "Usuarios"), new Permissao("VISUALIZAR", "Visualizar"));
-        perfil.adicionarAutorizacao(new Papel("USUARIO", "Usuarios"), new Permissao("EDITAR", "Editar"));
+        perfil.adicionarAutorizacao(new Papel("USUARIO", "Usuarios"), new Permissao(1L, "VISUALIZAR", "Visualizar"));
+        perfil.adicionarAutorizacao(new Papel("USUARIO", "Usuarios"), new Permissao(2L, "EDITAR", "Editar"));
         Usuario usuario = new Usuario("admin", "Administrador", "encoded-password", perfil);
 
         request.setServletPath("/api/usuario");

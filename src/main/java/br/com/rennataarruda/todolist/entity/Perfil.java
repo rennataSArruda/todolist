@@ -1,6 +1,8 @@
 package br.com.rennataarruda.todolist.entity;
 
 import br.com.rennataarruda.todolist.entity.commons.WithUpdatedAt;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

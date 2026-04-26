@@ -1,6 +1,6 @@
 package br.com.rennataarruda.todolist.repository;
 
-import br.com.rennataarruda.todolist.entity.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.repository.commons.BaseRepository;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Repository;

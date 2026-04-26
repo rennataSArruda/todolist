@@ -1,4 +1,4 @@
-package br.com.rennataarruda.todolist.security.authorization;
+package br.com.rennataarruda.todolist.entity.fixed.enumerations;
 
 public enum PermissaoCodigo {
     VISUALIZAR,

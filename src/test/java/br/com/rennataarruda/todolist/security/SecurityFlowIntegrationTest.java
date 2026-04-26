@@ -5,9 +5,9 @@ import br.com.rennataarruda.todolist.dto.auth.AuthRequest;
 import br.com.rennataarruda.todolist.dto.auth.AuthResponse;
 import br.com.rennataarruda.todolist.dto.auth.ChangePasswordRequest;
 import br.com.rennataarruda.todolist.dto.auth.RefreshTokenRequest;
-import br.com.rennataarruda.todolist.entity.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.entity.Perfil;
-import br.com.rennataarruda.todolist.entity.Permissao;
+import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
@@ -360,7 +360,7 @@ class SecurityFlowIntegrationTest {
         ReflectionTestUtils.setField(perfil, "id", 10L);
         perfil.adicionarAutorizacao(
                 new Papel(papelCodigo, "Papel " + papelCodigo),
-                new Permissao(permissaoCodigo, "Permissao " + permissaoCodigo)
+                new Permissao(1L, permissaoCodigo, "Permissao " + permissaoCodigo)
         );
         Usuario usuario = new Usuario(username, "Administrador", "encoded", perfil);
         ReflectionTestUtils.setField(usuario, "id", 1L);

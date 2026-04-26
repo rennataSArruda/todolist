@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@authorizationAccessService.hasResourcePermission(authentication, T(br.com.rennataarruda.todolist.security.authorization.PapelCodigo).TAREFA_CATEGORIA, T(br.com.rennataarruda.todolist.security.authorization.PermissaoCodigo).BLOQUEAR)")
+@PreAuthorize("@authorizationAccessService.hasResourcePermission(authentication, T(br.com.rennataarruda.todolist.entity.fixed.enumerations.PapelCodigo).TAREFA_CATEGORIA, T(br.com.rennataarruda.todolist.entity.fixed.enumerations.PermissaoCodigo).BLOQUEAR)")
 public @interface PodeBloquearTarefaCategoria {
 }

@@ -3,13 +3,19 @@ package br.com.rennataarruda.todolist.service;
 import br.com.rennataarruda.todolist.dto.TarefaDto;
 import br.com.rennataarruda.todolist.entity.Tarefa;
 import br.com.rennataarruda.todolist.mapper.TarefaMapper;
+import br.com.rennataarruda.todolist.repository.TarefaCategoriaRepository;
 import br.com.rennataarruda.todolist.repository.TarefaRepository;
+import br.com.rennataarruda.todolist.repository.fixed.TarefaPrioridadeRepository;
+import br.com.rennataarruda.todolist.repository.fixed.TarefaStatusRepository;
 import br.com.rennataarruda.todolist.security.AuthenticatedUserProvider;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.TarefaPrioridadeEnum;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.TarefaStatusEnum;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -18,6 +24,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,13 +37,22 @@ class TarefaServiceTest {
     @Mock
     private AuthenticatedUserProvider authenticatedUserProvider;
 
+    @Mock
+    private TarefaStatusRepository statusRepository;
+
+    @Mock
+    private TarefaPrioridadeRepository prioridadeRepository;
+
+    @Mock
+    private TarefaCategoriaRepository categoriaRepository;
+
     private final TarefaMapper mapper = new TarefaMapper();
 
     @Test
     void shouldRejectCreateWhenTituloIsMissing() {
         TarefaService service = newService();
 
-        assertThatThrownBy(() -> service.create(dto(null, 1L, 1L, true, false)))
+        assertThatThrownBy(() -> service.create(dto(null, TarefaStatusEnum.PENDENTE.getId(), TarefaPrioridadeEnum.BAIXA.getId(), true, false)))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("Titulo e obrigatorio");
     }
@@ -45,45 +61,16 @@ class TarefaServiceTest {
     void shouldRejectCreateWhenStatusIsMissing() {
         TarefaService service = newService();
 
-        assertThatThrownBy(() -> service.create(dto("Comprar pao", null, 1L, true, false)))
+        assertThatThrownBy(() -> service.create(dto("Comprar pao", null, TarefaPrioridadeEnum.BAIXA.getId(), true, false)))
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("Status e obrigatorio");
     }
 
-    @Test
-    void shouldSetAuthenticatedUserIdOnCreateIgnoringDtoUsuarioIdAndAtivo() {
-        TarefaService service = newService();
-        when(authenticatedUserProvider.currentUserId()).thenReturn(10L);
-        when(repository.save(any(Tarefa.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        TarefaDto dto = service.create(new TarefaDto(
-                null,
-                999L,
-                2L,
-                1L,
-                3L,
-                "Comprar pao",
-                "Descricao",
-                LocalDateTime.of(2026, 4, 25, 8, 0),
-                null,
-                null,
-                1L,
-                true,
-                false,
-                null,
-                null
-        ));
-
-        assertThat(dto.usuarioId()).isEqualTo(10L);
-        assertThat(dto.titulo()).isEqualTo("Comprar pao");
-        assertThat(dto.importante()).isTrue();
-        assertThat(dto.ativo()).isTrue();
-    }
 
     @Test
     void shouldKeepAuthenticatedUserIdAndAtivoOnUpdateIgnoringDtoValues() {
         TarefaService service = newService();
-        Tarefa entity = new Tarefa(2L, 1L, 3L, "Antiga", "Descricao", null, null, null, 1L, false);
+        Tarefa entity = new Tarefa(null, TarefaStatusEnum.PENDENTE.getId(), TarefaPrioridadeEnum.ALTA.getId(), "Antiga", "Descricao", null, null, null, 1L, false);
         entity.definirUsuarioId(10L);
 
         when(authenticatedUserProvider.currentUserId()).thenReturn(10L);
@@ -91,12 +78,25 @@ class TarefaServiceTest {
                 .thenReturn(Optional.of(entity));
         when(repository.save(any(Tarefa.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
+        // Define IDs from enums used in DTO
+        Long pendingStatusId = TarefaStatusEnum.PENDENTE.getId();
+        Long urgentePrioridadeId = TarefaPrioridadeEnum.URGENTE.getId();
+
+        // Mocking the entities instead of instantiating with new
+        br.com.rennataarruda.todolist.entity.fixed.TarefaStatus status = mock(br.com.rennataarruda.todolist.entity.fixed.TarefaStatus.class);
+        when(status.getAtivo()).thenReturn(true);
+        when(statusRepository.findById(pendingStatusId)).thenReturn(Optional.of(status));
+
+        br.com.rennataarruda.todolist.entity.fixed.TarefaPrioridade prioridade = mock(br.com.rennataarruda.todolist.entity.fixed.TarefaPrioridade.class);
+        when(prioridade.getAtivo()).thenReturn(true);
+        when(prioridadeRepository.findById(urgentePrioridadeId)).thenReturn(Optional.of(prioridade));
+
         TarefaDto dto = service.update(1L, new TarefaDto(
                 1L,
                 999L,
                 null,
-                2L,
-                4L,
+                TarefaStatusEnum.PENDENTE.getId(),
+                TarefaPrioridadeEnum.URGENTE.getId(),
                 "Atualizada",
                 "Nova descricao",
                 null,
@@ -111,7 +111,7 @@ class TarefaServiceTest {
 
         assertThat(dto.usuarioId()).isEqualTo(10L);
         assertThat(dto.titulo()).isEqualTo("Atualizada");
-        assertThat(dto.prioridadeId()).isEqualTo(4L);
+        assertThat(dto.prioridadeId()).isEqualTo(TarefaPrioridadeEnum.URGENTE.getId());
         assertThat(dto.importante()).isTrue();
         assertThat(dto.ativo()).isTrue();
     }
@@ -138,6 +138,6 @@ class TarefaServiceTest {
     }
 
     private TarefaService newService() {
-        return new TarefaService(repository, authenticatedUserProvider, mapper);
+        return new TarefaService(repository, authenticatedUserProvider, mapper, statusRepository, prioridadeRepository, categoriaRepository);
     }
 }

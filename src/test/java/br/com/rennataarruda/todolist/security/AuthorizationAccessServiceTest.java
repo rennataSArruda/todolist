@@ -1,7 +1,7 @@
 package br.com.rennataarruda.todolist.security;
 
-import br.com.rennataarruda.todolist.security.authorization.PapelCodigo;
-import br.com.rennataarruda.todolist.security.authorization.PermissaoCodigo;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.PapelCodigo;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.PermissaoCodigo;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

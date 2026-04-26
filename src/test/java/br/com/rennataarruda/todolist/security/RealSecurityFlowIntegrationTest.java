@@ -1,9 +1,9 @@
 package br.com.rennataarruda.todolist.security;
 
 import br.com.rennataarruda.todolist.dto.UsuarioDto;
-import br.com.rennataarruda.todolist.entity.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.entity.Perfil;
-import br.com.rennataarruda.todolist.entity.Permissao;
+import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
@@ -271,7 +271,7 @@ class RealSecurityFlowIntegrationTest {
         ReflectionTestUtils.setField(perfil, "id", 10L);
         perfil.adicionarAutorizacao(
                 new Papel(papelCodigo, "Papel " + papelCodigo),
-                new Permissao(permissaoCodigo, "Permissao " + permissaoCodigo)
+                new Permissao(1L, permissaoCodigo, "Permissao " + permissaoCodigo)
         );
         Usuario usuario = new Usuario(username, "Administrador", passwordService.encode(rawPassword), perfil);
         ReflectionTestUtils.setField(usuario, "id", 1L);

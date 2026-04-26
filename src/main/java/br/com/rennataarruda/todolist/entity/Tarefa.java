@@ -36,6 +36,11 @@ public class Tarefa extends WithUpdatedAt implements UsuarioScopedEntity {
     @Column(name = "STATUS_ID", nullable = false)
     private Long statusId;
 
+    public void setStatusId(Long statusId) {
+        this.statusId = statusId;
+    }
+
+
     @Column(name = "PRIORIDADE_ID", nullable = false)
     private Long prioridadeId;
 

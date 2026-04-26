@@ -1,7 +1,7 @@
 package br.com.rennataarruda.todolist.security;
 
-import br.com.rennataarruda.todolist.security.authorization.PapelCodigo;
-import br.com.rennataarruda.todolist.security.authorization.PermissaoCodigo;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.PapelCodigo;
+import br.com.rennataarruda.todolist.entity.fixed.enumerations.PermissaoCodigo;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 

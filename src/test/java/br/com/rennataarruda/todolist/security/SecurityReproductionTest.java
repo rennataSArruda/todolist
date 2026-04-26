@@ -1,8 +1,8 @@
 package br.com.rennataarruda.todolist.security;
 
-import br.com.rennataarruda.todolist.entity.Papel;
+import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.entity.Perfil;
-import br.com.rennataarruda.todolist.entity.Permissao;
+import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
@@ -178,7 +178,7 @@ class SecurityReproductionTest {
         ReflectionTestUtils.setField(perfil, "id", 99L);
         perfil.adicionarAutorizacao(
                 new Papel("USUARIO", "Recurso de usuarios"),
-                new Permissao("VISUALIZAR", "Permissao de visualizacao")
+                new Permissao(1L, "VISUALIZAR", "Permissao de visualizacao")
         );
         Usuario usuario = new Usuario(username, "Teste", passwordService.encode(rawPassword), perfil);
         ReflectionTestUtils.setField(usuario, "id", 1L);
@@ -190,7 +190,7 @@ class SecurityReproductionTest {
         ReflectionTestUtils.setField(perfil, "id", 23L);
         perfil.adicionarAutorizacao(
                 new Papel("TAREFA", "Recurso de tarefas"),
-                new Permissao("CRIAR", "Permissao de criacao")
+                new Permissao(3L, "CRIAR", "Permissao de criacao")
         );
         Usuario usuario = new Usuario(username, "Operador", passwordService.encode(rawPassword), perfil);
         ReflectionTestUtils.setField(usuario, "id", 1L);
