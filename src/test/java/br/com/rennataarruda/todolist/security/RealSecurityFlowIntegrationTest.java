@@ -7,9 +7,18 @@ import br.com.rennataarruda.todolist.entity.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
+import br.com.rennataarruda.todolist.repository.PapelRepository;
+import br.com.rennataarruda.todolist.repository.PerfilPapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PerfilRepository;
+import br.com.rennataarruda.todolist.repository.PermissaoRepository;
 import br.com.rennataarruda.todolist.repository.RefreshTokenRepository;
+import br.com.rennataarruda.todolist.repository.TarefaCategoriaRepository;
+import br.com.rennataarruda.todolist.repository.TarefaRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
+import br.com.rennataarruda.todolist.repository.fixed.TarefaPrioridadeRepository;
+import br.com.rennataarruda.todolist.repository.fixed.TarefaStatusRepository;
+import br.com.rennataarruda.todolist.repository.view.TarefaViewRepository;
 import br.com.rennataarruda.todolist.service.UsuarioService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,6 +83,33 @@ class RealSecurityFlowIntegrationTest {
 
     @MockBean
     private PerfilRepository perfilRepository;
+
+    @MockBean
+    private PapelRepository papelRepository;
+
+    @MockBean
+    private PermissaoRepository permissaoRepository;
+
+    @MockBean
+    private PerfilPapelPermissaoRepository perfilPapelPermissaoRepository;
+
+    @MockBean
+    private PapelPermissaoRepository papelPermissaoRepository;
+
+    @MockBean
+    private TarefaCategoriaRepository tarefaCategoriaRepository;
+
+    @MockBean
+    private TarefaRepository tarefaRepository;
+
+    @MockBean
+    private TarefaViewRepository tarefaViewRepository;
+
+    @MockBean
+    private TarefaStatusRepository tarefaStatusRepository;
+
+    @MockBean
+    private TarefaPrioridadeRepository tarefaPrioridadeRepository;
 
     @MockBean
     private UsuarioService usuarioService;
