@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Nova categoria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item active" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Cadastro</p>
+    <h1>Nova categoria</h1>
+    <p>Defina nome, descrição, cor, ícone e situação.</p>
+  </div>
+  <a class="btn btn-secondary" href="categories.html">← Voltar</a>
+</div>
+
+<article class="card form-card">
+  <div class="form-grid">
+    <div class="field col-8">
+      <label>Nome</label>
+      <input class="form-control" placeholder="Ex.: Trabalho">
+    </div>
+    <div class="field col-4">
+      <label>Ícone</label>
+      <select class="select-control"><option>💼 Pasta</option><option>📚 Livro</option><option>✨ Estrela</option><option>☀ Sol</option><option>✓ Check</option></select>
+    </div>
+    <div class="field col-12">
+      <label>Descrição</label>
+      <textarea class="textarea-control" placeholder="Descreva quando esta categoria deve ser utilizada."></textarea>
+    </div>
+    <div class="field col-8">
+      <label>Cor</label>
+      <div class="color-picker-row">
+        <button class="color-dot selected" style="background:#695be8" aria-label="Violeta"></button>
+        <button class="color-dot" style="background:#5a86e8" aria-label="Azul"></button>
+        <button class="color-dot" style="background:#49a878" aria-label="Verde"></button>
+        <button class="color-dot" style="background:#eda542" aria-label="Amarelo"></button>
+        <button class="color-dot" style="background:#de6577" aria-label="Rosa"></button>
+      </div>
+      <small>A API trabalha com cor hexadecimal.</small>
+    </div>
+    <div class="field col-4">
+      <label>Situação</label>
+      <div class="toggle-row">
+        <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        <span>Categoria ativa</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="categories.html">Cancelar</a>
+    <button class="btn btn-primary">Salvar categoria</button>
+  </div>
+</article>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

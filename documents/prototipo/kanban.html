@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Tarefas - Kanban</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+  <script src="kanban.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item active" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+  </div>
+</header>
+      
+      <div class="page">
+        <div class="page-head">
+          <div>
+            <p class="eyebrow">Organização</p>
+            <h1>Tarefas</h1>
+            <p>Acompanhe o fluxo das atividades por status.</p>
+          </div>
+          <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+        </div>
+
+        <div class="task-view-bar">
+          <div class="view-switcher" aria-label="Visualização de tarefas">
+            <a href="tasks.html"><span>≡</span> Lista</a>
+            <a class="active" href="kanban.html"><span>▥</span> Kanban</a>
+          </div>
+          <span class="kanban-help">Arraste os cards entre as colunas para simular a alteração de status.</span>
+        </div>
+
+        <div class="toolbar">
+          <input class="filter" style="min-width:240px" placeholder="Pesquisar tarefa...">
+          <select class="filter"><option>Prioridade</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select>
+          <select class="filter"><option>Categoria</option><option>Trabalho</option><option>Estudos</option><option>Projeto</option><option>Pessoal</option></select>
+          <select class="filter"><option>Período</option><option>Hoje</option><option>Esta semana</option></select>
+        </div>
+
+        <div class="kanban-shell">
+          <section class="kanban-board" aria-label="Quadro Kanban de tarefas">
+
+            <article class="kanban-column" data-status="pendente">
+              <div class="kanban-column-head">
+                <div class="kanban-title"><span class="kanban-status-dot"></span><strong>Pendente</strong></div>
+                <span class="kanban-count" data-kanban-count>0</span>
+              </div>
+              <div class="kanban-list">
+                <article class="kanban-card" draggable="true" data-status="pendente">
+                  <div class="kanban-card-top"><h3>Revisar documentação da API</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Validar endpoints e contratos principais antes da integração.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#5a86e8"></span>Estudos</span>
+                  <div class="kanban-meta"><span class="chip medium">Média</span><span class="due-date">◷ Amanhã · 10:00</span></div>
+                </article>
+
+                <article class="kanban-card" draggable="true" data-status="pendente">
+                  <div class="kanban-card-top"><h3>Fechar escopo inicial</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Definir as telas e interações da primeira entrega.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#49a878"></span>Projeto</span>
+                  <div class="kanban-meta"><span class="chip urgent">Urgente</span><span class="due-date">◷ 17/09 · 16:00</span></div>
+                </article>
+
+                <article class="kanban-card" draggable="true" data-status="pendente">
+                  <div class="kanban-card-top"><h3>Organizar backlog da semana</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Priorizar tarefas que devem entrar no próximo ciclo.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#695be8"></span>Trabalho</span>
+                  <div class="kanban-meta"><span class="chip low">Baixa</span><span class="due-date">◷ 18/09</span></div>
+                </article>
+              </div>
+            </article>
+
+            <article class="kanban-column" data-status="andamento">
+              <div class="kanban-column-head">
+                <div class="kanban-title"><span class="kanban-status-dot"></span><strong>Em andamento</strong></div>
+                <span class="kanban-count" data-kanban-count>0</span>
+              </div>
+              <div class="kanban-list">
+                <article class="kanban-card" draggable="true" data-status="andamento">
+                  <div class="kanban-card-top"><h3>Criar layout do dashboard</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Estruturar a primeira versão visual do dashboard.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#49a878"></span>Projeto</span>
+                  <div class="kanban-meta"><span class="chip high">Alta</span><span class="due-date overdue">◷ Hoje · 17:00</span></div>
+                </article>
+
+                <article class="kanban-card" draggable="true" data-status="andamento">
+                  <div class="kanban-card-top"><h3>Definir componentes de interface</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Padronizar cards, chips, inputs, botões e estados visuais.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#49a878"></span>Projeto</span>
+                  <div class="kanban-meta"><span class="chip high">Alta</span><span class="due-date">◷ Hoje · 20:00</span></div>
+                </article>
+              </div>
+            </article>
+
+            <article class="kanban-column" data-status="concluida">
+              <div class="kanban-column-head">
+                <div class="kanban-title"><span class="kanban-status-dot"></span><strong>Concluída</strong></div>
+                <span class="kanban-count" data-kanban-count>0</span>
+              </div>
+              <div class="kanban-list">
+                <article class="kanban-card" draggable="true" data-status="concluida">
+                  <div class="kanban-card-top"><h3>Atualizar dependências</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Revisar versões usadas pelo frontend.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#695be8"></span>Trabalho</span>
+                  <div class="kanban-meta"><span class="chip low">Baixa</span><span class="due-date">✓ 14/09</span></div>
+                </article>
+
+                <article class="kanban-card" draggable="true" data-status="concluida">
+                  <div class="kanban-card-top"><h3>Planejar identidade visual</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Definir paleta, tipografia e direção minimalista.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#49a878"></span>Projeto</span>
+                  <div class="kanban-meta"><span class="chip medium">Média</span><span class="due-date">✓ 15/09</span></div>
+                </article>
+              </div>
+            </article>
+
+            <article class="kanban-column" data-status="cancelada">
+              <div class="kanban-column-head">
+                <div class="kanban-title"><span class="kanban-status-dot"></span><strong>Cancelada</strong></div>
+                <span class="kanban-count" data-kanban-count>0</span>
+              </div>
+              <div class="kanban-list">
+                <article class="kanban-card" draggable="true" data-status="cancelada">
+                  <div class="kanban-card-top"><h3>Testar layout alternativo</h3><span class="kanban-menu">•••</span></div>
+                  <p class="kanban-description">Opção descartada durante a definição do protótipo inicial.</p>
+                  <span class="kanban-category"><span class="category-dot" style="background:#49a878"></span>Projeto</span>
+                  <div class="kanban-meta"><span class="chip low">Baixa</span><span class="due-date">— Sem prazo</span></div>
+                </article>
+              </div>
+            </article>
+
+          </section>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

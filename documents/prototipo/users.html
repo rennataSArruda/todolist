@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Usuários</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item active" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Administração</p>
+    <h1>Usuários</h1>
+    <p>Gerencie contas, situação de acesso e perfil associado.</p>
+  </div>
+  <a class="btn btn-primary" href="user-form.html">＋ Novo usuário</a>
+</div>
+
+<div class="toolbar">
+  <input class="filter" style="min-width:260px" placeholder="Pesquisar usuário...">
+  <select class="filter"><option>Todos</option><option>Ativos</option><option>Bloqueados</option></select>
+</div>
+
+<article class="card table-card">
+  <table class="data-table">
+    <thead><tr><th>Usuário</th><th>Username</th><th>Perfil</th><th>Situação</th><th></th></tr></thead>
+    <tbody>
+      <tr>
+        <td><div class="user-name-cell"><span class="mini-avatar">RA</span><strong>Rennata Arruda</strong></div></td>
+        <td>rennata</td><td>Administrador</td><td><span class="status done">Ativo</span></td><td>•••</td>
+      </tr>
+      <tr>
+        <td><div class="user-name-cell"><span class="mini-avatar">JS</span><strong>João Silva</strong></div></td>
+        <td>joao.silva</td><td>Usuário</td><td><span class="status done">Ativo</span></td><td>•••</td>
+      </tr>
+      <tr>
+        <td><div class="user-name-cell"><span class="mini-avatar">MC</span><strong>Marina Costa</strong></div></td>
+        <td>marina.costa</td><td>Usuário</td><td><span class="status cancelled">Bloqueado</span></td><td>•••</td>
+      </tr>
+    </tbody>
+  </table>
+</article>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

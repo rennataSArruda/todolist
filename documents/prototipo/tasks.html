@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Tarefas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item active" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+  </div>
+</header>
+
+      <div class="page">
+        <div class="page-head">
+          <div>
+            <p class="eyebrow">Organização</p>
+            <h1>Tarefas</h1>
+            <p>Organize e acompanhe suas atividades.</p>
+          </div>
+          <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+        </div>
+
+
+        <div class="task-view-bar">
+          <div class="view-switcher" aria-label="Visualização de tarefas">
+            <a class="active" href="tasks.html"><span>≡</span> Lista</a>
+            <a href="kanban.html"><span>▥</span> Kanban</a>
+          </div>
+          <span class="kanban-help">Alterne a forma de visualizar as mesmas tarefas.</span>
+        </div>
+
+        <div class="toolbar">
+          <input class="filter" style="min-width:240px" placeholder="Pesquisar tarefa...">
+          <select class="filter"><option>Status</option><option>Pendente</option><option>Em andamento</option><option>Concluída</option></select>
+          <select class="filter"><option>Prioridade</option><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select>
+          <select class="filter"><option>Categoria</option><option>Trabalho</option><option>Estudos</option></select>
+          <select class="filter"><option>Período</option><option>Hoje</option><option>Esta semana</option></select>
+        </div>
+
+        <article class="card table-card">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Tarefa</th>
+                <th>Categoria</th>
+                <th>Status</th>
+                <th>Prioridade</th>
+                <th>Vencimento</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="table-title"><strong>Criar layout do dashboard</strong><span>Estruturar a primeira versão visual do projeto.</span></td>
+                <td>Projeto</td>
+                <td><span class="status progressing">Em andamento</span></td>
+                <td><span class="chip high">Alta</span></td>
+                <td>Hoje · 17:00</td>
+                <td>•••</td>
+              </tr>
+              <tr>
+                <td class="table-title"><strong>Revisar documentação da API</strong><span>Validar endpoints e contratos principais.</span></td>
+                <td>Estudos</td>
+                <td><span class="status pending">Pendente</span></td>
+                <td><span class="chip medium">Média</span></td>
+                <td>Amanhã · 10:00</td>
+                <td>•••</td>
+              </tr>
+              <tr>
+                <td class="table-title"><strong>Atualizar dependências</strong><span>Revisar versões usadas pelo frontend.</span></td>
+                <td>Trabalho</td>
+                <td><span class="status done">Concluída</span></td>
+                <td><span class="chip low">Baixa</span></td>
+                <td>14/09</td>
+                <td>•••</td>
+              </tr>
+              <tr>
+                <td class="table-title"><strong>Fechar escopo inicial</strong><span>Definir as telas da primeira entrega.</span></td>
+                <td>Projeto</td>
+                <td><span class="status pending">Pendente</span></td>
+                <td><span class="chip urgent">Urgente</span></td>
+                <td>17/09 · 16:00</td>
+                <td>•••</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

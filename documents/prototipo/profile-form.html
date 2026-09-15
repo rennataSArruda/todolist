@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Novo perfil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item active" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Controle de acesso</p>
+    <h1>Novo perfil</h1>
+    <p>Defina um nome e associe os papéis disponíveis ao perfil.</p>
+  </div>
+  <a class="btn btn-secondary" href="profiles.html">← Voltar</a>
+</div>
+
+<article class="card form-card">
+  <div class="form-grid">
+    <div class="field col-8"><label>Nome do perfil</label><input class="form-control" placeholder="Ex.: Supervisor"></div>
+    <div class="field col-4"><label>Situação</label><div class="toggle-row"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label><span>Perfil ativo</span></div></div>
+    <div class="field col-12"><label>Descrição</label><textarea class="textarea-control" placeholder="Explique a finalidade deste perfil."></textarea></div>
+  </div>
+
+  <section class="form-section">
+    <div class="form-section-head">
+      <h2>Papéis e permissões</h2>
+      <p>Os papéis abaixo são os descritos atualmente no projeto.</p>
+    </div>
+    <div class="setting-list">
+      <div class="setting-item"><div><strong>USUARIO</strong><span>Operações relacionadas ao cadastro e manutenção de usuários.</span></div><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+      <div class="setting-item"><div><strong>TAREFA_CATEGORIA</strong><span>Operações de categorias de tarefas.</span></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+      <div class="setting-item"><div><strong>TAREFA</strong><span>Operações principais de tarefas.</span></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+      <div class="setting-item"><div><strong>INDICADORES_TAREFAS</strong><span>Acesso aos indicadores e consultas analíticas.</span></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="profiles.html">Cancelar</a>
+    <button class="btn btn-primary">Salvar perfil</button>
+  </div>
+</article>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

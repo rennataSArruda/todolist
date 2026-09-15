@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Nova tarefa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item active" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Cadastro</p>
+    <h1>Nova tarefa</h1>
+    <p>Cadastre as informações principais, prazo e organização da tarefa.</p>
+  </div>
+  <a class="btn btn-secondary" href="tasks.html">← Voltar</a>
+</div>
+
+<article class="card form-card">
+  <section class="form-section">
+    <div class="form-section-head">
+      <h2>Informações principais</h2>
+      <p>Dados que identificam a tarefa.</p>
+    </div>
+    <div class="form-grid">
+      <div class="field col-8">
+        <label for="task-title">Título</label>
+        <input class="form-control" id="task-title" placeholder="Ex.: Revisar protótipo da aplicação">
+      </div>
+      <div class="field col-4">
+        <label for="category">Categoria</label>
+        <select class="select-control" id="category">
+          <option>Selecione</option><option>Trabalho</option><option>Estudos</option><option>Projeto</option><option>Pessoal</option>
+        </select>
+      </div>
+      <div class="field col-12">
+        <label for="description">Descrição</label>
+        <textarea class="textarea-control" id="description" placeholder="Descreva o que precisa ser feito..."></textarea>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-section-head">
+      <h2>Organização</h2>
+      <p>Status, prioridade e posicionamento da atividade.</p>
+    </div>
+    <div class="form-grid">
+      <div class="field col-4">
+        <label>Status</label>
+        <select class="select-control"><option>Pendente</option><option>Em andamento</option><option>Concluída</option><option>Cancelada</option></select>
+      </div>
+      <div class="field col-4">
+        <label>Prioridade</label>
+        <select class="select-control"><option>Baixa</option><option>Média</option><option>Alta</option><option>Urgente</option></select>
+      </div>
+      <div class="field col-4">
+        <label>Posição</label>
+        <input class="form-control" type="number" value="1">
+        <small>Pode ser controlada automaticamente pela interface futuramente.</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-section-head">
+      <h2>Prazos e tempo</h2>
+      <p>Datas e estimativas usadas no acompanhamento da tarefa.</p>
+    </div>
+    <div class="form-grid">
+      <div class="field col-3"><label>Data inicial</label><input class="form-control" type="date"></div>
+      <div class="field col-3"><label>Data de vencimento</label><input class="form-control" type="date"></div>
+      <div class="field col-3"><label>Tempo estimado</label><input class="form-control" type="time" value="02:00"></div>
+      <div class="field col-3"><label>Tempo gasto</label><input class="form-control" type="time" value="00:00"></div>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="tasks.html">Cancelar</a>
+    <button class="btn btn-primary">Salvar tarefa</button>
+  </div>
+</article>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

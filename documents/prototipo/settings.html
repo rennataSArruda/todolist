@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Configurações</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item active" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Preferências</p>
+    <h1>Configurações</h1>
+    <p>Personalize a experiência visual e algumas preferências do protótipo.</p>
+  </div>
+</div>
+
+<div class="settings-layout">
+  <aside class="card settings-nav">
+    <a class="active" href="#appearance">Aparência</a>
+    <a href="#notifications">Notificações</a>
+    <a href="#preferences">Preferências</a>
+    <a href="#security">Segurança</a>
+  </aside>
+
+  <section class="card settings-panel">
+    <div id="appearance" class="form-section" style="margin-top:0;padding-top:0;border-top:0">
+      <div class="form-section-head"><h2>Aparência</h2><p>Escolha como a interface deve ser exibida.</p></div>
+      <div class="setting-list">
+        <label class="setting-item">
+          <div><strong>Modo claro</strong><span>Interface clara com fundo suave.</span></div>
+          <input type="radio" name="theme" value="light">
+        </label>
+        <label class="setting-item">
+          <div><strong>Modo escuro</strong><span>Reduz o brilho da interface em ambientes escuros.</span></div>
+          <input type="radio" name="theme" value="dark">
+        </label>
+      </div>
+    </div>
+
+    <div id="notifications" class="form-section">
+      <div class="form-section-head"><h2>Notificações</h2><p>Opções visuais para o protótipo.</p></div>
+      <div class="setting-list">
+        <div class="setting-item"><div><strong>Lembrar tarefas próximas do vencimento</strong><span>Exibir alertas no dashboard.</span></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+        <div class="setting-item"><div><strong>Alertar tarefas atrasadas</strong><span>Destacar tarefas que passaram do prazo.</span></div><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+      </div>
+    </div>
+
+    <div id="preferences" class="form-section">
+      <div class="form-section-head"><h2>Preferências</h2><p>Configurações de exibição.</p></div>
+      <div class="form-grid">
+        <div class="field col-6"><label>Página inicial</label><select class="select-control"><option>Dashboard</option><option>Tarefas</option><option>Indicadores</option></select></div>
+        <div class="field col-6"><label>Ordenação padrão de tarefas</label><select class="select-control"><option>Mais recentes</option><option>Prioridade</option><option>Vencimento</option></select></div>
+      </div>
+    </div>
+
+    <div id="security" class="form-section">
+      <div class="form-section-head"><h2>Segurança</h2><p>Ações relacionadas à conta.</p></div>
+      <div class="setting-list">
+        <div class="setting-item">
+          <div><strong>Alterar senha</strong><span>A alteração real deve utilizar o endpoint da aplicação.</span></div>
+          <button class="btn btn-secondary">Alterar senha</button>
+        </div>
+        <div class="setting-item">
+          <div><strong>Encerrar sessão</strong><span>Revoga a sessão atual no fluxo real da aplicação.</span></div>
+          <a class="btn btn-secondary" href="login.html">Sair</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

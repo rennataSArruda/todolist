@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Indicadores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item active" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+  </div>
+</header>
+
+      <div class="page">
+        <div class="page-head">
+          <div>
+            <p class="eyebrow">Análise</p>
+            <h1>Indicadores</h1>
+            <p>Acompanhe a distribuição das suas tarefas.</p>
+          </div>
+          <div class="toolbar" style="margin-bottom:0">
+            <select class="filter"><option>Este mês</option><option>Esta semana</option></select>
+            <select class="filter"><option>Todas as categorias</option></select>
+          </div>
+        </div>
+
+        <section class="kpi-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+          <article class="card kpi-card"><div class="kpi-top"><span class="kpi-icon">✓</span></div><h3>38</h3><p>Tarefas no período</p></article>
+          <article class="card kpi-card"><div class="kpi-top"><span class="kpi-icon">●</span></div><h3>23</h3><p>Concluídas</p></article>
+          <article class="card kpi-card"><div class="kpi-top"><span class="kpi-icon">%</span></div><h3>61%</h3><p>Taxa de conclusão</p></article>
+        </section>
+
+        <section class="indicator-grid">
+          <article class="card indicator-wide">
+            <div class="card-head"><h2>Tarefas por categoria</h2></div>
+            <div class="bar-chart">
+              <div class="bar-row"><span>Trabalho</span><div class="bar-track"><span style="width:82%"></span></div><strong>14</strong></div>
+              <div class="bar-row"><span>Estudos</span><div class="bar-track"><span style="width:54%"></span></div><strong>9</strong></div>
+              <div class="bar-row"><span>Projeto</span><div class="bar-track"><span style="width:42%"></span></div><strong>7</strong></div>
+              <div class="bar-row"><span>Pessoal</span><div class="bar-track"><span style="width:30%"></span></div><strong>5</strong></div>
+            </div>
+          </article>
+
+          <article class="card chart-card">
+            <div class="card-head" style="padding:0"><h2>Por status</h2></div>
+            <div class="donut"></div>
+            <div class="legend">
+              <div class="legend-row"><span class="legend-dot dot-pending"></span><span>Pendente</span><strong>8</strong></div>
+              <div class="legend-row"><span class="legend-dot dot-progress"></span><span>Em andamento</span><strong>6</strong></div>
+              <div class="legend-row"><span class="legend-dot dot-done"></span><span>Concluída</span><strong>23</strong></div>
+              <div class="legend-row"><span class="legend-dot dot-cancel"></span><span>Cancelada</span><strong>1</strong></div>
+            </div>
+          </article>
+
+          <article class="card indicator-wide">
+            <div class="card-head"><h2>Prioridade</h2></div>
+            <div class="priority-list">
+              <div class="priority-row"><span>Urgente</span><div class="progress"><span style="width:24%"></span></div><strong>4</strong></div>
+              <div class="priority-row"><span>Alta</span><div class="progress"><span style="width:46%"></span></div><strong>8</strong></div>
+              <div class="priority-row"><span>Média</span><div class="progress"><span style="width:74%"></span></div><strong>14</strong></div>
+              <div class="priority-row"><span>Baixa</span><div class="progress"><span style="width:60%"></span></div><strong>12</strong></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-head"><h2>Alertas</h2></div>
+            <div class="deadline-list">
+              <div class="deadline"><strong>3 tarefas atrasadas</strong><span>Precisam de atenção</span></div>
+              <div class="deadline"><strong>5 vencem hoje</strong><span>Prazo até o fim do dia</span></div>
+              <div class="deadline"><strong>12 nesta semana</strong><span>Próximos vencimentos</span></div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

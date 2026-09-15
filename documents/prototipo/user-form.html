@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Novo usuário</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+
+      <div class="brand">
+        <div class="brand-mark">F</div>
+        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+      </div>
+      <div class="nav-group">
+        <span class="nav-label">Principal</span>
+    
+<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+<a class="nav-item" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+<span class="nav-label">Administração</span>
+<a class="nav-item active" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+      </div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="avatar">RA</div>
+          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        </div>
+      </div>
+    </aside>
+    <main class="main">
+      
+<header class="topbar">
+  <div class="search">
+    <span>⌕</span>
+    <input type="search" placeholder="Pesquisar ou digitar um comando">
+  </div>
+  <div class="top-actions">
+    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
+    <button class="icon-button" aria-label="Notificações">♧</button>
+    
+  </div>
+</header>
+
+      <div class="page">
+        
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Cadastro</p>
+    <h1>Novo usuário</h1>
+    <p>Cadastre uma conta e defina o acesso inicial do usuário.</p>
+  </div>
+  <a class="btn btn-secondary" href="users.html">← Voltar</a>
+</div>
+
+<article class="card form-card">
+  <section class="form-section">
+    <div class="form-section-head"><h2>Dados do usuário</h2><p>Informações previstas no cadastro da aplicação.</p></div>
+    <div class="form-grid">
+      <div class="field col-6"><label>Nome</label><input class="form-control" placeholder="Nome completo"></div>
+      <div class="field col-6"><label>Username</label><input class="form-control" placeholder="usuario.sobrenome"></div>
+      <div class="field col-6"><label>Senha</label><input class="form-control" type="password" placeholder="Senha inicial"></div>
+      <div class="field col-6">
+        <label>Situação</label>
+        <div class="toggle-row"><label class="switch"><input type="checkbox" checked><span class="slider"></span></label><span>Usuário ativo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="form-section">
+    <div class="form-section-head"><h2>Perfil</h2><p>Associação visual para o protótipo de administração.</p></div>
+    <div class="form-grid">
+      <div class="field col-6"><label>Perfil</label><select class="select-control"><option>Usuário</option><option>Administrador</option></select></div>
+    </div>
+  </section>
+
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="users.html">Cancelar</a>
+    <button class="btn btn-primary">Salvar usuário</button>
+  </div>
+</article>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>
