@@ -1,0 +1,24 @@
+<button
+  #toggleButton
+  type="button"
+  class="theme-toggle"
+  [class.theme-toggle--ready]="ready()"
+  [class.theme-toggle--dark]="themeMode.isDarkMode()"
+  [class.theme-toggle--dragging]="isDragging()"
+  [style.left.px]="position().x"
+  [style.top.px]="position().y"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-pressed]="themeMode.isDarkMode()"
+  [matTooltip]="title"
+  matTooltipPosition="left"
+  (click)="toggleTheme($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointermove)="onPointerMove($event)"
+  (pointerup)="onPointerUp($event)"
+  (pointercancel)="onPointerCancel($event)"
+>
+  <span class="theme-toggle__icon-shell" aria-hidden="true">
+    <mat-icon class="theme-toggle__icon theme-toggle__icon--light">light_mode</mat-icon>
+    <mat-icon class="theme-toggle__icon theme-toggle__icon--dark">dark_mode</mat-icon>
+  </span>
+</button>

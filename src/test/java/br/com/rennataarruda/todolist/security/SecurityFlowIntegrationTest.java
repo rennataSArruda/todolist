@@ -4,13 +4,17 @@ import br.com.rennataarruda.todolist.dto.UsuarioDto;
 import br.com.rennataarruda.todolist.dto.auth.AuthRequest;
 import br.com.rennataarruda.todolist.dto.auth.AuthResponse;
 import br.com.rennataarruda.todolist.dto.auth.ChangePasswordRequest;
+import br.com.rennataarruda.todolist.dto.auth.ForgotPasswordRequest;
 import br.com.rennataarruda.todolist.dto.auth.RefreshTokenRequest;
+import br.com.rennataarruda.todolist.dto.auth.ResetPasswordRequest;
 import br.com.rennataarruda.todolist.entity.fixed.Papel;
 import br.com.rennataarruda.todolist.entity.Perfil;
 import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
+import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
 import br.com.rennataarruda.todolist.repository.PapelRepository;
 import br.com.rennataarruda.todolist.repository.PerfilPapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PerfilRepository;
@@ -24,6 +28,7 @@ import br.com.rennataarruda.todolist.repository.fixed.TarefaStatusRepository;
 import br.com.rennataarruda.todolist.repository.view.TarefaAnaliticoViewRepository;
 import br.com.rennataarruda.todolist.repository.view.TarefaViewRepository;
 import br.com.rennataarruda.todolist.service.AuthService;
+import br.com.rennataarruda.todolist.service.PasswordResetService;
 import br.com.rennataarruda.todolist.service.UsuarioService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -74,6 +79,12 @@ class SecurityFlowIntegrationTest {
     private BlacklistedTokenRepository blacklistedTokenRepository;
 
     @MockBean
+    private EmailConfigRepository emailConfigRepository;
+
+    @MockBean
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+
+    @MockBean
     private RefreshTokenRepository refreshTokenRepository;
 
     @MockBean
@@ -117,6 +128,9 @@ class SecurityFlowIntegrationTest {
 
     @MockBean
     private AuthService authService;
+
+    @MockBean
+    private PasswordResetService passwordResetService;
 
     @Test
     void shouldRejectAccessWithoutToken() throws Exception {
@@ -305,6 +319,27 @@ class SecurityFlowIntegrationTest {
     }
 
     @Test
+    void shouldRequestPasswordResetThroughHttpEndpoint() throws Exception {
+        mockMvc.perform(post("/public/auth/forgot-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"identifier\":\"admin@email.com\"}"))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""));
+
+        verify(passwordResetService).forgotPassword(new ForgotPasswordRequest("admin@email.com"));
+    }
+
+    @Test
+    void shouldResetPasswordThroughHttpEndpoint() throws Exception {
+        mockMvc.perform(post("/public/auth/reset-password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"token\":\"reset-token\",\"newPassword\":\"novaSenha123\"}"))
+                .andExpect(status().isNoContent())
+                .andExpect(content().string(""));
+
+        verify(passwordResetService).resetPassword(new ResetPasswordRequest("reset-token", "novaSenha123"));
+    }
+    @Test
     void shouldReturnUnauthorizedWhenLoginIsInvalid() throws Exception {
         when(authService.login(new AuthRequest("admin", "senhaErrada")))
                 .thenThrow(new ResponseStatusException(org.springframework.http.HttpStatus.UNAUTHORIZED, "Credenciais invalidas"));
@@ -388,3 +423,8 @@ class SecurityFlowIntegrationTest {
         return usuario;
     }
 }
+
+
+
+
+

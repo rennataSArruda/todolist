@@ -107,6 +107,21 @@ class AuthServiceTest {
                 .isInstanceOf(ResponseStatusException.class)
                 .hasMessageContaining("Credenciais invalidas");
     }
+    @Test
+    void shouldRejectLoginWithInactiveUser() {
+        Usuario usuario = usuarioComSenha("admin", "senha123");
+        usuario.alternarAtivo();
+
+        when(usuarioRepository.findByUsername("admin")).thenReturn(Optional.of(usuario));
+        when(passwordService.matches("senha123", "hash-senha123")).thenReturn(true);
+
+        assertThatThrownBy(() -> service.login(new AuthRequest("admin", "senha123")))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Usuario inativo");
+
+        verify(jwtService, never()).generateAccessToken(anyString(), anyString());
+        verify(refreshTokenRepository, never()).save(any(RefreshToken.class));
+    }
 
     @Test
     void shouldRejectLoginWithBlankUsername() {
@@ -160,6 +175,27 @@ class AuthServiceTest {
         assertThat(response.tokenType()).isEqualTo("Bearer");
     }
 
+    @Test
+    void shouldRejectRefreshWithInactiveUser() {
+        Usuario usuario = usuarioComSenha("admin", "senha123");
+        usuario.alternarAtivo();
+        RefreshToken refreshToken = new RefreshToken(
+                SecurityUtils.hashSHA256("refresh-token"),
+                "session-1",
+                usuario,
+                LocalDateTime.now().plusDays(1)
+        );
+
+        when(refreshTokenRepository.findByTokenHash(SecurityUtils.hashSHA256("refresh-token"))).thenReturn(Optional.of(refreshToken));
+
+        assertThatThrownBy(() -> service.refresh(new RefreshTokenRequest("refresh-token")))
+                .isInstanceOf(ResponseStatusException.class)
+                .hasMessageContaining("Usuario inativo");
+
+        assertThat(refreshToken.isRevoked()).isFalse();
+        verify(jwtService, never()).generateAccessToken(anyString(), anyString());
+        verify(refreshTokenRepository, never()).save(any(RefreshToken.class));
+    }
     @Test
     void shouldRejectRefreshWithInvalidRefreshToken() {
         when(refreshTokenRepository.findByTokenHash(SecurityUtils.hashSHA256("refresh-token"))).thenReturn(Optional.empty());
@@ -327,3 +363,7 @@ class AuthServiceTest {
         return new Usuario(username, "Administrador", "hash-" + passwordEmTextoPlano, new Perfil("PADRAO", "Perfil padrao"));
     }
 }
+
+
+
+

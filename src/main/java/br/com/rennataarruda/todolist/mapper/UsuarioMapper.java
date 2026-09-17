@@ -12,6 +12,7 @@ public class UsuarioMapper {
         return new UsuarioDto(
                 usuario.getId(),
                 usuario.getUsername(),
+                usuario.getEmail(),
                 usuario.getName(),
                 usuario.getAtivo(),
                 null
@@ -19,10 +20,10 @@ public class UsuarioMapper {
     }
 
     public Usuario toEntity(UsuarioDto dto, String encodedPassword, Perfil perfil) {
-        return new Usuario(dto.username(), dto.name(), encodedPassword, perfil);
+        return new Usuario(dto.username(), dto.email(), dto.name(), encodedPassword, perfil);
     }
 
     public void updateEntity(Usuario usuario, UsuarioDto dto) {
-        usuario.atualizar(dto.username(), dto.name());
+        usuario.atualizar(dto.username(), dto.email(), dto.name());
     }
 }

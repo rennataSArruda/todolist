@@ -5,9 +5,9 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   accessToken: string;
-  refreshToken?: string;
-  tokenType?: string;
-  expiresIn?: number;
+  refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
 }
 
 export interface RefreshTokenRequest {
@@ -17,10 +17,15 @@ export interface RefreshTokenRequest {
 export interface CurrentUser {
   id: number;
   username: string;
-  name: string;
-  perfil?: string;
+  nome: string;
+  perfil?: CurrentUserPerfil;
   authorities: string[];
   root: boolean;
+}
+
+export interface CurrentUserPerfil {
+  id: number;
+  codigo: string;
 }
 
 export interface ChangePasswordRequest {

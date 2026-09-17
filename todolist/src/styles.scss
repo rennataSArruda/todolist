@@ -24,12 +24,36 @@ html {
   }
 }
 
+html.theme-light {
+  color-scheme: light;
+}
+
+html.theme-dark {
+  color-scheme: dark;
+}
+
 body {
   background-color: var(--mat-sys-surface);
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
   margin: 0;
   height: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body,
+  .login-page,
+  .login-card,
+  .mini-card,
+  .brand-mark,
+  .mini-card-icon {
+    transition:
+      background 220ms ease,
+      background-color 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease,
+      color 220ms ease;
+  }
 }
 
 /* You can add global styles to this file, and also import other style files */

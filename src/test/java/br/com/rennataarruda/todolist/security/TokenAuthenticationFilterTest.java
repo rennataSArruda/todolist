@@ -235,7 +235,43 @@ class TokenAuthenticationFilterTest {
         verify(usuarioRepository, never()).findWithAuthorizationByUsername(any());
     }
 
+    @Test
+    void shouldReturnUnauthorizedWhenUserIsInactive() throws ServletException, IOException {
+        TokenAuthenticationFilter filter = new TokenAuthenticationFilter(
+                jwtService,
+                blacklistedTokenRepository,
+                refreshTokenRepository,
+                usuarioRepository,
+                userAuthorityService,
+                exceptionHandler
+        );
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/api/usuario");
+        MockHttpServletResponse response = new MockHttpServletResponse();
+
+        Perfil perfil = new Perfil("PADRAO", "Perfil padrao");
+        Usuario usuario = new Usuario("admin", "Administrador", "encoded-password", perfil);
+        usuario.alternarAtivo();
+
+        request.setServletPath("/api/usuario");
+        request.addHeader(HttpHeaders.AUTHORIZATION, "Bearer access-token");
+        when(blacklistedTokenRepository.existsByTokenHash(SecurityUtils.hashSHA256("access-token"))).thenReturn(false);
+        when(jwtService.parseAccessToken("access-token")).thenReturn(accessToken("jti-1", "admin", "session-1"));
+        when(refreshTokenRepository.existsBySessionIdAndRevokedAtIsNullAndExpiresAtAfter(
+                eq("session-1"),
+                any(LocalDateTime.class)
+        )).thenReturn(true);
+        when(usuarioRepository.findWithAuthorizationByUsername("admin"))
+                .thenReturn(Optional.of(usuario));
+
+        filter.doFilter(request, response, (req, res) -> {
+        });
+
+        assertThat(response.getStatus()).isEqualTo(401);
+        assertThat(response.getContentAsString()).contains("AUTH_USER_INACTIVE");
+        assertThat(response.getContentAsString()).contains("Usuario inativo");
+    }
     private JwtService.AccessTokenClaims accessToken(String tokenId, String username, String sessionId) {
         return new JwtService.AccessTokenClaims(tokenId, username, sessionId, LocalDateTime.now().plusMinutes(15));
     }
 }
+

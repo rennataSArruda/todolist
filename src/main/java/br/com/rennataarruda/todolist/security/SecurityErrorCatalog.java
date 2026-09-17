@@ -9,6 +9,7 @@ public enum SecurityErrorCatalog {
     TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "AUTH_TOKEN_INVALID", "Token invalido", SecurityErrorAction.LOGIN),
     SESSION_INVALID(HttpStatus.UNAUTHORIZED, "AUTH_SESSION_INVALID", "Sessao invalida ou revogada", SecurityErrorAction.LOGIN),
     USER_WITHOUT_PROFILE(HttpStatus.FORBIDDEN, "AUTH_USER_WITHOUT_PROFILE", "Usuario sem perfil de acesso", SecurityErrorAction.FORBIDDEN),
+    USER_INACTIVE(HttpStatus.UNAUTHORIZED, "AUTH_USER_INACTIVE", "Usuario inativo", SecurityErrorAction.LOGIN),
     ACCESS_DENIED(HttpStatus.FORBIDDEN, "AUTH_ACCESS_DENIED", "Voce nao possui permissao para acessar este recurso.", SecurityErrorAction.FORBIDDEN),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "AUTH_UNAUTHORIZED", "Acesso nao autorizado. Por favor, forneca credenciais validas.", SecurityErrorAction.LOGIN);
 
@@ -40,3 +41,4 @@ public enum SecurityErrorCatalog {
         return action;
     }
 }
+

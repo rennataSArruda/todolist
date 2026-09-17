@@ -1,12 +1,14 @@
 export type AuthErrorAction = 'TOKEN_REFRESH' | 'LOGIN' | 'FORBIDDEN';
 
 export type AuthErrorCode =
+  | 'AUTH_TOKEN_MISSING'
   | 'AUTH_TOKEN_EXPIRED'
   | 'AUTH_TOKEN_INVALID'
   | 'AUTH_TOKEN_INVALIDATED'
   | 'AUTH_SESSION_INVALID'
   | 'AUTH_ACCESS_DENIED'
-  | 'AUTH_USER_WITHOUT_PROFILE';
+  | 'AUTH_USER_WITHOUT_PROFILE'
+  | 'AUTH_UNAUTHORIZED';
 
 export interface ApiError {
   code?: string | AuthErrorCode;

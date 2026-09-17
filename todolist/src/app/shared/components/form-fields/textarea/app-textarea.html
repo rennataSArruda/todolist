@@ -1,0 +1,36 @@
+<div class="app-form-field" [class.app-form-field--invalid]="hasError">
+  @if (label) {
+    <label class="app-form-field__label" [for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="app-form-field__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
+
+  <div class="app-form-field__control">
+    <textarea
+      class="app-form-field__textarea"
+      [id]="fieldId"
+      [value]="value ?? ''"
+      [placeholder]="placeholder"
+      [attr.aria-label]="ariaLabel || label || placeholder"
+      [attr.aria-describedby]="describedById"
+      [attr.aria-invalid]="hasError"
+      [attr.maxlength]="maxlength"
+      [autocomplete]="autocomplete"
+      [disabled]="disabled"
+      [readOnly]="readonly"
+      [required]="required"
+      [rows]="rows"
+      (input)="handleInput($event)"
+      (blur)="markAsTouched()"
+    ></textarea>
+  </div>
+
+  @if (hasError && errorMessage) {
+    <p class="app-form-field__error" [id]="errorId">{{ errorMessage }}</p>
+  } @else if (hint) {
+    <p class="app-form-field__hint" [id]="hintId">{{ hint }}</p>
+  }
+</div>

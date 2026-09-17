@@ -1,0 +1,71 @@
+<main class="login-page">
+  <section class="login-hero" aria-label="Apresentacao do Focusly">
+    <div class="login-hero-top">
+      <div class="login-brand">
+        <span class="brand-mark">F</span>
+        <span>Focusly</span>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Produtividade simples</p>
+      <h1>Organize seu dia.</h1>
+      <p>Transforme suas prioridades em tarefas claras e acompanhe cada avanco com menos distracao.</p>
+
+      <div class="hero-visual" aria-label="Recursos principais">
+        <div class="mini-card">
+          <mat-icon class="mini-card-icon">{{ icons.TASK }}</mat-icon>
+          <strong>Tarefas em um só lugar</strong>
+        </div>
+
+        <div class="mini-card">
+          <mat-icon class="mini-card-icon">{{ icons.INDICATORS }}</mat-icon>
+          <strong>Indicadores claros</strong>
+        </div>
+
+        <div class="mini-card">
+          <mat-icon class="mini-card-icon">{{ icons.CATEGORY }}</mat-icon>
+          <strong>Categorias personalizadas</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="login-panel" aria-label="Acesso ao sistema">
+    <form class="login-card" [formGroup]="form" appFormValidation (ngSubmit)="submit()" aria-label="Formulario de login">
+      <p class="eyebrow">Acesso</p>
+      <h2>Bem-vindo de volta</h2>
+      <p>Entre para continuar organizando suas tarefas.</p>
+
+      <div class="login-fields">
+        <app-input
+          formControlName="username"
+          label="Usuario"
+          placeholder="Digite seu usuario"
+          autocomplete="username"
+          required
+          [errorMessages]="{ required: 'Informe seu usuario.' }"
+        />
+        <app-input-password
+          formControlName="password"
+          label="Senha"
+          placeholder="Digite sua senha"
+          required
+          [errorMessages]="{ required: 'Informe sua senha.' }"
+        />
+      </div>
+
+      <div class="login-options">
+        <button class="forgot-password" type="button">Esqueci minha senha</button>
+      </div>
+
+      @if (errorMessage(); as message) {
+        <p class="login-error" role="alert">{{ message }}</p>
+      }
+
+      <button class="login-submit" type="submit" matButton="filled" [disabled]="loading()">
+        {{ loading() ? 'Entrando...' : 'Entrar' }}
+      </button>
+    </form>
+  </section>
+</main>

@@ -32,6 +32,9 @@ public class Usuario extends WithUpdatedAt {
     @Column(name = "USERNAME", nullable = false, unique = true, length = 100, updatable = false)
     private String username;
 
+    @Column(name = "EMAIL", nullable = false, unique = true, length = 150)
+    private String email;
+
     @Column(name = "NAME", length = 150)
     private String name;
 
@@ -51,19 +54,29 @@ public class Usuario extends WithUpdatedAt {
     private Boolean ativo = true;
 
     public Usuario(String username, String name, String password, Perfil perfil) {
-        this(username, name, password, Boolean.FALSE, perfil);
+        this(username, null, name, password, Boolean.FALSE, perfil);
+    }
+
+    public Usuario(String username, String email, String name, String password, Perfil perfil) {
+        this(username, email, name, password, Boolean.FALSE, perfil);
     }
 
     public Usuario(String username, String name, String password, Boolean root, Perfil perfil) {
+        this(username, null, name, password, root, perfil);
+    }
+
+    public Usuario(String username, String email, String name, String password, Boolean root, Perfil perfil) {
         this.username = username;
+        this.email = email;
         this.name = name;
         this.password = password;
         this.root = root;
         this.perfil = perfil;
     }
 
-    public void atualizar(String username, String name) {
+    public void atualizar(String username, String email, String name) {
         this.username = username;
+        this.email = email;
         this.name = name;
     }
 

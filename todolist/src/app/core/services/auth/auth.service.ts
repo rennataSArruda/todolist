@@ -23,7 +23,7 @@ export class AuthService extends AbstractApiService {
     return this.http.post<LoginResponse>(this.buildUrl(`${this.resourcePath}/refresh`), request);
   }
 
-  logout(): Observable<void> {
-    return this.http.post<void>(this.buildUrl(`${this.resourcePath}/logout`), null);
+  logout(request: RefreshTokenRequest): Observable<void> {
+    return this.http.post<void>(this.buildUrl(`${this.resourcePath}/logout`), request);
   }
 }

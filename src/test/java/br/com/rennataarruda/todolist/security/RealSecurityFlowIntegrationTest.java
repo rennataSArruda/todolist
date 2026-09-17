@@ -7,7 +7,9 @@ import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
+import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
 import br.com.rennataarruda.todolist.repository.PapelRepository;
 import br.com.rennataarruda.todolist.repository.PerfilPapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PerfilRepository;
@@ -75,6 +77,12 @@ class RealSecurityFlowIntegrationTest {
 
     @MockBean
     private BlacklistedTokenRepository blacklistedTokenRepository;
+
+    @MockBean
+    private EmailConfigRepository emailConfigRepository;
+
+    @MockBean
+    private PasswordResetTokenRepository passwordResetTokenRepository;
 
     @MockBean
     private RefreshTokenRepository refreshTokenRepository;

@@ -8,4 +8,5 @@ export * from './tarefa-categorias/tarefa-categoria.service';
 export * from './tarefas/indicadores-tarefa.service';
 export * from './tarefas/tarefa-analitico.service';
 export * from './tarefas/tarefa.service';
+export * from './theme';
 export * from './usuarios/usuario.service';

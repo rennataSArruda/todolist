@@ -107,6 +107,12 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+        if (!Boolean.TRUE.equals(usuario.getAtivo())) {
+            logger.warn("Access attempt by inactive user: username={}", accessToken.username());
+            exceptionHandler.handle(response, SecurityErrorCatalog.USER_INACTIVE, request.getRequestURI());
+            return;
+        }
+
         AuthenticatedUser principal = new AuthenticatedUser(
                 usuario.getId(),
                 usuario.getUsername(),
@@ -127,3 +133,4 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 }
+

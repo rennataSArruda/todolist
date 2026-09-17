@@ -14,7 +14,13 @@ public interface UsuarioRepository extends BaseRepository<Usuario, Long> {
 
     boolean existsByUsernameAndIdNot(String username, Long id);
 
+    boolean existsByEmail(String email);
+
+    boolean existsByEmailAndIdNot(String email, Long id);
+
     Optional<Usuario> findByUsername(String username);
+
+    Optional<Usuario> findByEmail(String email);
 
     @EntityGraph(attributePaths = {
             "perfil",

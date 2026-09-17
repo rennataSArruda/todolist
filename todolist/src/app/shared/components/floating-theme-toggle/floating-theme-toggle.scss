@@ -1,0 +1,149 @@
+:host {
+  --theme-toggle-inset: 20px;
+  --theme-toggle-safe-area-top: env(safe-area-inset-top, 0px);
+  --theme-toggle-safe-area-right: env(safe-area-inset-right, 0px);
+  --theme-toggle-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --theme-toggle-safe-area-left: env(safe-area-inset-left, 0px);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.theme-toggle {
+  position: fixed;
+  width: 56px;
+  height: 56px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid color-mix(in srgb, var(--mat-sys-outline-variant) 72%, transparent);
+  border-radius: 50%;
+
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--mat-sys-surface-container-highest) 88%, transparent),
+    var(--mat-sys-surface-container-low)
+  );
+  color: var(--mat-sys-primary);
+
+  box-shadow:
+    0 16px 38px color-mix(in srgb, var(--mat-sys-shadow) 18%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--mat-sys-on-primary) 22%, transparent);
+
+  cursor: grab;
+  opacity: 0;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.theme-toggle--ready {
+  opacity: 1;
+}
+
+.theme-toggle--ready:not(.theme-toggle--dragging) {
+  transition:
+    left 220ms ease,
+    top 220ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.theme-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 20px 46px color-mix(in srgb, var(--mat-sys-shadow) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--mat-sys-on-primary) 22%, transparent);
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--mat-sys-primary) 42%, transparent);
+  outline-offset: 4px;
+}
+
+.theme-toggle--dragging {
+  cursor: grabbing;
+  transform: scale(1.04);
+}
+
+.theme-toggle--dark {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--mat-sys-primary-container) 74%, var(--mat-sys-surface-container-high)),
+    var(--mat-sys-surface-container)
+  );
+  color: var(--mat-sys-on-primary-container);
+}
+
+.theme-toggle__icon-shell {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.theme-toggle__icon {
+  position: absolute;
+  inset: 0;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  line-height: 24px;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+}
+
+.theme-toggle__icon--light {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle__icon--dark {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.72);
+}
+
+.theme-toggle--dark .theme-toggle__icon--light {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.72);
+}
+
+.theme-toggle--dark .theme-toggle__icon--dark {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+@media (max-width: 640px) {
+  :host {
+    --theme-toggle-inset: 12px;
+  }
+
+  .theme-toggle {
+    width: 48px;
+    height: 48px;
+  }
+
+  .theme-toggle__icon-shell,
+  .theme-toggle__icon {
+    width: 22px;
+    height: 22px;
+    font-size: 22px;
+    line-height: 22px;
+  }
+}

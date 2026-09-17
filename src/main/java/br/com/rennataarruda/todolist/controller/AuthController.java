@@ -2,9 +2,12 @@ package br.com.rennataarruda.todolist.controller;
 
 import br.com.rennataarruda.todolist.dto.auth.AuthRequest;
 import br.com.rennataarruda.todolist.dto.auth.AuthResponse;
+import br.com.rennataarruda.todolist.dto.auth.ForgotPasswordRequest;
 import br.com.rennataarruda.todolist.dto.auth.OAuthTokenResponse;
 import br.com.rennataarruda.todolist.dto.auth.RefreshTokenRequest;
+import br.com.rennataarruda.todolist.dto.auth.ResetPasswordRequest;
 import br.com.rennataarruda.todolist.service.AuthService;
+import br.com.rennataarruda.todolist.service.PasswordResetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
@@ -24,9 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, PasswordResetService passwordResetService) {
         this.authService = authService;
+        this.passwordResetService = passwordResetService;
     }
 
     @Operation(summary = "Login oficial da aplicacao", description = "Endpoint oficial para autenticacao de clientes web e integracoes da aplicacao.")
@@ -39,6 +44,20 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest request) {
         return ResponseEntity.ok(authService.refresh(request));
+    }
+
+    @Operation(summary = "Solicitar recuperacao de senha", description = "Envia instrucoes de redefinicao quando o identificador corresponder a um usuario ativo.")
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        passwordResetService.forgotPassword(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Redefinir senha", description = "Redefine a senha usando um token de recuperacao valido.")
+    @PostMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestBody ResetPasswordRequest request) {
+        passwordResetService.resetPassword(request);
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Encerrar sessao", description = "Revoga a sessao atual e invalida o access token informado.")

@@ -7,6 +7,7 @@ import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.entity.Usuario_;
 import br.com.rennataarruda.todolist.mapper.UsuarioMapper;
 import br.com.rennataarruda.todolist.repository.PerfilRepository;
+import br.com.rennataarruda.todolist.repository.RefreshTokenRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
 import br.com.rennataarruda.todolist.security.PasswordService;
 import br.com.rennataarruda.todolist.service.commons.AbstractSearchCrudService;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,35 +32,46 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
     private final PerfilRepository perfilRepository;
     private final UsuarioMapper mapper;
     private final PasswordService passwordService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     public UsuarioService(
             UsuarioRepository repository,
             PerfilRepository perfilRepository,
             UsuarioMapper mapper,
-            PasswordService passwordService
+            PasswordService passwordService,
+            RefreshTokenRepository refreshTokenRepository
     ) {
         super(repository);
         this.repository = repository;
         this.perfilRepository = perfilRepository;
         this.mapper = mapper;
         this.passwordService = passwordService;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
     protected void validateForCreate(UsuarioDto dto) {
-        validateRequiredFieldsForCreate(dto.username(), dto.password());
+        validateRequiredFieldsForCreate(dto.username(), dto.email(), dto.password());
 
         if (repository.existsByUsername(dto.username())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username ja cadastrado");
+        }
+
+        if (repository.existsByEmail(dto.email())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ja cadastrado");
         }
     }
 
     @Override
     protected void validateForUpdate(Long id, UsuarioDto dto) {
-        validateRequiredFieldsForUpdate(dto.username());
+        validateRequiredFieldsForUpdate(dto.username(), dto.email());
 
         if (repository.existsByUsernameAndIdNot(dto.username(), id)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username ja cadastrado");
+        }
+
+        if (repository.existsByEmailAndIdNot(dto.email(), id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ja cadastrado");
         }
     }
 
@@ -81,6 +94,9 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
     public UsuarioDto bloquear(Long id) {
         Usuario usuario = findByIdOrThrow(id);
         usuario.alternarAtivo();
+        if (!Boolean.TRUE.equals(usuario.getAtivo())) {
+            revokeAllActiveSessions(usuario);
+        }
         return toDto(repository.save(usuario));
     }
 
@@ -98,6 +114,13 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
             ));
         }
 
+        if (StringUtils.hasText(filter.email())) {
+            predicates.add(criteriaBuilder.like(
+                    criteriaBuilder.lower(root.get(Usuario_.email)),
+                    "%" + filter.email().toLowerCase() + "%"
+            ));
+        }
+
         if (StringUtils.hasText(filter.name())) {
             predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(root.get(Usuario_.name)),
@@ -106,9 +129,22 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         }
     }
 
-    private void validateRequiredFieldsForCreate(String username, String password) {
+    private void revokeAllActiveSessions(Usuario usuario) {
+        LocalDateTime now = LocalDateTime.now();
+        var activeSessions = refreshTokenRepository.findByUsuarioAndRevokedAtIsNullAndExpiresAtAfterOrderByCreatedAtAsc(usuario, now);
+        for (var activeSession : activeSessions) {
+            activeSession.revoke();
+            refreshTokenRepository.save(activeSession);
+        }
+    }
+
+    private void validateRequiredFieldsForCreate(String username, String email, String password) {
         if (!StringUtils.hasText(username)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username e obrigatorio");
+        }
+
+        if (!StringUtils.hasText(email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email e obrigatorio");
         }
 
         if (!StringUtils.hasText(password)) {
@@ -116,9 +152,13 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         }
     }
 
-    private void validateRequiredFieldsForUpdate(String username) {
+    private void validateRequiredFieldsForUpdate(String username, String email) {
         if (!StringUtils.hasText(username)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username e obrigatorio");
+        }
+
+        if (!StringUtils.hasText(email)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email e obrigatorio");
         }
     }
 
@@ -130,3 +170,6 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
                 ));
     }
 }
+
+
+

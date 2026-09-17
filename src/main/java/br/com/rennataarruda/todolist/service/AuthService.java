@@ -71,6 +71,7 @@ public class AuthService {
     public AuthResponse refresh(RefreshTokenRequest request) {
         RefreshToken refreshToken = getValidRefreshToken(request.refreshToken());
 
+        validateActiveUser(refreshToken.getUsuario());
         revokeRefreshToken(refreshToken);
 
         return issueTokens(refreshToken.getUsuario());
@@ -116,7 +117,15 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Credenciais invalidas");
         }
 
+        validateActiveUser(usuario);
+
         return usuario;
+    }
+
+    private void validateActiveUser(Usuario usuario) {
+        if (!Boolean.TRUE.equals(usuario.getAtivo())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuario inativo");
+        }
     }
 
     private AuthResponse issueTokens(Usuario usuario) {
@@ -246,3 +255,6 @@ public class AuthService {
         return SecurityUtils.hashSHA256(refreshTokenValue);
     }
 }
+
+
+
