@@ -14,6 +14,15 @@ export interface RefreshTokenRequest {
   refreshToken: string;
 }
 
+export interface ForgotPasswordRequest {
+  identifier: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  newPassword: string;
+}
+
 export interface CurrentUser {
   id: number;
   username: string;

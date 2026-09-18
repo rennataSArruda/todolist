@@ -1,4 +1,4 @@
-package br.com.rennataarruda.todolist.service;
+package br.com.rennataarruda.todolist.service.email;
 
 import br.com.rennataarruda.todolist.dto.EmailConfigDto;
 import br.com.rennataarruda.todolist.dto.filter.EmailConfigSearchFilter;
@@ -6,6 +6,7 @@ import br.com.rennataarruda.todolist.entity.EmailConfig;
 import br.com.rennataarruda.todolist.entity.EmailConfig_;
 import br.com.rennataarruda.todolist.mapper.EmailConfigMapper;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
+import br.com.rennataarruda.todolist.service.ApplicationCryptoService;
 import br.com.rennataarruda.todolist.service.commons.AbstractSearchCrudService;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Predicate;
@@ -29,11 +30,17 @@ public class EmailConfigService extends AbstractSearchCrudService<
 
     private final EmailConfigRepository repository;
     private final EmailConfigMapper mapper;
+    private final ApplicationCryptoService cryptoService;
 
-    public EmailConfigService(EmailConfigRepository repository, EmailConfigMapper mapper) {
+    public EmailConfigService(
+            EmailConfigRepository repository,
+            EmailConfigMapper mapper,
+            ApplicationCryptoService cryptoService
+    ) {
         super(repository);
         this.repository = repository;
         this.mapper = mapper;
+        this.cryptoService = cryptoService;
     }
 
     @Override
@@ -59,6 +66,12 @@ public class EmailConfigService extends AbstractSearchCrudService<
         return toDto(repository.save(entity));
     }
 
+    @Transactional(readOnly = true)
+    public EmailConfigDto getByIdWithPassword(Long id) {
+        EmailConfig entity = findByIdOrThrow(id);
+        return mapper.toDtoWithPassword(entity, decryptPassword(entity.getPassword()));
+    }
+
     @Transactional
     public EmailConfigDto ativar(Long id) {
         EmailConfig entity = findByIdOrThrow(id);
@@ -78,11 +91,15 @@ public class EmailConfigService extends AbstractSearchCrudService<
         return repository.findFirstByAtivoTrueOrderByIdDesc();
     }
 
+    public String decryptPassword(String password) {
+        return cryptoService.decryptIfNeeded(password);
+    }
+
     @Override
     protected void validateForCreate(EmailConfigDto dto) {
         validateRequiredFields(dto);
         if (Boolean.TRUE.equals(dto.auth()) && !StringUtils.hasText(dto.password())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha SMTP e obrigatoria quando autenticacao esta ativa");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Senha SMTP é obrigatória quando a autenticação está ativa");
         }
     }
 
@@ -98,12 +115,15 @@ public class EmailConfigService extends AbstractSearchCrudService<
 
     @Override
     protected EmailConfig toNewEntity(EmailConfigDto dto) {
-        return mapper.toEntity(dto);
+        EmailConfig entity = mapper.toEntity(dto);
+        encryptPassword(entity);
+        return entity;
     }
 
     @Override
     protected void updateEntity(EmailConfig entity, EmailConfigDto dto) {
         mapper.updateEntity(entity, dto);
+        encryptPassword(entity);
     }
 
     @Override
@@ -145,29 +165,44 @@ public class EmailConfigService extends AbstractSearchCrudService<
 
     @Override
     protected String notFoundMessage() {
-        return "Configuracao de email nao encontrada";
+        return "Configuração de e-mail não encontrada";
     }
 
     private void validateRequiredFields(EmailConfigDto dto) {
         if (dto == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Configuracao de email e obrigatoria");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Configuração de e-mail é obrigatória");
         }
 
         if (!StringUtils.hasText(dto.host())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Host e obrigatorio");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Host é obrigatório");
         }
 
         if (dto.port() == null || dto.port() < 1 || dto.port() > 65535) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Porta invalida");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Porta inválida");
         }
 
         if (!StringUtils.hasText(dto.fromAddress())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email remetente e obrigatorio");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "E-mail do remetente é obrigatório");
         }
 
         if (Boolean.TRUE.equals(dto.auth()) && !StringUtils.hasText(dto.username())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuario SMTP e obrigatorio quando autenticacao esta ativa");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Usuário SMTP é obrigatório quando a autenticação está ativa");
         }
+    }
+
+    private void encryptPassword(EmailConfig entity) {
+        entity.atualizar(
+                entity.getHost(),
+                entity.getPort(),
+                entity.getUsername(),
+                cryptoService.encryptIfNeeded(entity.getPassword()),
+                entity.getFromAddress(),
+                entity.getFromName(),
+                entity.getAuth(),
+                entity.getStartTls(),
+                entity.getSsl(),
+                entity.getAtivo()
+        );
     }
 
     private void deactivateActiveConfigs(Long exceptId) {

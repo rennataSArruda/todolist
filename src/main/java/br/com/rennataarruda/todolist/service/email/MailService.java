@@ -1,4 +1,4 @@
-package br.com.rennataarruda.todolist.service;
+package br.com.rennataarruda.todolist.service.email;
 
 import br.com.rennataarruda.todolist.entity.EmailConfig;
 import jakarta.mail.MessagingException;
@@ -27,9 +27,14 @@ public class MailService {
     private static final String SMTP_SSL_PROPERTY = "mail.smtp.ssl.enable";
 
     private final EmailConfigService emailConfigService;
+    private final EmailTemplateService emailTemplateService;
 
-    public MailService(EmailConfigService emailConfigService) {
+    public MailService(
+            EmailConfigService emailConfigService,
+            EmailTemplateService emailTemplateService
+    ) {
         this.emailConfigService = emailConfigService;
+        this.emailTemplateService = emailTemplateService;
     }
 
     public boolean sendPasswordReset(String to, String resetLink) {
@@ -49,8 +54,9 @@ public class MailService {
 
             helper.setFrom(fromAddress(config));
             helper.setTo(to);
-            helper.setSubject("Redefinicao de senha");
-            helper.setText(passwordResetBody(resetLink), true);
+            helper.setSubject("Redefinição de senha");
+
+            helper.setText(emailTemplateService.passwordReset(resetLink), true);
 
             mailSender.send(message);
             return true;
@@ -65,7 +71,7 @@ public class MailService {
         mailSender.setHost(config.getHost());
         mailSender.setPort(config.getPort());
         mailSender.setUsername(config.getUsername());
-        mailSender.setPassword(config.getPassword());
+        mailSender.setPassword(emailConfigService.decryptPassword(config.getPassword()));
         mailSender.setDefaultEncoding(StandardCharsets.UTF_8.name());
         mailSender.setJavaMailProperties(mailProperties(config));
         return mailSender;
@@ -84,14 +90,5 @@ public class MailService {
             return new InternetAddress(config.getFromAddress(), config.getFromName(), StandardCharsets.UTF_8.name());
         }
         return new InternetAddress(config.getFromAddress());
-    }
-
-    private String passwordResetBody(String resetLink) {
-        return """
-                <p>Recebemos uma solicitacao para redefinir sua senha.</p>
-                <p>Para continuar, acesse o link abaixo:</p>
-                <p><a href=\"%s\">Redefinir senha</a></p>
-                <p>Se voce nao solicitou essa alteracao, ignore este email.</p>
-                """.formatted(resetLink);
     }
 }

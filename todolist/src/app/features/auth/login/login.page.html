@@ -1,5 +1,5 @@
 <main class="login-page">
-  <section class="login-hero" aria-label="Apresentacao do Focusly">
+  <section class="login-hero" aria-label="Apresentação do Focusly">
     <div class="login-hero-top">
       <div class="login-brand">
         <span class="brand-mark">F</span>
@@ -10,7 +10,7 @@
     <div class="hero-copy">
       <p class="eyebrow">Produtividade simples</p>
       <h1>Organize seu dia.</h1>
-      <p>Transforme suas prioridades em tarefas claras e acompanhe cada avanco com menos distracao.</p>
+      <p>Transforme suas prioridades em tarefas claras e acompanhe cada avanço com menos distração.</p>
 
       <div class="hero-visual" aria-label="Recursos principais">
         <div class="mini-card">
@@ -32,7 +32,7 @@
   </section>
 
   <section class="login-panel" aria-label="Acesso ao sistema">
-    <form class="login-card" [formGroup]="form" appFormValidation (ngSubmit)="submit()" aria-label="Formulario de login">
+    <form class="login-card" [formGroup]="form" appFormValidation (ngSubmit)="submit()" aria-label="Formulário de login">
       <p class="eyebrow">Acesso</p>
       <h2>Bem-vindo de volta</h2>
       <p>Entre para continuar organizando suas tarefas.</p>
@@ -40,11 +40,11 @@
       <div class="login-fields">
         <app-input
           formControlName="username"
-          label="Usuario"
-          placeholder="Digite seu usuario"
+          label="Usuário"
+          placeholder="Digite seu usuário"
           autocomplete="username"
           required
-          [errorMessages]="{ required: 'Informe seu usuario.' }"
+          [errorMessages]="{ required: 'Informe seu usuário.' }"
         />
         <app-input-password
           formControlName="password"
@@ -56,7 +56,7 @@
       </div>
 
       <div class="login-options">
-        <button class="forgot-password" type="button">Esqueci minha senha</button>
+        <a class="forgot-password" routerLink="/forgot-password">Esqueci minha senha</a>
       </div>
 
       @if (errorMessage(); as message) {
@@ -69,3 +69,4 @@
     </form>
   </section>
 </main>
+

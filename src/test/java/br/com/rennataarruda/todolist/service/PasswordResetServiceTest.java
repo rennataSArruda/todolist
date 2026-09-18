@@ -11,6 +11,7 @@ import br.com.rennataarruda.todolist.repository.RefreshTokenRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
 import br.com.rennataarruda.todolist.security.PasswordService;
 import br.com.rennataarruda.todolist.security.SecurityUtils;
+import br.com.rennataarruda.todolist.service.email.MailService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -207,7 +208,7 @@ class PasswordResetServiceTest {
 
         assertThatThrownBy(() -> service.resetPassword(new ResetPasswordRequest("raw-token", "novaSenha123")))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Token de recuperacao invalido");
+                .hasMessageContaining("Token de recuperação inválido");
 
         verify(usuarioRepository, never()).save(any(Usuario.class));
     }
@@ -224,7 +225,7 @@ class PasswordResetServiceTest {
 
         assertThatThrownBy(() -> service.resetPassword(new ResetPasswordRequest("raw-token", "novaSenha123")))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Token de recuperacao invalido");
+                .hasMessageContaining("Token de recuperação inválido");
 
         verify(usuarioRepository, never()).save(any(Usuario.class));
     }
@@ -233,7 +234,7 @@ class PasswordResetServiceTest {
     void shouldRejectWeakNewPassword() {
         assertThatThrownBy(() -> service.resetPassword(new ResetPasswordRequest("raw-token", "123")))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Nova senha deve ter ao menos 8 caracteres");
+                .hasMessageContaining("Nova senha deve ter pelo menos 8 caracteres");
 
         verify(passwordResetTokenRepository, never()).findByTokenHash(anyString());
     }

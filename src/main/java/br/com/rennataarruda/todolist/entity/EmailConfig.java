@@ -33,7 +33,7 @@ public class EmailConfig extends WithUpdatedAt {
     @Column(name = "USERNAME", length = 150)
     private String username;
 
-    @Column(name = "PASSWORD", length = 255)
+    @Column(name = "PASSWORD", length = 512)
     private String password;
 
     @Column(name = "FROM_ADDRESS", nullable = false, length = 150)

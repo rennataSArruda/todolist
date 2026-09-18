@@ -38,6 +38,8 @@ app:
       hsts-enabled: ${HSTS_ENABLED:false}
     cleanup:
       cron: ${TOKEN_CLEANUP_CRON:0 0 * * * *}
+  crypto:
+    secret: ${APP_CRYPTO_SECRET:}
 
 springdoc:
   swagger-ui:

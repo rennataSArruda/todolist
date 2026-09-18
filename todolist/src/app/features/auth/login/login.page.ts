@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { AuthStateService } from '../../../core/auth/auth-state.service';
@@ -13,7 +13,7 @@ import {ICONS} from '../../../core/fixeds/icons';
 
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, MatButtonModule, AppFormValidationDirective, AppInput, AppInputPassword, MatIcon],
+  imports: [ReactiveFormsModule, RouterLink, MatButtonModule, AppFormValidationDirective, AppInput, AppInputPassword, MatIcon],
   templateUrl: './login.page.html',
   styleUrl: './login.page.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,12 +58,13 @@ export class LoginPage {
       const apiError = error.error as ApiError | null;
 
       if (error.status === 401 || apiError?.action === 'LOGIN' || apiError?.code === 'AUTH_UNAUTHORIZED') {
-        return 'Usuario ou senha invalidos.';
+        return 'Usuário ou senha inválidos.';
       }
     }
 
-    return 'Nao foi possivel entrar agora. Tente novamente.';
+    return 'Não foi possível entrar agora. Tente novamente.';
   }
 
   protected readonly icons = ICONS;
 }
+

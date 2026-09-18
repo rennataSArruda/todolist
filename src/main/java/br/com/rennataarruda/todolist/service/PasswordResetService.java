@@ -10,6 +10,7 @@ import br.com.rennataarruda.todolist.repository.RefreshTokenRepository;
 import br.com.rennataarruda.todolist.repository.UsuarioRepository;
 import br.com.rennataarruda.todolist.security.PasswordService;
 import br.com.rennataarruda.todolist.security.SecurityUtils;
+import br.com.rennataarruda.todolist.service.email.MailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -71,15 +72,15 @@ public class PasswordResetService {
         validateResetRequest(request);
 
         PasswordResetToken passwordResetToken = passwordResetTokenRepository.findByTokenHash(hashToken(request.token()))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperacao invalido"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperação inválido"));
 
         if (passwordResetToken.isUsed() || passwordResetToken.isExpired()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperacao invalido");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperação inválido");
         }
 
         Usuario usuario = passwordResetToken.getUsuario();
         if (!Boolean.TRUE.equals(usuario.getAtivo())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperacao invalido");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperação inválido");
         }
 
         usuario.alterarSenha(passwordService.encode(request.newPassword()));
@@ -133,19 +134,19 @@ public class PasswordResetService {
 
     private void validateResetRequest(ResetPasswordRequest request) {
         if (request == null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados para redefinicao de senha sao obrigatorios");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Dados para redefinição de senha são obrigatórios");
         }
 
         if (!StringUtils.hasText(request.token())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperacao e obrigatorio");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Token de recuperação é obrigatório");
         }
 
         if (!StringUtils.hasText(request.newPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nova senha e obrigatoria");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nova senha é obrigatória");
         }
 
         if (request.newPassword().length() < 8) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nova senha deve ter ao menos 8 caracteres");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nova senha deve ter pelo menos 8 caracteres");
         }
     }
 

@@ -9,12 +9,16 @@ import org.springframework.util.StringUtils;
 public class EmailConfigMapper {
 
     public EmailConfigDto toDto(EmailConfig entity) {
+        return toDtoWithPassword(entity, null);
+    }
+
+    public EmailConfigDto toDtoWithPassword(EmailConfig entity, String password) {
         return new EmailConfigDto(
                 entity.getId(),
                 entity.getHost(),
                 entity.getPort(),
                 entity.getUsername(),
-                null,
+                password,
                 entity.getFromAddress(),
                 entity.getFromName(),
                 entity.getAuth(),

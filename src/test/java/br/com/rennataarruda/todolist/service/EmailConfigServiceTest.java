@@ -1,9 +1,11 @@
 package br.com.rennataarruda.todolist.service;
 
+import br.com.rennataarruda.todolist.config.ApplicationCryptoProperties;
 import br.com.rennataarruda.todolist.dto.EmailConfigDto;
 import br.com.rennataarruda.todolist.entity.EmailConfig;
 import br.com.rennataarruda.todolist.mapper.EmailConfigMapper;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
+import br.com.rennataarruda.todolist.service.email.EmailConfigService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -26,6 +28,7 @@ class EmailConfigServiceTest {
     private EmailConfigRepository repository;
 
     private final EmailConfigMapper mapper = new EmailConfigMapper();
+    private final ApplicationCryptoService cryptoService = newCryptoService();
 
     @Test
     void shouldCreateActiveConfigAndDeactivatePreviousActiveConfigs() {
@@ -34,7 +37,7 @@ class EmailConfigServiceTest {
                 "smtp.old.com",
                 587,
                 "old-user",
-                "old-password",
+                cryptoService.encryptIfNeeded("old-password"),
                 "old@email.com",
                 "Old",
                 true,
@@ -52,6 +55,44 @@ class EmailConfigServiceTest {
         assertThat(dto.ativo()).isTrue();
         assertThat(dto.password()).isNull();
         verify(repository).saveAll(List.of(previousActive));
+    }
+
+    @Test
+    void shouldEncryptPasswordWhenCreatingConfig() {
+        EmailConfigService service = newService();
+
+        when(repository.save(any(EmailConfig.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        service.create(validDto(false));
+
+        verify(repository).save(org.mockito.ArgumentMatchers.argThat(entity ->
+                !"senha".equals(entity.getPassword())
+                        && cryptoService.isEncrypted(entity.getPassword())
+                        && "senha".equals(cryptoService.decryptIfNeeded(entity.getPassword()))
+        ));
+    }
+
+    @Test
+    void shouldReturnDecryptedPasswordWhenGettingConfigDetail() {
+        EmailConfigService service = newService();
+        EmailConfig entity = new EmailConfig(
+                "smtp.email.com",
+                587,
+                "usuario",
+                cryptoService.encryptIfNeeded("senha"),
+                "noreply@email.com",
+                "Todo List",
+                true,
+                true,
+                false,
+                true
+        );
+
+        when(repository.findById(1L)).thenReturn(Optional.of(entity));
+
+        EmailConfigDto dto = service.getByIdWithPassword(1L);
+
+        assertThat(dto.password()).isEqualTo("senha");
     }
 
     @Test
@@ -75,17 +116,18 @@ class EmailConfigServiceTest {
 
         assertThatThrownBy(() -> service.create(dto))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Porta invalida");
+                .hasMessageContaining("Porta inválida");
     }
 
     @Test
     void shouldKeepCurrentPasswordWhenUpdateDoesNotSendPassword() {
         EmailConfigService service = newService();
+        String encryptedPassword = cryptoService.encryptIfNeeded("senha-antiga");
         EmailConfig entity = new EmailConfig(
                 "smtp.email.com",
                 587,
                 "usuario",
-                "senha-antiga",
+                encryptedPassword,
                 "noreply@email.com",
                 "Todo List",
                 true,
@@ -113,7 +155,8 @@ class EmailConfigServiceTest {
                 null
         ));
 
-        assertThat(entity.getPassword()).isEqualTo("senha-antiga");
+        assertThat(entity.getPassword()).isEqualTo(encryptedPassword);
+        assertThat(cryptoService.decryptIfNeeded(entity.getPassword())).isEqualTo("senha-antiga");
         assertThat(dto.host()).isEqualTo("smtp.novo.com");
         assertThat(dto.password()).isNull();
     }
@@ -125,7 +168,7 @@ class EmailConfigServiceTest {
                 "smtp.email.com",
                 587,
                 "usuario",
-                "senha",
+                cryptoService.encryptIfNeeded("senha"),
                 "noreply@email.com",
                 "Todo List",
                 true,
@@ -160,6 +203,12 @@ class EmailConfigServiceTest {
     }
 
     private EmailConfigService newService() {
-        return new EmailConfigService(repository, mapper);
+        return new EmailConfigService(repository, mapper, cryptoService);
+    }
+
+    private ApplicationCryptoService newCryptoService() {
+        ApplicationCryptoProperties properties = new ApplicationCryptoProperties();
+        properties.setSecret("test-secret-for-email-config-crypto");
+        return new ApplicationCryptoService(properties);
     }
 }
