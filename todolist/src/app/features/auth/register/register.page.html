@@ -1,0 +1,185 @@
+<main class="register-page">
+  <section class="register-hero" aria-label="Criar conta no Focusly">
+    <a
+      class="auth-brand"
+      routerLink="/login"
+      aria-label="Voltar para o login do Focusly"
+    >
+      <span class="brand-mark">F</span>
+      <span>Focusly</span>
+    </a>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Primeiro acesso</p>
+
+      <h1>Comece com o que importa.</h1>
+
+      <p>
+        Crie sua conta e organize suas tarefas em um lugar claro,
+        simples e seu.
+      </p>
+    </div>
+  </section>
+
+  <section class="register-panel" aria-label="Cadastro de conta">
+    <form
+      class="register-card"
+      [formGroup]="form"
+      appFormValidation
+      (ngSubmit)="submit()"
+      aria-label="Formulário de criação de conta"
+    >
+      <header class="register-card__header">
+        <div class="card-icon" aria-hidden="true">
+          <mat-icon>person_add</mat-icon>
+        </div>
+
+        <p class="eyebrow">Criar conta</p>
+
+        <h2>Seus dados de acesso</h2>
+
+        <p>
+          O perfil de acesso será definido automaticamente pela
+          configuração do sistema.
+        </p>
+      </header>
+
+      <div class="register-fields">
+        <app-input
+          formControlName="name"
+          label="Nome"
+          placeholder="Seu nome"
+          autocomplete="name"
+          required
+          [errorMessages]="{
+            required: 'Informe seu nome.'
+          }"
+        />
+
+        <div class="register-fields__pair">
+          <app-input
+            formControlName="username"
+            label="Usuário"
+            placeholder="seu.usuario"
+            autocomplete="username"
+            hint="De 3 a 30 caracteres: letras, números, ponto, hífen ou sublinhado. Sem espaços."
+            [maxlength]="30"
+            required
+            [errorMessages]="{
+              required: 'Informe um usuário.',
+              minlength: 'O usuário deve ter pelo menos 3 caracteres.',
+              maxlength: 'O usuário pode ter no máximo 30 caracteres.',
+              pattern: 'Evite espaços, acentos e caracteres especiais. Não comece, termine ou repita ponto, hífen ou sublinhado.',
+              unavailable: 'Este usuário já está em uso.'
+            }"
+          />
+
+          <app-input
+            formControlName="email"
+            label="E-mail"
+            type="email"
+            placeholder="voce@email.com"
+            autocomplete="email"
+            required
+            [errorMessages]="{
+              required: 'Informe seu e-mail.',
+              email: 'Informe um e-mail válido.',
+              unavailable: 'Este e-mail ja esta em uso.'
+            }"
+          />
+        </div>
+
+        <div class="register-fields__pair">
+          <app-input-password
+            formControlName="password"
+            label="Senha"
+            placeholder="Mínimo de 8 caracteres"
+            autocomplete="new-password"
+            required
+            [errorMessages]="{
+              required: 'Informe uma senha.',
+              minlength: 'A senha deve ter pelo menos 8 caracteres.'
+            }"
+          />
+
+          <app-input-password
+            formControlName="confirmPassword"
+            label="Confirmar senha"
+            placeholder="Repita a senha"
+            autocomplete="new-password"
+            required
+            [errorMessages]="{
+              required: 'Confirme sua senha.'
+            }"
+          />
+        </div>
+      </div>
+
+      <ul class="password-rules" aria-label="Regras da senha">
+        <li
+          [class.password-rules__item--valid]="
+            passwordRules().hasMinLength
+          "
+        >
+          <mat-icon aria-hidden="true">
+            {{
+              passwordRules().hasMinLength
+                ? 'check_circle'
+                : 'radio_button_unchecked'
+            }}
+          </mat-icon>
+
+          Pelo menos 8 caracteres
+        </li>
+
+        <li
+          [class.password-rules__item--valid]="
+            passwordRules().passwordsMatch
+          "
+        >
+          <mat-icon aria-hidden="true">
+            {{
+              passwordRules().passwordsMatch
+                ? 'check_circle'
+                : 'radio_button_unchecked'
+            }}
+          </mat-icon>
+
+          As senhas precisam ser iguais
+        </li>
+      </ul>
+
+      @if (successMessage(); as message) {
+        <p
+          class="auth-message auth-message--success"
+          role="status"
+        >
+          {{ message }}
+        </p>
+      }
+
+      @if (errorMessage(); as message) {
+        <p
+          class="auth-message auth-message--error"
+          role="alert"
+        >
+          {{ message }}
+        </p>
+      }
+
+      <button
+        class="auth-submit"
+        type="submit"
+        matButton="filled"
+        [disabled]="loading()"
+      >
+        {{ loading() ? 'Criando conta...' : 'Criar conta' }}
+      </button>
+
+      <a class="auth-back" routerLink="/login">
+        <mat-icon aria-hidden="true">arrow_back</mat-icon>
+        Voltar para o login
+      </a>
+    </form>
+  </section>
+</main>

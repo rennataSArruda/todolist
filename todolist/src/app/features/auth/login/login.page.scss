@@ -305,6 +305,23 @@ small {
   min-height: 48px;
 }
 
+.login-register {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 13px;
+  text-align: center;
+}
+
+.login-register a {
+  color: var(--mat-sys-primary);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.login-register a:hover,
+.login-register a:focus-visible {
+  text-decoration: underline;
+}
+
 /* =========================
    TABLET
    ========================= */

@@ -8,7 +8,6 @@ import { finalize } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { AppFormValidationDirective, AppInput } from '../../../shared/components/form-fields';
-import { FloatingThemeToggle } from '../../../shared/components/floating-theme-toggle';
 
 @Component({
   selector: 'app-forgot-password-page',
@@ -19,7 +18,6 @@ import { FloatingThemeToggle } from '../../../shared/components/floating-theme-t
     MatIconModule,
     AppFormValidationDirective,
     AppInput,
-    FloatingThemeToggle,
   ],
   templateUrl: './forgot-password.page.html',
   styleUrl: './forgot-password.page.scss',

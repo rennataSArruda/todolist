@@ -9,7 +9,6 @@ import { finalize, map, startWith } from 'rxjs';
 
 import { AuthService } from '../../../core/services/auth/auth.service';
 import { AppFormValidationDirective, AppInputPassword } from '../../../shared/components/form-fields';
-import { FloatingThemeToggle } from '../../../shared/components/floating-theme-toggle';
 
 type PasswordRules = {
   hasMinLength: boolean;
@@ -25,7 +24,6 @@ type PasswordRules = {
     MatIconModule,
     AppFormValidationDirective,
     AppInputPassword,
-    FloatingThemeToggle,
   ],
   templateUrl: './reset-password.page.html',
   styleUrl: './reset-password.page.scss',

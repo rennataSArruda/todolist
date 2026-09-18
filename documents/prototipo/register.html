@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focusly | Criar conta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="theme.js" defer></script>
+  <script src="auth-recovery.js" defer></script>
+  <script src="register.js" defer></script>
+</head>
+<body>
+  <main class="auth-public-page">
+    <div class="auth-public-shell" style="width:min(560px,100%)">
+      <div class="auth-public-brand">
+        <a href="login.html"><span class="brand-mark">F</span><span>Focusly</span></a>
+      </div>
+
+      <section class="auth-card">
+        <div class="auth-card-icon">＋</div>
+        <h1>Criar conta</h1>
+        <p>Cadastre seus dados para começar a organizar suas tarefas.</p>
+
+        <form id="registerForm" novalidate>
+          <div class="register-grid">
+            <div class="field full">
+              <label for="registerName">Nome</label>
+              <input class="form-control" id="registerName" name="name" placeholder="Seu nome">
+            </div>
+
+            <div class="field">
+              <label for="registerUsername">Username</label>
+              <input class="form-control" id="registerUsername" name="username" autocomplete="username" placeholder="seu.usuario" required>
+            </div>
+
+            <div class="field">
+              <label for="registerEmail">Email</label>
+              <input class="form-control" id="registerEmail" name="email" type="email" autocomplete="email" placeholder="voce@email.com" required>
+            </div>
+
+            <div class="field password-field">
+              <label for="registerPassword">Senha</label>
+              <input class="form-control" id="registerPassword" name="password" type="password" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" required>
+              <button class="password-toggle" type="button" data-password-toggle="registerPassword" aria-label="Mostrar ou ocultar senha">◉</button>
+            </div>
+
+            <div class="field password-field">
+              <label for="registerConfirmPassword">Confirmar senha</label>
+              <input class="form-control" id="registerConfirmPassword" type="password" autocomplete="new-password" placeholder="Repita a senha" required>
+              <button class="password-toggle" type="button" data-password-toggle="registerConfirmPassword" aria-label="Mostrar ou ocultar confirmação">◉</button>
+            </div>
+          </div>
+
+          <ul class="password-rules">
+            <li id="registerRuleLength">Pelo menos 8 caracteres</li>
+            <li id="registerRuleMatch">As senhas precisam ser iguais</li>
+          </ul>
+
+          <div class="soft-box" style="margin-top:18px;font-size:.76rem;color:var(--muted)">
+            O perfil de acesso não é informado no cadastro. Ele será atribuído automaticamente pelo backend.
+          </div>
+
+          <div class="auth-actions">
+            <button class="btn btn-primary" type="submit">Criar conta</button>
+          </div>
+        </form>
+
+        <div id="registerMessage" class="auth-message" role="status" aria-live="polite"></div>
+        <a class="auth-back" href="login.html">← Voltar para o login</a>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

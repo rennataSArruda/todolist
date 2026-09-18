@@ -1934,3 +1934,25 @@ html[data-theme="dark"] .auth-public-page {
     padding: 24px 20px;
   }
 }
+
+/* ===== Public user registration ===== */
+.register-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.register-grid .full { grid-column: 1 / -1; }
+.login-register {
+  margin-top: 18px;
+  text-align: center;
+  color: var(--muted);
+  font-size: .8rem;
+}
+.login-register a {
+  color: var(--primary-dark);
+  font-weight: 800;
+}
+@media (max-width: 560px) {
+  .register-grid { grid-template-columns: 1fr; }
+  .register-grid .full { grid-column: auto; }
+}

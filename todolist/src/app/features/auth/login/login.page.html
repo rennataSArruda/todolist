@@ -66,6 +66,11 @@
       <button class="login-submit" type="submit" matButton="filled" [disabled]="loading()">
         {{ loading() ? 'Entrando...' : 'Entrar' }}
       </button>
+
+      <p class="login-register">
+        Ainda não possui conta?
+        <a routerLink="/register">Criar conta</a>
+      </p>
     </form>
   </section>
 </main>
