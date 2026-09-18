@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Swagger e API | Todo List Docs</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="docs.js" defer></script>
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <a class="brand" href="inicio.html"
+          ><span class="brand-mark">✓</span
+          ><span class="brand-copy"
+            >Todo List <span>Manual do usuário</span></span
+          ></a
+        >
+        <div class="sidebar-search">
+          <input
+            type="search"
+            placeholder="Filtrar navegação..."
+            data-doc-search
+          />
+        </div>
+        <div class="nav-section">Introdução</div>
+        <nav class="nav">
+          <a href="inicio.html" data-searchable>Visão geral</a>
+        </nav>
+        <div class="nav-section">Fluxos de acesso</div>
+        <nav class="nav">
+          <a href="login.html" data-searchable>Login</a
+          ><a href="esqueci-senha.html" data-searchable>Esqueci minha senha</a
+          ><a href="registro-usuario.html" data-searchable
+            >Cadastro de usuários</a
+          >
+        </nav>
+        <div class="nav-section">Referência técnica</div>
+        <nav class="nav">
+          <a class="active" href="swagger.html" data-searchable
+            >Swagger e API</a
+          >
+        </nav>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <button class="mobile-menu" type="button" data-mobile-menu>
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              Todo List / <strong>Swagger e API</strong>
+            </div>
+          </div>
+        </header>
+        <div class="content">
+          <div class="article-layout">
+            <article class="article">
+              <header class="article-head">
+                <p class="eyebrow">Referência técnica</p>
+                <h1>Swagger e API</h1>
+                <p class="lead">
+                  Use o Swagger para consultar contratos e testar endpoints no
+                  ambiente de desenvolvimento local.
+                </p>
+              </header>
+              <section class="section" id="acesso">
+                <h2>Como acessar</h2>
+                <div class="code-block">
+                  <div class="code-head">
+                    <span>URL local</span
+                    ><button class="copy-btn" data-copy="swaggerUrl">
+                      Copiar
+                    </button>
+                  </div>
+                  <pre id="swaggerUrl">
+http://localhost:8080/swagger-ui.html</pre>
+                </div>
+                <div class="callout warning">
+                  <strong>Ambiente de desenvolvimento</strong>O Swagger fica
+                  disponível somente no profile <code>dev</code>; não o exponha
+                  em produção.
+                </div>
+              </section>
+              <section class="section" id="fluxo">
+                <h2>Fluxo de teste</h2>
+                <div class="flow">
+                  <div class="flow-step">
+                    <span class="step-number">1</span>
+                    <div>
+                      <strong>Inicie a API</strong>
+                      <p>Suba a aplicação com o profile de desenvolvimento.</p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">2</span>
+                    <div>
+                      <strong>Abra o Swagger UI</strong>
+                      <p>Acesse a URL local no navegador.</p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">3</span>
+                    <div>
+                      <strong>Use Authorize</strong>
+                      <p>
+                        Informe as credenciais; o Swagger usa o endpoint próprio
+                        de token.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">4</span>
+                    <div>
+                      <strong>Execute o endpoint</strong>
+                      <p>
+                        Escolha Try it out, preencha os dados e selecione
+                        Execute.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="section" id="autorizacao">
+                <h2>Autorização</h2>
+                <div class="endpoint">
+                  <div class="endpoint-head">
+                    <span class="method">POST</span
+                    ><span class="route">/public/auth/token</span>
+                  </div>
+                  <p class="section-copy">
+                    Este endpoint suporta o botão Authorize do Swagger. O
+                    frontend deve usar <code>/public/auth/login</code>.
+                  </p>
+                </div>
+                <div class="callout">
+                  <strong>Cuidados</strong>Chamadas de criação, edição e
+                  bloqueio alteram dados. Use informações de desenvolvimento e
+                  nunca compartilhe tokens ou senhas.
+                </div>
+              </section>
+            </article>
+            <aside class="toc">
+              <strong>Nesta página</strong><a href="#acesso">Acesso</a
+              ><a href="#fluxo">Fluxo de teste</a
+              ><a href="#autorizacao">Autorização</a>
+            </aside>
+          </div>
+          <footer class="footer">
+            Todo List · Manual de operação do sistema.
+          </footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

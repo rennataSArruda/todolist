@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Esqueci minha senha | Todo List Docs</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="docs.js" defer></script>
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <a class="brand" href="inicio.html"
+          ><span class="brand-mark">✓</span
+          ><span class="brand-copy"
+            >Todo List <span>Manual do usuário</span></span
+          ></a
+        >
+        <div class="sidebar-search">
+          <input
+            type="search"
+            placeholder="Filtrar navegação..."
+            data-doc-search
+          />
+        </div>
+        <div class="nav-section">Introdução</div>
+        <nav class="nav">
+          <a href="inicio.html" data-searchable>Visão geral</a>
+        </nav>
+        <div class="nav-section">Fluxos de acesso</div>
+        <nav class="nav">
+          <a href="login.html" data-searchable>Login</a
+          ><a class="active" href="esqueci-senha.html" data-searchable
+            >Esqueci minha senha</a
+          ><a href="registro-usuario.html" data-searchable
+            >Cadastro de usuários</a
+          >
+        </nav>
+        <div class="nav-section">Referência técnica</div>
+        <nav class="nav">
+          <a href="swagger.html" data-searchable>Swagger e API</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <button class="mobile-menu" type="button" data-mobile-menu>
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              Todo List / <strong>Esqueci minha senha</strong>
+            </div>
+          </div>
+        </header>
+        <div class="content">
+          <div class="article-layout">
+            <article class="article">
+              <header class="article-head">
+                <p class="eyebrow">Recuperação de acesso</p>
+                <h1>Esqueci minha senha</h1>
+                <p class="lead">
+                  Solicite a recuperação e defina uma nova senha usando um token
+                  válido, sem que o sistema revele se uma conta existe.
+                </p>
+              </header>
+              <section class="section" id="fluxo">
+                <h2>Fluxo</h2>
+                <div class="flow">
+                  <div class="flow-step">
+                    <span class="step-number">1</span>
+                    <div>
+                      <strong>Informar identificador</strong>
+                      <p>
+                        Digite o usuário ou e-mail no formulário de recuperação.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">2</span>
+                    <div>
+                      <strong>Solicitar instruções</strong>
+                      <p>
+                        O sistema recebe a solicitação e mantém uma resposta
+                        genérica.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">3</span>
+                    <div>
+                      <strong>Usar o token recebido</strong>
+                      <p>
+                        Com o token de recuperação, informe e confirme a nova
+                        senha.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">4</span>
+                    <div>
+                      <strong>Entrar novamente</strong>
+                      <p>
+                        Volte ao login e crie uma nova sessão com a senha
+                        atualizada.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="section" id="solicitacao">
+                <h2>Solicitação</h2>
+                <div class="endpoint">
+                  <div class="endpoint-head">
+                    <span class="method">POST</span
+                    ><span class="route">/public/auth/forgot-password</span>
+                  </div>
+                  <p class="section-copy">
+                    A resposta esperada é 204 No Content.
+                  </p>
+                </div>
+                <div class="code-block">
+                  <div class="code-head">
+                    <span>Payload</span
+                    ><button class="copy-btn" data-copy="forgotPayload">
+                      Copiar
+                    </button>
+                  </div>
+                  <pre id="forgotPayload">
+{
+  "identifier": "usuario-ou-email"
+}</pre>
+                </div>
+                <div class="callout success">
+                  <strong>Mensagem recomendada</strong>Se os dados estiverem
+                  corretos, enviaremos as instruções para redefinir sua senha.
+                </div>
+              </section>
+              <section class="section" id="redefinicao">
+                <h2>Redefinição</h2>
+                <div class="endpoint">
+                  <div class="endpoint-head">
+                    <span class="method">POST</span
+                    ><span class="route">/public/auth/reset-password</span>
+                  </div>
+                </div>
+                <div class="code-block">
+                  <div class="code-head">
+                    <span>Payload</span
+                    ><button class="copy-btn" data-copy="resetPayload">
+                      Copiar
+                    </button>
+                  </div>
+                  <pre id="resetPayload">
+{
+  "token": "token-recebido",
+  "newPassword": "nova-senha"
+}</pre>
+                </div>
+              </section>
+            </article>
+            <aside class="toc">
+              <strong>Nesta página</strong><a href="#fluxo">Fluxo</a
+              ><a href="#solicitacao">Solicitação</a
+              ><a href="#redefinicao">Redefinição</a>
+            </aside>
+          </div>
+          <footer class="footer">
+            Todo List · Manual de operação do sistema.
+          </footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,1035 +1,144 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Manual do Usuário | Todo List API</title>
-  <style>
-    :root {
-      --bg: #f7f4ee;
-      --paper: #fffdf8;
-      --ink: #17201b;
-      --muted: #68706b;
-      --line: #ddd6cb;
-      --accent: #147c72;
-      --accent-dark: #0e514b;
-      --amber: #c77700;
-      --rose: #b4475b;
-      --blue: #3d64a3;
-      --shadow: 0 24px 70px rgba(29, 38, 35, .12);
-      --radius: 8px;
-      --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      font-family: var(--sans);
-      background:
-        linear-gradient(120deg, rgba(20, 124, 114, .08), transparent 34%),
-        linear-gradient(320deg, rgba(199, 119, 0, .1), transparent 28%),
-        var(--bg);
-      color: var(--ink);
-      line-height: 1.55;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .shell {
-      display: grid;
-      grid-template-columns: 284px minmax(0, 1fr);
-      min-height: 100vh;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 30px 24px;
-      background: #12201c;
-      color: #f5f1e8;
-      overflow-y: auto;
-    }
-
-    .brand {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 30px;
-    }
-
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border: 1px solid rgba(255, 255, 255, .24);
-      border-radius: var(--radius);
-      display: grid;
-      place-items: center;
-      background: rgba(255, 255, 255, .06);
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 1.15rem;
-      line-height: 1.15;
-      letter-spacing: 0;
-    }
-
-    .brand p {
-      margin: 0;
-      color: rgba(245, 241, 232, .72);
-      font-size: .9rem;
-    }
-
-    .nav-title {
-      display: block;
-      margin: 26px 0 10px;
-      color: rgba(245, 241, 232, .52);
-      font-size: .72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-    }
-
-    .sidebar nav {
-      display: grid;
-      gap: 5px;
-    }
-
-    .sidebar a {
-      border-radius: var(--radius);
-      padding: 9px 10px;
-      color: rgba(245, 241, 232, .82);
-      font-size: .92rem;
-      transition: background .18s ease, color .18s ease, transform .18s ease;
-    }
-
-    .sidebar a:hover {
-      background: rgba(255, 255, 255, .08);
-      color: #fff;
-      transform: translateX(2px);
-    }
-
-    .content {
-      min-width: 0;
-    }
-
-    .hero {
-      min-height: 82vh;
-      padding: 54px clamp(24px, 6vw, 82px);
-      display: grid;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
-      gap: clamp(36px, 5vw, 76px);
-      align-items: center;
-      width: 100%;
-    }
-
-    .eyebrow {
-      margin: 0 0 16px;
-      color: var(--accent-dark);
-      font-size: .78rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: .12em;
-    }
-
-    .hero h2 {
-      max-width: 760px;
-      margin: 0;
-      font-size: clamp(3rem, 8vw, 6.7rem);
-      line-height: .92;
-      letter-spacing: 0;
-    }
-
-    .hero-copy {
-      max-width: 640px;
-      margin: 24px 0 0;
-      color: #3f4a44;
-      font-size: clamp(1.05rem, 2vw, 1.28rem);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 34px;
-    }
-
-    .button {
-      min-height: 44px;
-      border-radius: var(--radius);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      padding: 10px 16px;
-      font-weight: 800;
-      border: 1px solid var(--ink);
-      transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
-    }
-
-    .button.primary {
-      background: var(--ink);
-      color: #fffdf8;
-      box-shadow: 0 14px 34px rgba(23, 32, 27, .18);
-    }
-
-    .button.secondary {
-      background: rgba(255, 253, 248, .58);
-      color: var(--ink);
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 36px rgba(23, 32, 27, .18);
-    }
-
-    .system-map {
-      position: relative;
-      min-height: 520px;
-      border-radius: 22px;
-      background:
-        radial-gradient(circle at 34% 24%, rgba(20, 124, 114, .2), transparent 26%),
-        radial-gradient(circle at 72% 70%, rgba(61, 100, 163, .18), transparent 24%),
-        #fffdf8;
-      border: 1px solid rgba(23, 32, 27, .08);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      animation: floatIn .7s ease both;
-    }
-
-    .map-line {
-      position: absolute;
-      inset: 92px 58px 86px;
-      border: 2px dashed rgba(20, 124, 114, .28);
-      border-radius: 50%;
-      transform: rotate(-11deg);
-    }
-
-    .node {
-      position: absolute;
-      width: 150px;
-      min-height: 110px;
-      padding: 16px;
-      border-radius: var(--radius);
-      background: rgba(255, 253, 248, .88);
-      border: 1px solid rgba(23, 32, 27, .14);
-      box-shadow: 0 16px 40px rgba(29, 38, 35, .14);
-      backdrop-filter: blur(12px);
-      transition: transform .2s ease, border-color .2s ease;
-    }
-
-    .node:hover {
-      transform: translateY(-4px);
-      border-color: rgba(20, 124, 114, .55);
-    }
-
-    .node strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: .96rem;
-    }
-
-    .node span {
-      color: var(--muted);
-      font-size: .82rem;
-    }
-
-    .node.auth { left: 9%; top: 11%; }
-    .node.tasks { right: 11%; top: 16%; }
-    .node.categories { left: 16%; bottom: 18%; }
-    .node.analytics { right: 13%; bottom: 15%; }
-    .node.users { left: 38%; top: 39%; }
-
-    .section {
-      padding: 76px clamp(24px, 6vw, 82px);
-      border-top: 1px solid rgba(23, 32, 27, .1);
-    }
-
-    .section.alt {
-      background: rgba(255, 253, 248, .62);
-    }
-
-    .section-head {
-      max-width: 820px;
-      margin-bottom: 32px;
-    }
-
-    .section h2 {
-      margin: 0;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1;
-      letter-spacing: 0;
-    }
-
-    .section-head p {
-      margin: 16px 0 0;
-      color: var(--muted);
-      font-size: 1.05rem;
-    }
-
-    .flow {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      overflow: hidden;
-    }
-
-    .flow-step {
-      min-height: 180px;
-      padding: 24px;
-      background: var(--paper);
-    }
-
-    .step-number {
-      display: inline-grid;
-      place-items: center;
-      width: 32px;
-      height: 32px;
-      margin-bottom: 22px;
-      border-radius: 50%;
-      background: var(--accent);
-      color: white;
-      font-weight: 900;
-      font-size: .9rem;
-    }
-
-    .flow-step h3,
-    .module h3,
-    .endpoint-group h3 {
-      margin: 0 0 8px;
-      font-size: 1.05rem;
-      letter-spacing: 0;
-    }
-
-    .flow-step p,
-    .module p {
-      margin: 0;
-      color: var(--muted);
-      font-size: .95rem;
-    }
-
-    .module-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .module {
-      padding: 26px;
-      border-radius: var(--radius);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      box-shadow: 0 12px 34px rgba(29, 38, 35, .06);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    .module:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 20px 42px rgba(29, 38, 35, .1);
-    }
-
-    .module-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .icon {
-      flex: 0 0 auto;
-      width: 42px;
-      height: 42px;
-      border-radius: var(--radius);
-      display: grid;
-      place-items: center;
-      color: white;
-      background: var(--accent);
-    }
-
-    .module:nth-child(2) .icon { background: var(--blue); }
-    .module:nth-child(3) .icon { background: var(--amber); }
-    .module:nth-child(4) .icon { background: var(--rose); }
-    .module:nth-child(5) .icon { background: var(--accent-dark); }
-    .module:nth-child(6) .icon { background: #5c6b35; }
-
-    .field-list,
-    .plain-list {
-      display: grid;
-      gap: 9px;
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-    }
-
-    .field-list li,
-    .plain-list li {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      color: #344039;
-      font-size: .94rem;
-    }
-
-    .field-list li::before,
-    .plain-list li::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      margin-top: .55em;
-      border-radius: 50%;
-      background: var(--accent);
-      flex: 0 0 auto;
-    }
-
-    code,
-    .route {
-      font-family: var(--mono);
-      font-size: .88em;
-    }
-
-    .route {
-      display: inline-flex;
-      max-width: 100%;
-      padding: 3px 7px;
-      border-radius: 6px;
-      background: rgba(20, 124, 114, .1);
-      color: var(--accent-dark);
-      overflow-wrap: anywhere;
-    }
-
-    .endpoint-board {
-      display: grid;
-      grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
-      gap: 28px;
-      align-items: start;
-    }
-
-    .endpoint-group {
-      border-left: 3px solid var(--accent);
-      padding-left: 22px;
-      margin-bottom: 28px;
-    }
-
-    .endpoint-table {
-      width: 100%;
-      border-collapse: collapse;
-      overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--paper);
-      box-shadow: 0 12px 34px rgba(29, 38, 35, .06);
-    }
-
-    .endpoint-table th,
-    .endpoint-table td {
-      padding: 13px 14px;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      vertical-align: top;
-      font-size: .92rem;
-    }
-
-    .endpoint-table th {
-      color: var(--muted);
-      font-size: .75rem;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      background: #f1ece2;
-    }
-
-    .method {
-      display: inline-flex;
-      min-width: 54px;
-      justify-content: center;
-      padding: 2px 8px;
-      border-radius: 6px;
-      color: white;
-      font-family: var(--mono);
-      font-size: .78rem;
-      font-weight: 900;
-    }
-
-    .get { background: var(--blue); }
-    .post { background: var(--accent); }
-    .put { background: var(--amber); }
-
-    .status-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .status-pill {
-      padding: 18px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      background: var(--paper);
-    }
-
-    .status-pill strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: .95rem;
-    }
-
-    .status-pill span {
-      color: var(--muted);
-      font-size: .86rem;
-    }
-
-    .callout {
-      margin-top: 30px;
-      padding: 24px;
-      border-radius: var(--radius);
-      background: #12201c;
-      color: #fffdf8;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 22px;
-      align-items: center;
-    }
-
-    .callout p {
-      margin: 0;
-      color: rgba(255, 253, 248, .76);
-    }
-
-    .terminal {
-      padding: 18px;
-      border-radius: var(--radius);
-      background: #101714;
-      color: #e8fff9;
-      font-family: var(--mono);
-      font-size: .9rem;
-      overflow-x: auto;
-      border: 1px solid rgba(255, 255, 255, .1);
-    }
-
-    .split {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr);
-      gap: 34px;
-      align-items: start;
-    }
-
-    .security-list {
-      display: grid;
-      gap: 12px;
-    }
-
-    .security-item {
-      padding: 18px;
-      border-radius: var(--radius);
-      background: var(--paper);
-      border: 1px solid var(--line);
-    }
-
-    .security-item strong {
-      display: block;
-      margin-bottom: 6px;
-    }
-
-    .security-item span {
-      color: var(--muted);
-      font-size: .92rem;
-    }
-
-    .footer {
-      padding: 42px clamp(24px, 6vw, 82px);
-      background: #12201c;
-      color: rgba(255, 253, 248, .74);
-    }
-
-    .footer strong {
-      color: #fffdf8;
-    }
-
-    @keyframes floatIn {
-      from {
-        opacity: 0;
-        transform: translateY(16px) scale(.98);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @media (max-width: 1020px) {
-      .shell {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        position: relative;
-        height: auto;
-      }
-
-      .sidebar nav {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .hero-grid,
-      .endpoint-board,
-      .split {
-        grid-template-columns: 1fr;
-      }
-
-      .system-map {
-        min-height: 460px;
-      }
-
-      .flow,
-      .module-grid,
-      .status-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 640px) {
-      .hero {
-        min-height: auto;
-        padding-top: 40px;
-      }
-
-      .hero h2 {
-        font-size: clamp(2.55rem, 18vw, 4.5rem);
-      }
-
-      .system-map {
-        min-height: 560px;
-      }
-
-      .map-line {
-        inset: 94px 44px;
-      }
-
-      .node {
-        width: 138px;
-      }
-
-      .node.auth { left: 6%; top: 7%; }
-      .node.tasks { right: 6%; top: 22%; }
-      .node.users { left: 27%; top: 43%; }
-      .node.categories { left: 6%; bottom: 11%; }
-      .node.analytics { right: 6%; bottom: 4%; }
-
-      .flow,
-      .module-grid,
-      .status-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .callout {
-        grid-template-columns: 1fr;
-      }
-
-      .endpoint-table {
-        display: block;
-        overflow-x: auto;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="shell">
-    <aside class="sidebar" aria-label="Navegação do manual">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M5 7.5h14M5 12h14M5 16.5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <path d="M4.5 4.5h15v15h-15z" stroke="currentColor" stroke-width="1.6"/>
-          </svg>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Visão geral | Todo List Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="docs.js" defer></script>
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar" aria-label="Navegação da documentação">
+        <a class="brand" href="inicio.html"
+          ><span class="brand-mark">✓</span
+          ><span class="brand-copy"
+            >Todo List <span>Manual do usuário</span></span
+          ></a
+        >
+        <div class="sidebar-search">
+          <input
+            type="search"
+            placeholder="Filtrar navegação..."
+            data-doc-search
+            aria-label="Filtrar documentação"
+          />
         </div>
-        <div>
-          <h1>Todo List API</h1>
-          <p>Manual do usuário em página única</p>
-        </div>
-      </div>
-
-      <span class="nav-title">Manual</span>
-      <nav>
-        <a href="#visao-geral">Visão geral</a>
-        <a href="#jornada">Jornada de uso</a>
-        <a href="#modulos">Funcionalidades</a>
-        <a href="#endpoints">Endpoints</a>
-        <a href="#consultas">Consultas e indicadores</a>
-        <a href="#seguranca">Segurança</a>
-        <a href="#execucao">Execução</a>
-      </nav>
-    </aside>
-
-    <main class="content">
-      <section class="hero" id="visao-geral">
-        <div class="hero-grid">
-          <div>
-            <p class="eyebrow">Spring Boot + Oracle + JWT</p>
-            <h2>Manual do Usuário</h2>
-            <p class="hero-copy">Guia visual para operar a API de Todo List: autenticação, tarefas, categorias, usuários, perfis, consultas analíticas e indicadores.</p>
+        <div class="nav-section">Introdução</div>
+        <nav class="nav">
+          <a class="active" href="inicio.html" data-searchable>Visão geral</a>
+        </nav>
+        <div class="nav-section">Fluxos de acesso</div>
+        <nav class="nav">
+          <a href="login.html" data-searchable>Login</a
+          ><a href="esqueci-senha.html" data-searchable>Esqueci minha senha</a
+          ><a href="registro-usuario.html" data-searchable
+            >Cadastro de usuários</a
+          >
+        </nav>
+        <div class="nav-section">Referência técnica</div>
+        <nav class="nav">
+          <a href="swagger.html" data-searchable>Swagger e API</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <button
+              class="mobile-menu"
+              type="button"
+              data-mobile-menu
+              aria-label="Abrir menu"
+            >
+              ☰
+            </button>
+            <div class="breadcrumbs">
+              Todo List / <strong>Visão geral</strong>
+            </div>
+          </div>
+          <div class="top-actions">
+            <a class="small-link" href="login.html">Começar pelo login →</a>
+          </div>
+        </header>
+        <div class="content">
+          <section class="hero">
+            <p class="eyebrow">Todo List Docs</p>
+            <h1>Fluxos do sistema, explicados passo a passo.</h1>
+            <p class="lead">
+              Documentação navegável para acessar a conta, recuperar a senha,
+              cadastrar usuários administrativamente e consultar ou testar a API
+              pelo Swagger.
+            </p>
             <div class="hero-actions">
-              <a class="button primary" href="#jornada">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Começar pelo fluxo
-              </a>
-              <a class="button secondary" href="#endpoints">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M8 7h8M8 12h8M8 17h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                Ver endpoints
-              </a>
+              <a class="btn btn-primary" href="login.html">Começar pelo login</a
+              ><a class="btn btn-secondary" href="swagger.html"
+                >Abrir guia do Swagger</a
+              >
             </div>
-          </div>
-
-          <div class="system-map" aria-label="Mapa visual dos módulos do sistema">
-            <div class="map-line" aria-hidden="true"></div>
-            <div class="node auth"><strong>Autenticação</strong><span>Login, refresh, logout e troca de senha.</span></div>
-            <div class="node tasks"><strong>Tarefas</strong><span>Cadastro, edição, busca, posição e bloqueio.</span></div>
-            <div class="node users"><strong>Acesso</strong><span>Usuários, perfis, papéis e permissões.</span></div>
-            <div class="node categories"><strong>Categorias</strong><span>Organização por nome, cor e ícone.</span></div>
-            <div class="node analytics"><strong>Indicadores</strong><span>Totais, status, prioridade e vencimentos.</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section alt" id="jornada">
-        <div class="section-head">
-          <h2>Jornada De Uso</h2>
-          <p>O uso normal começa em uma rota pública, segue com token Bearer nas rotas privadas e usa refresh token para manter a sessão ativa.</p>
-        </div>
-
-        <div class="flow">
-          <div class="flow-step">
-            <span class="step-number">1</span>
-            <h3>Entrar</h3>
-            <p>Use <span class="route">POST /public/auth/login</span> com usuário e senha. A resposta traz access token, refresh token e validade.</p>
-          </div>
-          <div class="flow-step">
-            <span class="step-number">2</span>
-            <h3>Autorizar</h3>
-            <p>Envie <code>Authorization: Bearer &lt;accessToken&gt;</code> em cada chamada privada dentro de <span class="route">/api</span>.</p>
-          </div>
-          <div class="flow-step">
-            <span class="step-number">3</span>
-            <h3>Operar</h3>
-            <p>Crie tarefas, organize por categoria, consulte listas paginadas e acompanhe indicadores do usuário autenticado.</p>
-          </div>
-          <div class="flow-step">
-            <span class="step-number">4</span>
-            <h3>Encerrar</h3>
-            <p>Use <span class="route">POST /public/auth/logout</span> para revogar a sessão e invalidar o access token atual.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="modulos">
-        <div class="section-head">
-          <h2>Funcionalidades</h2>
-          <p>Resumo dos módulos disponíveis e dos dados que cada usuário deve informar ou consultar.</p>
-        </div>
-
-        <div class="module-grid">
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Tarefas</h3>
-                <p>Controle principal da lista de atividades.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="m9 11 2 2 4-5M6 4h12v16H6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
+          </section>
+          <section class="section">
+            <p class="eyebrow">Acesso e operação</p>
+            <h2>Guias disponíveis</h2>
+            <p class="section-copy">
+              Cada página descreve o objetivo do fluxo, os passos do usuário,
+              cuidados necessários e, quando aplicável, o contrato HTTP
+              correspondente.
+            </p>
+            <div class="grid-3" style="margin-top: 22px">
+              <a class="doc-card" href="login.html"
+                ><div class="card-icon">→</div>
+                <h3>Login</h3>
+                <p>Entrada na aplicação e início de uma sessão autenticada.</p>
+                <span class="card-link">Abrir documentação →</span></a
+              ><a class="doc-card" href="esqueci-senha.html"
+                ><div class="card-icon">↺</div>
+                <h3>Esqueci minha senha</h3>
+                <p>
+                  Solicitação e redefinição de senha sem expor contas
+                  existentes.
+                </p>
+                <span class="card-link">Abrir documentação →</span></a
+              ><a class="doc-card" href="registro-usuario.html"
+                ><div class="card-icon">＋</div>
+                <h3>Cadastro de usuários</h3>
+                <p>Criação e manutenção de contas por usuários autorizados.</p>
+                <span class="card-link">Abrir documentação →</span></a
+              >
             </div>
-            <ul class="field-list">
-              <li><span>Campos: título, descrição, categoria, status, prioridade, datas, tempo estimado, tempo gasto e posição.</span></li>
-              <li><span>Ações: listar, buscar por filtro, criar, editar e bloquear.</span></li>
-              <li><span>O retorno de busca usa visão enriquecida em <code>TarefaViewDto</code>.</span></li>
-            </ul>
-          </article>
-
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Categorias</h3>
-                <p>Classificação visual e funcional das tarefas.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 7h7v7H4zM13 7h7v7h-7zM4 16h7M13 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </div>
-            <ul class="field-list">
-              <li><span>Campos: nome, descrição, cor hexadecimal, ícone e situação ativa.</span></li>
-              <li><span>Ações: listar, consultar por id, criar, editar, buscar e bloquear.</span></li>
-              <li><span>As categorias são vinculadas ao usuário por <code>usuarioId</code>.</span></li>
-            </ul>
-          </article>
-
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Usuários</h3>
-                <p>Cadastro e manutenção de contas do sistema.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-            </div>
-            <ul class="field-list">
-              <li><span>Campos: username, nome, senha e indicador de ativo.</span></li>
-              <li><span>A senha é de escrita apenas: entra na criação/edição e não aparece nas respostas.</span></li>
-              <li><span>Ações: listar, criar, editar, buscar com paginação e bloquear.</span></li>
-            </ul>
-          </article>
-
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Perfis E Permissões</h3>
-                <p>Controle de acesso por papel e ação permitida.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 3 5 6v5c0 4.5 2.9 8.5 7 10 4.1-1.5 7-5.5 7-10V6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </div>
-            <ul class="field-list">
-              <li><span>Perfis agrupam permissões e são operados em <span class="route">/api/perfil</span>.</span></li>
-              <li><span>Papéis disponíveis: USUARIO, TAREFA_CATEGORIA, TAREFA e INDICADORES_TAREFAS.</span></li>
-              <li><span>Algumas rotas exigem permissões específicas ou acesso root.</span></li>
-            </ul>
-          </article>
-
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Indicadores</h3>
-                <p>Leitura rápida da situação das tarefas ativas.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 19V9M12 19V5M19 19v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-            </div>
-            <ul class="field-list">
-              <li><span>Total de tarefas ativas do usuário logado.</span></li>
-              <li><span>Agrupamentos por status, prioridade, categoria e categoria com prioridade.</span></li>
-              <li><span>Exige permissão para visualizar indicadores de tarefa.</span></li>
-            </ul>
-          </article>
-
-          <article class="module">
-            <div class="module-top">
-              <div>
-                <h3>Tabelas Fixas</h3>
-                <p>Dados de apoio para selects e filtros.</p>
-              </div>
-              <span class="icon" aria-hidden="true">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </span>
-            </div>
-            <ul class="field-list">
-              <li><span>Status: Pendente, Em andamento, Concluída e Cancelada.</span></li>
-              <li><span>Prioridade: Baixa, Média, Alta e Urgente.</span></li>
-              <li><span>Recursos: <span class="route">/load-all</span> e <span class="route">/load/{id}</span>.</span></li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section class="section alt" id="endpoints">
-        <div class="section-head">
-          <h2>Endpoints Principais</h2>
-          <p>Rotas organizadas por finalidade. As rotas privadas exigem token Bearer válido.</p>
-        </div>
-
-        <div class="endpoint-board">
-          <div>
-            <div class="endpoint-group">
-              <h3>Rotas Públicas</h3>
-              <p>Entrada, renovação de sessão e suporte ao Swagger.</p>
-            </div>
-            <div class="terminal">
-POST /public/auth/login<br>
-POST /public/auth/refresh<br>
-POST /public/auth/logout<br>
-POST /public/auth/token<br>
-GET&nbsp; /public/on
-            </div>
-
-            <div class="callout">
-              <div>
-                <strong>Contrato recomendado para frontend</strong>
-                <p>Use <code>/public/auth/login</code> para login da aplicação. O endpoint <code>/public/auth/token</code> existe para o botão Authorize do Swagger/OpenAPI.</p>
+          </section>
+          <section class="section">
+            <p class="eyebrow">Uso técnico</p>
+            <h2>Swagger e integração</h2>
+            <div class="grid-2" style="margin-top: 20px">
+              <a class="doc-card" href="swagger.html"
+                ><h3>Swagger UI</h3>
+                <p>
+                  Consulte contratos e teste endpoints da API no ambiente de
+                  desenvolvimento.
+                </p>
+                <span class="card-link">Ver como acessar →</span></a
+              >
+              <div class="doc-card">
+                <h3>Rotas protegidas</h3>
+                <p>
+                  As operações privadas exigem um token Bearer e respeitam as
+                  permissões do perfil autenticado.
+                </p>
               </div>
             </div>
-          </div>
-
-          <table class="endpoint-table" aria-label="Tabela de endpoints privados">
-            <thead>
-              <tr>
-                <th>Método</th>
-                <th>Rota</th>
-                <th>Uso</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><span class="method get">GET</span></td><td><span class="route">/api/auth/me</span></td><td>Dados, perfil e permissões do usuário autenticado.</td></tr>
-              <tr><td><span class="method put">PUT</span></td><td><span class="route">/api/auth/password</span></td><td>Alteração de senha do usuário logado.</td></tr>
-              <tr><td><span class="method get">GET</span></td><td><span class="route">/api/tarefa</span></td><td>Lista tarefas cadastradas.</td></tr>
-              <tr><td><span class="method post">POST</span></td><td><span class="route">/api/tarefa</span></td><td>Cria tarefa.</td></tr>
-              <tr><td><span class="method put">PUT</span></td><td><span class="route">/api/tarefa/{id}</span></td><td>Edita tarefa existente.</td></tr>
-              <tr><td><span class="method put">PUT</span></td><td><span class="route">/api/tarefa/{id}/bloquear</span></td><td>Bloqueia tarefa.</td></tr>
-              <tr><td><span class="method post">POST</span></td><td><span class="route">/api/tarefa/search</span></td><td>Busca tarefas por filtro.</td></tr>
-              <tr><td><span class="method post">POST</span></td><td><span class="route">/api/tarefa/search-pagination</span></td><td>Busca tarefas com paginação.</td></tr>
-              <tr><td><span class="method get">GET</span></td><td><span class="route">/api/tarefa-categoria</span></td><td>Lista categorias.</td></tr>
-              <tr><td><span class="method post">POST</span></td><td><span class="route">/api/tarefa-categoria/search-pagination</span></td><td>Busca categorias paginadas.</td></tr>
-              <tr><td><span class="method post">POST</span></td><td><span class="route">/api/usuario/search-pagination</span></td><td>Busca usuários paginados.</td></tr>
-              <tr><td><span class="method get">GET</span></td><td><span class="route">/api/fixed/tarefa-status/load-all</span></td><td>Carrega todos os status.</td></tr>
-            </tbody>
-          </table>
+          </section>
+          <footer class="footer">
+            Todo List · Manual de operação do sistema.
+          </footer>
         </div>
-      </section>
-
-      <section class="section" id="consultas">
-        <div class="section-head">
-          <h2>Consultas E Indicadores</h2>
-          <p>Além do CRUD, o projeto expõe leituras prontas para telas de resumo, dashboards e alertas de prazo.</p>
-        </div>
-
-        <div class="split">
-          <div>
-            <div class="endpoint-group">
-              <h3>Consultas Analíticas</h3>
-              <p>Retornam resumos de tarefas conforme o contexto do usuário autenticado.</p>
-            </div>
-            <ul class="plain-list">
-              <li><span><span class="route">GET /api/tarefa-analitico/semana</span> mostra tarefas da semana.</span></li>
-              <li><span><span class="route">GET /api/tarefa-analitico/atrasadas</span> mostra tarefas vencidas.</span></li>
-              <li><span><span class="route">GET /api/tarefa-analitico/vencem-hoje</span> mostra tarefas que vencem hoje e ainda não foram concluídas.</span></li>
-            </ul>
-          </div>
-          <div>
-            <div class="endpoint-group">
-              <h3>Indicadores De Tarefa</h3>
-              <p>Rotas em <span class="route">/api/indicadores/tarefa</span>.</p>
-            </div>
-            <ul class="plain-list">
-              <li><span><span class="route">/total-ativas</span> total geral ativo.</span></li>
-              <li><span><span class="route">/por-status</span> agrupamento por status.</span></li>
-              <li><span><span class="route">/por-prioridade</span> agrupamento por prioridade.</span></li>
-              <li><span><span class="route">/por-categoria</span> agrupamento por categoria.</span></li>
-              <li><span><span class="route">/por-categoria-prioridade</span> cruzamento de categoria e prioridade.</span></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="status-grid" style="margin-top: 34px;">
-          <div class="status-pill"><strong>1 · PENDENTE</strong><span>Tarefa registrada, ainda sem andamento.</span></div>
-          <div class="status-pill"><strong>2 · EM_ANDAMENTO</strong><span>Tarefa em execução.</span></div>
-          <div class="status-pill"><strong>3 · CONCLUIDA</strong><span>Tarefa finalizada.</span></div>
-          <div class="status-pill"><strong>4 · CANCELADA</strong><span>Tarefa cancelada.</span></div>
-          <div class="status-pill"><strong>1 · BAIXA</strong><span>Prioridade de menor urgência.</span></div>
-          <div class="status-pill"><strong>2 · MEDIA</strong><span>Prioridade intermediária.</span></div>
-          <div class="status-pill"><strong>3 · ALTA</strong><span>Alta importância.</span></div>
-          <div class="status-pill"><strong>4 · URGENTE</strong><span>Maior ordem de prioridade.</span></div>
-        </div>
-      </section>
-
-      <section class="section alt" id="seguranca">
-        <div class="section-head">
-          <h2>Segurança E Sessão</h2>
-          <p>A autenticação usa JWT, refresh token persistido, rotação no refresh, blacklist no logout e limite configurável de sessões simultâneas.</p>
-        </div>
-
-        <div class="split">
-          <div class="security-list">
-            <div class="security-item"><strong>AUTH_TOKEN_EXPIRED</strong><span>HTTP 401. Ação recomendada: tentar refresh antes de redirecionar para login.</span></div>
-            <div class="security-item"><strong>AUTH_TOKEN_INVALID</strong><span>HTTP 401. Ação recomendada: limpar sessão local e enviar para login.</span></div>
-            <div class="security-item"><strong>AUTH_TOKEN_INVALIDATED</strong><span>HTTP 401. Token invalidado por blacklist; usuário deve autenticar novamente.</span></div>
-            <div class="security-item"><strong>AUTH_SESSION_INVALID</strong><span>HTTP 401. Sessão revogada ou inválida; usuário deve autenticar novamente.</span></div>
-            <div class="security-item"><strong>AUTH_ACCESS_DENIED</strong><span>HTTP 403. Sessão continua válida, mas sem permissão para o recurso.</span></div>
-            <div class="security-item"><strong>AUTH_USER_WITHOUT_PROFILE</strong><span>HTTP 403. Usuário sem perfil associado.</span></div>
-          </div>
-
-          <div>
-            <div class="terminal">
-POST /public/auth/login<br>
-Content-Type: application/json<br><br>
-{<br>
-&nbsp;&nbsp;"username": "admin",<br>
-&nbsp;&nbsp;"password": "admin123"<br>
-}<br><br>
-Authorization: Bearer &lt;accessToken&gt;
-            </div>
-            <ul class="plain-list">
-              <li><span>Usuário default informado no projeto: <code>admin</code> com senha <code>admin123</code>.</span></li>
-              <li><span>Login root informado no projeto: <code>root</code> com senha <code>admin123</code>.</span></li>
-              <li><span>Swagger liberado apenas no profile <code>dev</code>.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="execucao">
-        <div class="section-head">
-          <h2>Execução Local</h2>
-          <p>Para usar a API localmente, configure o Oracle e o arquivo de profile local, depois suba a aplicação pela raiz do projeto.</p>
-        </div>
-
-        <div class="split">
-          <div>
-            <div class="terminal">
-.\mvnw.cmd spring-boot:run<br><br>
-Swagger UI:<br>
-http://localhost:8080/swagger-ui.html
-            </div>
-          </div>
-          <div>
-            <ul class="plain-list">
-              <li><span>Requisitos: Java 21, Maven e Oracle Database.</span></li>
-              <li><span>Configuração local baseada em <code>src/main/resources/application-local.example.yaml</code>.</span></li>
-              <li><span>Collection Postman disponível em <code>postman/todolist.postman_collection.json</code>.</span></li>
-              <li><span>Scripts de modelagem disponíveis na pasta <code>modelagem</code>.</span></li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <footer class="footer">
-        <strong>Todo List API</strong> · Manual gerado a partir dos controllers, DTOs, enums e README existentes no projeto.
-      </footer>
-    </main>
-  </div>
-</body>
+      </main>
+    </div>
+  </body>
 </html>

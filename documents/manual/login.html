@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Login | Todo List Docs</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="docs.js" defer></script>
+  </head>
+  <body>
+    <div class="docs-shell">
+      <aside class="sidebar">
+        <a class="brand" href="inicio.html"
+          ><span class="brand-mark">✓</span
+          ><span class="brand-copy"
+            >Todo List <span>Manual do usuário</span></span
+          ></a
+        >
+        <div class="sidebar-search">
+          <input
+            type="search"
+            placeholder="Filtrar navegação..."
+            data-doc-search
+          />
+        </div>
+        <div class="nav-section">Introdução</div>
+        <nav class="nav">
+          <a href="inicio.html" data-searchable>Visão geral</a>
+        </nav>
+        <div class="nav-section">Fluxos de acesso</div>
+        <nav class="nav">
+          <a class="active" href="login.html" data-searchable>Login</a
+          ><a href="esqueci-senha.html" data-searchable>Esqueci minha senha</a
+          ><a href="registro-usuario.html" data-searchable
+            >Cadastro de usuários</a
+          >
+        </nav>
+        <div class="nav-section">Referência técnica</div>
+        <nav class="nav">
+          <a href="swagger.html" data-searchable>Swagger e API</a>
+        </nav>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div style="display: flex; align-items: center; gap: 12px">
+            <button class="mobile-menu" type="button" data-mobile-menu>
+              ☰
+            </button>
+            <div class="breadcrumbs">Todo List / <strong>Login</strong></div>
+          </div>
+        </header>
+        <div class="content">
+          <div class="article-layout">
+            <article class="article">
+              <header class="article-head">
+                <p class="eyebrow">Acesso ao sistema</p>
+                <h1>Login</h1>
+                <p class="lead">
+                  Fluxo de entrada para usuários já cadastrados. Após a
+                  autenticação, a aplicação usa os tokens retornados para
+                  acessar as rotas privadas.
+                </p>
+              </header>
+              <section class="section" id="objetivo">
+                <h2>Objetivo</h2>
+                <p>
+                  Validar usuário e senha, iniciar a sessão e carregar as
+                  permissões atribuídas ao perfil da conta.
+                </p>
+              </section>
+              <section class="section" id="fluxo">
+                <h2>Fluxo</h2>
+                <div class="flow">
+                  <div class="flow-step">
+                    <span class="step-number">1</span>
+                    <div>
+                      <strong>Informar credenciais</strong>
+                      <p>Preencha o usuário e a senha cadastrados.</p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">2</span>
+                    <div>
+                      <strong>Enviar autenticação</strong>
+                      <p>Selecione Entrar para validar os dados.</p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">3</span>
+                    <div>
+                      <strong>Criar sessão</strong>
+                      <p>O sistema recebe access token e refresh token.</p>
+                    </div>
+                  </div>
+                  <div class="flow-step">
+                    <span class="step-number">4</span>
+                    <div>
+                      <strong>Acessar recursos</strong>
+                      <p>
+                        As funcionalidades são exibidas conforme as permissões
+                        do usuário.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="section" id="contrato">
+                <h2>Contrato HTTP</h2>
+                <div class="endpoint">
+                  <div class="endpoint-head">
+                    <span class="method">POST</span
+                    ><span class="route">/public/auth/login</span>
+                  </div>
+                  <p class="section-copy">
+                    Endpoint oficial de login para a aplicação e integrações.
+                  </p>
+                </div>
+                <div class="code-block">
+                  <div class="code-head">
+                    <span>Payload</span
+                    ><button class="copy-btn" data-copy="loginPayload">
+                      Copiar
+                    </button>
+                  </div>
+                  <pre id="loginPayload">
+{
+  "username": "seu-usuario",
+  "password": "sua-senha"
+}</pre>
+                </div>
+              </section>
+              <section class="section" id="ajuda">
+                <h2>Não conseguiu entrar?</h2>
+                <div class="callout warning">
+                  <strong>Não crie outra conta</strong>Se esqueceu a senha, siga
+                  o fluxo de recuperação. Caso o problema continue, procure um
+                  administrador.
+                </div>
+                <a class="btn btn-primary" href="esqueci-senha.html"
+                  >Recuperar senha →</a
+                >
+              </section>
+            </article>
+            <aside class="toc">
+              <strong>Nesta página</strong><a href="#objetivo">Objetivo</a
+              ><a href="#fluxo">Fluxo</a><a href="#contrato">Contrato</a
+              ><a href="#ajuda">Ajuda</a>
+            </aside>
+          </div>
+          <footer class="footer">
+            Todo List · Manual de operação do sistema.
+          </footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
