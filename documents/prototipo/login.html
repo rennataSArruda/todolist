@@ -1,82 +1,87 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Focusly | Login</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="theme.js" defer></script>
-  <script src="auth-recovery.js" defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Focusly | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme.js" defer></script>
+    <script src="auth-recovery.js" defer></script>
 </head>
 <body>
-  <main class="login-page">
+<main class="login-page">
     <section class="login-hero">
-      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px"><div class="login-brand">
-        <span class="brand-mark">F</span>
-        <span>Focusly</span>
-      </div><button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button></div>
-
-      <div class="hero-copy">
-        <p class="eyebrow">Produtividade simples</p>
-        <h1>Organize seu dia.</h1>
-        <p>Transforme suas prioridades em tarefas claras e acompanhe cada avanço com menos distração.</p>
-
-        <div class="hero-visual">
-          <div class="mini-card">
-            <span>✓</span>
-            <strong>Tarefas em um só lugar</strong>
-          </div>
-          <div class="mini-card">
-            <span>◫</span>
-            <strong>Indicadores claros</strong>
-          </div>
-          <div class="mini-card">
-            <span>◉</span>
-            <strong>Categorias personalizadas</strong>
-          </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+            <div class="login-brand">
+                <span class="brand-mark">F</span>
+                <span>Focusly</span>
+            </div>
+            <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span
+                    data-theme-icon>☾</span></button>
         </div>
-      </div>
 
-      <small style="color:#8b8fa0">Protótipo inicial · Todo List</small>
+        <div class="hero-copy">
+            <p class="eyebrow">Produtividade simples</p>
+            <h1>Organize seu dia.</h1>
+            <p>Transforme suas prioridades em tarefas claras e acompanhe cada avanço com menos distração.</p>
+
+            <div class="hero-visual">
+                <div class="mini-card">
+                    <span>✓</span>
+                    <strong>Tarefas em um só lugar</strong>
+                </div>
+                <div class="mini-card">
+                    <span>◫</span>
+                    <strong>Indicadores claros</strong>
+                </div>
+                <div class="mini-card">
+                    <span>◉</span>
+                    <strong>Categorias personalizadas</strong>
+                </div>
+            </div>
+        </div>
+
+        <small style="color:#8b8fa0">Protótipo inicial · Todo List</small>
     </section>
 
     <section class="login-panel">
-      <form class="login-card" action="dashboard.html">
-        <p class="eyebrow">Acesso</p>
-        <h2>Bem-vindo de volta</h2>
-        <p>Entre para continuar organizando suas tarefas.</p>
+        <form class="login-card" action="dashboard.html">
+            <p class="eyebrow">Acesso</p>
+            <h2>Bem-vindo de volta</h2>
+            <p>Entre para continuar organizando suas tarefas.</p>
 
-        <div id="loginFeedback" class="login-feedback" hidden role="status" aria-live="polite"></div>
+            <div id="loginFeedback" class="login-feedback" hidden role="status" aria-live="polite"></div>
 
-        <div class="form-group">
-          <label for="username">Usuário</label>
-          <input class="form-control" id="username" name="username" placeholder="Digite seu usuário">
-        </div>
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input class="form-control" id="username" name="username" placeholder="Digite seu usuário">
+            </div>
 
-        <div class="form-group">
-          <label for="password">Senha</label>
-          <input class="form-control" id="password" name="password" type="password" placeholder="Digite sua senha">
-        </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input class="form-control" id="password" name="password" type="password"
+                       placeholder="Digite sua senha">
+            </div>
 
-        <div class="login-options">
-          <label class="checkbox">
-            <input type="checkbox">
-            Manter-me conectado
-          </label>
-          <a href="forgot-password.html">Esqueci minha senha</a>
-        </div>
+            <div class="login-options">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Manter-me conectado
+                </label>
+                <a href="forgot-password.html">Esqueci minha senha</a>
+            </div>
 
-        <button class="btn btn-primary" type="submit">Entrar</button>
-        <div class="login-register">Ainda não possui conta? <a href="register.html">Criar conta</a></div>
+            <button class="btn btn-primary" type="submit">Entrar</button>
+            <div class="login-register">Ainda não possui conta? <a href="register.html">Criar conta</a></div>
 
-        <div class="login-note">
-          Protótipo visual. A integração real deverá utilizar o endpoint de autenticação da aplicação.
-        </div>
-      </form>
+            <div class="login-note">
+                Protótipo visual. A integração real deverá utilizar o endpoint de autenticação da aplicação.
+            </div>
+        </form>
     </section>
-  </main>
+</main>
 </body>
 </html>

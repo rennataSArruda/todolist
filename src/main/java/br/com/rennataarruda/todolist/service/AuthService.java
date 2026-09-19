@@ -5,6 +5,7 @@ import br.com.rennataarruda.todolist.dto.auth.AuthResponse;
 import br.com.rennataarruda.todolist.dto.auth.ChangePasswordRequest;
 import br.com.rennataarruda.todolist.dto.auth.OAuthTokenResponse;
 import br.com.rennataarruda.todolist.dto.auth.RefreshTokenRequest;
+import br.com.rennataarruda.todolist.dto.auth.UpdateCurrentUserRequest;
 import br.com.rennataarruda.todolist.entity.BlacklistedToken;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
@@ -86,6 +87,18 @@ public class AuthService {
         blacklistAccessToken(accessToken, accessTokenClaims.expiresAt());
     }
 
+    @Transactional
+    public String updateCurrentUserName(String username, UpdateCurrentUserRequest request) {
+        if (request == null || !StringUtils.hasText(request.name())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nome é obrigatório");
+        }
+
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
+
+        usuario.atualizar(usuario.getUsername(), usuario.getEmail(), request.name().trim());
+        return usuarioRepository.save(usuario).getName();
+    }
     public void changePassword(String username, ChangePasswordRequest request) {
         validatePasswordChangeRequest(request);
 

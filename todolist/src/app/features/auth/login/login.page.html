@@ -63,6 +63,10 @@
         <p class="login-error" role="alert">{{ message }}</p>
       }
 
+      @if (successMessage(); as message) {
+        <p class="login-success" role="status">{{ message }}</p>
+      }
+
       <button class="login-submit" type="submit" matButton="filled" [disabled]="loading()">
         {{ loading() ? 'Entrando...' : 'Entrar' }}
       </button>

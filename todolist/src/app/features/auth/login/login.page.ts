@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 
 import { AuthStateService } from '../../../core/auth/auth-state.service';
@@ -20,6 +20,7 @@ import {ICONS} from '../../../core/fixeds/icons';
 })
 export class LoginPage {
   private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly authState = inject(AuthStateService);
   private readonly afterLoginRoute = '/dashboard';
@@ -31,6 +32,13 @@ export class LoginPage {
 
   protected readonly loading = signal(false);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly successMessage = signal(
+    this.route.snapshot.queryParamMap.get('passwordUpdated') === 'true'
+      ? 'Senha atualizada. Entre novamente com a nova senha.'
+      : this.route.snapshot.queryParamMap.get('sessionExpired') === 'true'
+        ? 'Sua sessão expirou ou foi encerrada. Entre novamente.'
+        : null,
+  );
 
   protected submit(): void {
     if (this.form.invalid) {
@@ -38,6 +46,7 @@ export class LoginPage {
     }
 
     this.errorMessage.set(null);
+    this.successMessage.set(null);
     this.loading.set(true);
 
     this.authState

@@ -1,0 +1,40 @@
+<section class="profile-page">
+  <header class="page-head"><p class="eyebrow">Minha conta</p><h1>Meu perfil</h1><p>Gerencie seu nome e a segurança da sua conta.</p></header>
+  <section class="profile-summary"><div class="profile-avatar" aria-hidden="true">{{ initials() }}</div><div><div class="profile-title"><h2>{{ user()?.nome ?? 'Usuário logado' }}</h2><span>{{ role() }}</span></div><p>&#64;{{ user()?.username ?? '...' }}</p></div></section>
+  <div class="profile-grid">
+    <section class="profile-card">
+      <div class="card-head"><span class="section-icon"><mat-icon>person</mat-icon></span><div><h2>Dados pessoais</h2><p>Atualize somente o nome da sua conta.</p></div></div>
+      <form [formGroup]="profileForm" (ngSubmit)="submitProfileUpdate()">
+        <label>Nome<input formControlName="name" autocomplete="name" placeholder="Seu nome" /></label>
+        <label>Usuário<input [value]="user()?.username ?? ''" disabled /></label>
+        <label>E-mail<input [value]="user()?.email ?? ''" disabled /></label>
+        <p class="helper">Usuário e e-mail são dados de identificação e não podem ser alterados por aqui.</p>
+        @if (profileErrorMessage()) { <p class="form-error">{{ profileErrorMessage() }}</p> }
+        @if (profileSuccessMessage()) { <p class="form-success">{{ profileSuccessMessage() }}</p> }
+        <button mat-flat-button color="primary" type="submit" [disabled]="profileLoading()">{{ profileLoading() ? 'Salvando...' : 'Salvar alterações' }}</button>
+      </form>
+    </section>
+    <section class="profile-card">
+      <div class="card-head"><span class="section-icon"><mat-icon>lock</mat-icon></span><div><h2>Segurança</h2><p>Altere sua senha sempre que precisar.</p></div></div>
+      <div class="security-notice"><mat-icon>shield</mat-icon><p>Use uma senha diferente das utilizadas em outros serviços.</p></div>
+      <form [formGroup]="passwordForm" (ngSubmit)="submitPasswordChange()">
+        <label>Senha atual<input type="password" formControlName="currentPassword" autocomplete="current-password" placeholder="Digite sua senha atual" /></label>
+        <label>Nova senha<input type="password" formControlName="newPassword" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" /></label>
+        <label>Confirmar nova senha<input type="password" formControlName="confirmPassword" autocomplete="new-password" placeholder="Repita a nova senha" /></label>
+        <ul class="password-rules" aria-label="Regras da nova senha">
+          <li [class.password-rules__item--valid]="passwordRules().hasMinLength">
+            <mat-icon aria-hidden="true">{{ passwordRules().hasMinLength ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            Pelo menos 8 caracteres
+          </li>
+          <li [class.password-rules__item--valid]="passwordRules().passwordsMatch">
+            <mat-icon aria-hidden="true">{{ passwordRules().passwordsMatch ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            As senhas precisam ser iguais
+          </li>
+        </ul>
+        @if (passwordErrorMessage()) { <p class="form-error">{{ passwordErrorMessage() }}</p> }
+        @if (passwordSuccessMessage()) { <p class="form-success">{{ passwordSuccessMessage() }}</p> }
+        <button mat-flat-button color="primary" type="submit" [disabled]="passwordLoading()">{{ passwordLoading() ? 'Atualizando...' : 'Atualizar senha' }}</button>
+      </form>
+    </section>
+  </div>
+</section>

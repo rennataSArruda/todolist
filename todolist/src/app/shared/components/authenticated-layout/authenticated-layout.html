@@ -8,20 +8,12 @@
     <nav class="navigation">
       @for (item of primaryNavigationItems(); track item.label) {
         @if (item.route) {
-          <a
-            class="nav-item"
-            [routerLink]="item.route"
-            routerLinkActive="nav-item--active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
+          <a class="nav-item" [routerLink]="item.route" routerLinkActive="nav-item--active" [routerLinkActiveOptions]="{ exact: true }">
             <mat-icon>{{ item.icon }}</mat-icon>
             <span>{{ item.label }}</span>
           </a>
         } @else {
-          <span class="nav-item nav-item--pending">
-            <mat-icon>{{ item.icon }}</mat-icon>
-            <span>{{ item.label }}</span>
-          </span>
+          <span class="nav-item nav-item--pending"><mat-icon>{{ item.icon }}</mat-icon><span>{{ item.label }}</span></span>
         }
       }
 
@@ -29,34 +21,45 @@
         <span class="nav-label nav-label--section">Administração</span>
         @for (item of administrationNavigationItems(); track item.label) {
           @if (item.route) {
-            <a
-              class="nav-item"
-              [routerLink]="item.route"
-              routerLinkActive="nav-item--active"
-              [routerLinkActiveOptions]="{ exact: true }"
-            >
+            <a class="nav-item" [routerLink]="item.route" routerLinkActive="nav-item--active" [routerLinkActiveOptions]="{ exact: true }">
               <mat-icon>{{ item.icon }}</mat-icon>
               <span>{{ item.label }}</span>
             </a>
           } @else {
-            <span class="nav-item nav-item--pending">
-              <mat-icon>{{ item.icon }}</mat-icon>
-              <span>{{ item.label }}</span>
-            </span>
+            <span class="nav-item nav-item--pending"><mat-icon>{{ item.icon }}</mat-icon><span>{{ item.label }}</span></span>
           }
         }
       }
     </nav>
 
     <div class="sidebar-footer">
-      <div class="user-card">
-        <div class="avatar" aria-hidden="true">{{ initials() }}</div>
-        <div class="user-copy"><strong>{{ user()?.nome ?? 'Usuário logado' }}</strong></div>
+      <div class="user-menu">
+        <button
+          type="button"
+          class="user-card"
+          [attr.aria-expanded]="userMenuOpen()"
+          aria-haspopup="menu"
+          aria-label="Abrir opções da conta"
+          (click)="toggleUserMenu()"
+        >
+          <span class="avatar" aria-hidden="true">{{ initials() }}</span>
+          <span class="user-copy"><strong>{{ user()?.nome ?? 'Usuário logado' }}</strong></span>
+        </button>
+        @if (userMenuOpen()) {
+          <div class="user-submenu" role="menu">
+            <a routerLink="/meu-perfil" role="menuitem" (click)="userMenuOpen.set(false)">
+              <mat-icon>person</mat-icon>
+              <span>Meu perfil</span>
+            </a>
+            <button type="button" role="menuitem" (click)="requestLogout()">
+              <mat-icon>logout</mat-icon>
+              <span>Sair</span>
+            </button>
+          </div>
+        }
       </div>
     </div>
   </aside>
 
-  <main class="main-content">
-    <router-outlet/>
-  </main>
+  <main class="main-content"><router-outlet/></main>
 </div>

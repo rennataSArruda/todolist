@@ -6,6 +6,7 @@ public record AuthenticatedUserResponse(
         Long id,
         String username,
         String nome,
+        String email,
         Perfil perfil,
         List<String> authorities,
         boolean root
