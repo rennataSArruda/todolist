@@ -1,6 +1,7 @@
 package br.com.rennataarruda.todolist.security;
 
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.ConfiguracoesGeraisRepository;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
@@ -25,6 +26,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(properties = {
@@ -53,6 +55,9 @@ class SwaggerSecurityDevIntegrationTest {
 
     @MockBean
     private EmailConfigRepository emailConfigRepository;
+
+    @MockBean
+    private ConfiguracoesGeraisRepository configuracoesGeraisRepository;
 
     @MockBean
     private PasswordResetTokenRepository passwordResetTokenRepository;
@@ -93,7 +98,8 @@ class SwaggerSecurityDevIntegrationTest {
     @Test
     void shouldAllowSwaggerInDevProfile() throws Exception {
         mockMvc.perform(get("/v3/api-docs"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.security[0].bearerAuth").isArray());
 
         mockMvc.perform(get("/swagger-ui/index.html"))
                 .andExpect(status().isOk());

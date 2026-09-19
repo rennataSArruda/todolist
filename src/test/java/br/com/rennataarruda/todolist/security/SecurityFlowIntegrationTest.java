@@ -4,6 +4,7 @@ import br.com.rennataarruda.todolist.dto.UsuarioDto;
 import br.com.rennataarruda.todolist.dto.auth.AuthRequest;
 import br.com.rennataarruda.todolist.dto.auth.AuthResponse;
 import br.com.rennataarruda.todolist.dto.auth.ChangePasswordRequest;
+import br.com.rennataarruda.todolist.dto.auth.FirstAccessRequest;
 import br.com.rennataarruda.todolist.dto.auth.ForgotPasswordRequest;
 import br.com.rennataarruda.todolist.dto.auth.RefreshTokenRequest;
 import br.com.rennataarruda.todolist.dto.auth.ResetPasswordRequest;
@@ -12,6 +13,7 @@ import br.com.rennataarruda.todolist.entity.Perfil;
 import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.ConfiguracoesGeraisRepository;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
@@ -29,6 +31,7 @@ import br.com.rennataarruda.todolist.repository.view.TarefaAnaliticoViewReposito
 import br.com.rennataarruda.todolist.repository.view.TarefaViewRepository;
 import br.com.rennataarruda.todolist.service.AuthService;
 import br.com.rennataarruda.todolist.service.PasswordResetService;
+import br.com.rennataarruda.todolist.service.PrimeiroAcessoService;
 import br.com.rennataarruda.todolist.service.UsuarioService;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
@@ -77,6 +80,9 @@ class SecurityFlowIntegrationTest {
 
     @MockBean
     private BlacklistedTokenRepository blacklistedTokenRepository;
+
+    @MockBean
+    private ConfiguracoesGeraisRepository configuracoesGeraisRepository;
 
     @MockBean
     private EmailConfigRepository emailConfigRepository;
@@ -132,6 +138,9 @@ class SecurityFlowIntegrationTest {
     @MockBean
     private PasswordResetService passwordResetService;
 
+    @MockBean
+    private PrimeiroAcessoService primeiroAcessoService;
+
     @Test
     void shouldRejectAccessWithoutToken() throws Exception {
         mockMvc.perform(get("/api/usuario").servletPath("/api/usuario"))
@@ -144,8 +153,8 @@ class SecurityFlowIntegrationTest {
     }
 
     @Test
-    void shouldAllowAccessWithValidTokenAndPermission() throws Exception {
-        Usuario usuario = usuarioComPermissao("admin", "USUARIO", "VISUALIZAR");
+    void shouldAllowAccessWithValidTokenForRootUser() throws Exception {
+        Usuario usuario = usuarioRoot("admin");
 
         when(blacklistedTokenRepository.existsByTokenHash(SecurityUtils.hashSHA256("valid-token"))).thenReturn(false);
         when(jwtService.parseAccessToken("valid-token")).thenReturn(accessToken("jti-1", "admin", "session-1"));
@@ -185,7 +194,7 @@ class SecurityFlowIntegrationTest {
 
     @Test
     void shouldChangePasswordThroughProtectedEndpoint() throws Exception {
-        Usuario usuario = usuarioComPermissao("admin", "USUARIO", "VISUALIZAR");
+        Usuario usuario = usuarioRoot("admin");
 
         when(blacklistedTokenRepository.existsByTokenHash(SecurityUtils.hashSHA256("valid-token"))).thenReturn(false);
         when(jwtService.parseAccessToken("valid-token")).thenReturn(accessToken("jti-password", "admin", "session-password"));
@@ -283,8 +292,8 @@ class SecurityFlowIntegrationTest {
     }
 
     @Test
-    void shouldRejectAccessWhenUserLacksRequiredPermission() throws Exception {
-        Usuario usuario = usuarioComPermissao("user", "USUARIO", "CRIAR");
+    void shouldRejectAccessWhenUserIsNotRootEvenWithUserPermission() throws Exception {
+        Usuario usuario = usuarioComPermissao("user", "USUARIO", "VISUALIZAR");
 
         when(blacklistedTokenRepository.existsByTokenHash(SecurityUtils.hashSHA256("valid-token"))).thenReturn(false);
         when(jwtService.parseAccessToken("valid-token")).thenReturn(accessToken("jti-3", "user", "session-3"));
@@ -411,6 +420,11 @@ class SecurityFlowIntegrationTest {
         return new JwtService.AccessTokenClaims(tokenId, username, sessionId, LocalDateTime.now().plusMinutes(15));
     }
 
+    private Usuario usuarioRoot(String username) {
+        Usuario usuario = usuarioComPermissao(username, "USUARIO", "VISUALIZAR");
+        ReflectionTestUtils.setField(usuario, "root", true);
+        return usuario;
+    }
     private Usuario usuarioComPermissao(String username, String papelCodigo, String permissaoCodigo) {
         Perfil perfil = new Perfil("PADRAO", "Perfil padrao");
         ReflectionTestUtils.setField(perfil, "id", 10L);

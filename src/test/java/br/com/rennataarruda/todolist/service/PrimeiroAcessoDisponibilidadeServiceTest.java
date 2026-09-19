@@ -52,6 +52,6 @@ class PrimeiroAcessoDisponibilidadeServiceTest {
                 new FirstAccessAvailabilityRequest(FirstAccessAvailabilityType.EMAIL, " ")
         ))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Valor para verificacao de disponibilidade e obrigatorio");
+                .hasMessageContaining("Valor para verificação de disponibilidade é obrigatório");
     }
 }

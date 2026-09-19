@@ -54,7 +54,7 @@ class PrimeiroAcessoServiceTest {
 
         assertThatThrownBy(() -> service.criar(validRequest()))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Username ja cadastrado");
+                .hasMessageContaining("Usuário já cadastrado");
     }
 
     @Test
@@ -66,7 +66,7 @@ class PrimeiroAcessoServiceTest {
 
         assertThatThrownBy(() -> service.criar(validRequest()))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Email ja cadastrado");
+                .hasMessageContaining("E-mail já cadastrado");
     }
 
     @Test

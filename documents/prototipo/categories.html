@@ -1,98 +1,111 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Focusly | Categorias</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <script src="theme.js" defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Focusly | Categorias</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="theme.js" defer></script>
 </head>
 <body>
-  <div class="app-shell">
+<div class="app-shell">
     <aside class="sidebar">
 
-      <div class="brand">
-        <div class="brand-mark">F</div>
-        <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
-      </div>
-      <div class="nav-group">
-        <span class="nav-label">Principal</span>
-    
-<a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
-<a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
-<a class="nav-item active" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
-<a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
-<span class="nav-label">Administração</span>
-<a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
-<a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
-<a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
-
-      </div>
-      <div class="sidebar-footer">
-        <div class="user-card">
-          <div class="avatar">RA</div>
-          <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+        <div class="brand">
+            <div class="brand-mark">F</div>
+            <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
         </div>
-      </div>
+        <div class="nav-group">
+            <span class="nav-label">Principal</span>
+
+            <a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
+            <a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
+            <a class="nav-item active" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
+            <a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
+            <span class="nav-label">Administração</span>
+            <a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
+            <a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
+            <a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
+
+        </div>
+        <div class="sidebar-footer">
+            <div class="user-card">
+                <div class="avatar">RA</div>
+                <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+            </div>
+        </div>
     </aside>
     <main class="main">
-      
-<header class="topbar">
-  <div class="search">
-    <span>⌕</span>
-    <input type="search" placeholder="Pesquisar ou digitar um comando">
-  </div>
-  <div class="top-actions">
-    <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span data-theme-icon>☾</span></button>
-    <button class="icon-button" aria-label="Notificações">♧</button>
-    <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
-  </div>
-</header>
 
-      <div class="page">
-        
-<div class="page-head">
-  <div>
-    <p class="eyebrow">Organização</p>
-    <h1>Categorias</h1>
-    <p>Use cores e ícones para identificar grupos de tarefas rapidamente.</p>
-  </div>
-  <a class="btn btn-primary" href="category-form.html">＋ Nova categoria</a>
-</div>
+        <header class="topbar">
+            <div class="search">
+                <span>⌕</span>
+                <input type="search" placeholder="Pesquisar ou digitar um comando">
+            </div>
+            <div class="top-actions">
+                <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span
+                        data-theme-icon>☾</span></button>
+                <button class="icon-button" aria-label="Notificações">♧</button>
+                <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+            </div>
+        </header>
 
-<div class="toolbar">
-  <input class="filter" style="min-width:260px" placeholder="Pesquisar categoria...">
-  <select class="filter"><option>Todas</option><option>Ativas</option><option>Inativas</option></select>
-</div>
+        <div class="page">
 
-<section class="category-grid">
-  <article class="category-card">
-    <div class="category-top"><span class="category-icon" style="background:#695be8">💼</span><span>•••</span></div>
-    <h3>Trabalho</h3><p>Atividades profissionais e entregas do dia a dia.</p>
-    <div class="category-meta"><span>14 tarefas</span><span class="status done">Ativa</span></div>
-  </article>
-  <article class="category-card">
-    <div class="category-top"><span class="category-icon" style="background:#5a86e8">📚</span><span>•••</span></div>
-    <h3>Estudos</h3><p>Cursos, leituras, documentação e aprendizado.</p>
-    <div class="category-meta"><span>9 tarefas</span><span class="status done">Ativa</span></div>
-  </article>
-  <article class="category-card">
-    <div class="category-top"><span class="category-icon" style="background:#49a878">✨</span><span>•••</span></div>
-    <h3>Projeto</h3><p>Planejamento e evolução de projetos pessoais.</p>
-    <div class="category-meta"><span>7 tarefas</span><span class="status done">Ativa</span></div>
-  </article>
-  <article class="category-card">
-    <div class="category-top"><span class="category-icon" style="background:#eda542">☀</span><span>•••</span></div>
-    <h3>Pessoal</h3><p>Compromissos e atividades fora do trabalho.</p>
-    <div class="category-meta"><span>5 tarefas</span><span class="status done">Ativa</span></div>
-  </article>
-</section>
+            <div class="page-head">
+                <div>
+                    <p class="eyebrow">Organização</p>
+                    <h1>Categorias</h1>
+                    <p>Use cores e ícones para identificar grupos de tarefas rapidamente.</p>
+                </div>
+                <a class="btn btn-primary" href="category-form.html">＋ Nova categoria</a>
+            </div>
 
-      </div>
+            <div class="toolbar">
+                <input class="filter" style="min-width:260px" placeholder="Pesquisar categoria...">
+                <select class="filter">
+                    <option>Todas</option>
+                    <option>Ativas</option>
+                    <option>Inativas</option>
+                </select>
+            </div>
+
+            <section class="category-grid">
+                <article class="category-card">
+                    <div class="category-top"><span class="category-icon"
+                                                    style="background:#695be8">💼</span><span>•••</span></div>
+                    <h3>Trabalho</h3>
+                    <p>Atividades profissionais e entregas do dia a dia.</p>
+                    <div class="category-meta"><span>14 tarefas</span><span class="status done">Ativa</span></div>
+                </article>
+                <article class="category-card">
+                    <div class="category-top"><span class="category-icon"
+                                                    style="background:#5a86e8">📚</span><span>•••</span></div>
+                    <h3>Estudos</h3>
+                    <p>Cursos, leituras, documentação e aprendizado.</p>
+                    <div class="category-meta"><span>9 tarefas</span><span class="status done">Ativa</span></div>
+                </article>
+                <article class="category-card">
+                    <div class="category-top"><span class="category-icon"
+                                                    style="background:#49a878">✨</span><span>•••</span></div>
+                    <h3>Projeto</h3>
+                    <p>Planejamento e evolução de projetos pessoais.</p>
+                    <div class="category-meta"><span>7 tarefas</span><span class="status done">Ativa</span></div>
+                </article>
+                <article class="category-card">
+                    <div class="category-top"><span class="category-icon"
+                                                    style="background:#eda542">☀</span><span>•••</span></div>
+                    <h3>Pessoal</h3>
+                    <p>Compromissos e atividades fora do trabalho.</p>
+                    <div class="category-meta"><span>5 tarefas</span><span class="status done">Ativa</span></div>
+                </article>
+            </section>
+
+        </div>
     </main>
-  </div>
+</div>
 </body>
 </html>

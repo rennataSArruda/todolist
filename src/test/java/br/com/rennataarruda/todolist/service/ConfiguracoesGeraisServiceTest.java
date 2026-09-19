@@ -66,7 +66,7 @@ class ConfiguracoesGeraisServiceTest {
 
         assertThatThrownBy(() -> service.atualizarPerfilPadraoPrimeiroAcesso(null))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Perfil padrao de primeiro acesso e obrigatorio");
+                .hasMessageContaining("Perfil padrão de primeiro acesso é obrigatório");
     }
 
     @Test
@@ -77,7 +77,7 @@ class ConfiguracoesGeraisServiceTest {
 
         assertThatThrownBy(() -> service.atualizarPerfilPadraoPrimeiroAcesso(10L))
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Perfil padrao de primeiro acesso nao encontrado");
+                .hasMessageContaining("Perfil padrão de primeiro acesso não encontrado");
     }
 
     @Test
@@ -89,7 +89,7 @@ class ConfiguracoesGeraisServiceTest {
 
         assertThatThrownBy(service::getPerfilPadraoPrimeiroAcesso)
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Perfil padrao de primeiro acesso nao configurado");
+                .hasMessageContaining("Perfil padrão de primeiro acesso não configurado");
     }
 
     @Test
@@ -100,7 +100,7 @@ class ConfiguracoesGeraisServiceTest {
 
         assertThatThrownBy(service::get)
                 .isInstanceOf(ResponseStatusException.class)
-                .hasMessageContaining("Configuracoes gerais nao inicializadas");
+                .hasMessageContaining("Configurações gerais não inicializadas");
     }
 
     private ConfiguracoesGeraisService newService() {

@@ -1,0 +1,62 @@
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Menu principal">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">F</div>
+      <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
+    </div>
+
+    <nav class="navigation">
+      @for (item of primaryNavigationItems(); track item.label) {
+        @if (item.route) {
+          <a
+            class="nav-item"
+            [routerLink]="item.route"
+            routerLinkActive="nav-item--active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </a>
+        } @else {
+          <span class="nav-item nav-item--pending">
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span>{{ item.label }}</span>
+          </span>
+        }
+      }
+
+      @if (administrationNavigationItems().length) {
+        <span class="nav-label nav-label--section">Administração</span>
+        @for (item of administrationNavigationItems(); track item.label) {
+          @if (item.route) {
+            <a
+              class="nav-item"
+              [routerLink]="item.route"
+              routerLinkActive="nav-item--active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </a>
+          } @else {
+            <span class="nav-item nav-item--pending">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </span>
+          }
+        }
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="avatar" aria-hidden="true">{{ initials() }}</div>
+        <div class="user-copy"><strong>{{ user()?.nome ?? 'Usuário logado' }}</strong></div>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet/>
+  </main>
+</div>

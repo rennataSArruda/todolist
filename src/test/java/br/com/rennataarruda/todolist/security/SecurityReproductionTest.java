@@ -6,6 +6,7 @@ import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.ConfiguracoesGeraisRepository;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
@@ -71,6 +72,9 @@ class SecurityReproductionTest {
 
     @MockBean
     private BlacklistedTokenRepository blacklistedTokenRepository;
+
+    @MockBean
+    private ConfiguracoesGeraisRepository configuracoesGeraisRepository;
 
     @MockBean
     private EmailConfigRepository emailConfigRepository;

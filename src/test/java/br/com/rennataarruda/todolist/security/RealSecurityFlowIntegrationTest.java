@@ -7,6 +7,7 @@ import br.com.rennataarruda.todolist.entity.fixed.Permissao;
 import br.com.rennataarruda.todolist.entity.RefreshToken;
 import br.com.rennataarruda.todolist.entity.Usuario;
 import br.com.rennataarruda.todolist.repository.BlacklistedTokenRepository;
+import br.com.rennataarruda.todolist.repository.ConfiguracoesGeraisRepository;
 import br.com.rennataarruda.todolist.repository.EmailConfigRepository;
 import br.com.rennataarruda.todolist.repository.PapelPermissaoRepository;
 import br.com.rennataarruda.todolist.repository.PasswordResetTokenRepository;
@@ -79,6 +80,9 @@ class RealSecurityFlowIntegrationTest {
     private BlacklistedTokenRepository blacklistedTokenRepository;
 
     @MockBean
+    private ConfiguracoesGeraisRepository configuracoesGeraisRepository;
+
+    @MockBean
     private EmailConfigRepository emailConfigRepository;
 
     @MockBean
@@ -128,7 +132,7 @@ class RealSecurityFlowIntegrationTest {
 
     @Test
     void shouldLoginWithRealJwtAndAccessProtectedEndpoint() throws Exception {
-        Usuario usuario = usuarioComPermissao("admin", "senha123", "USUARIO", "VISUALIZAR");
+        Usuario usuario = usuarioRoot("admin", "senha123");
         AtomicReference<RefreshToken> savedRefreshToken = new AtomicReference<>();
 
         when(usuarioRepository.findByUsername("admin")).thenReturn(Optional.of(usuario));
@@ -174,8 +178,8 @@ class RealSecurityFlowIntegrationTest {
                 .andExpect(jsonPath("$.nome").value("Administrador"))
                 .andExpect(jsonPath("$.perfil.id").value(10))
                 .andExpect(jsonPath("$.perfil.codigo").value("PADRAO"))
-                .andExpect(jsonPath("$.authorities[0]").value("USUARIO_VISUALIZAR"))
-                .andExpect(jsonPath("$.root").value(false));
+                .andExpect(jsonPath("$.authorities[0]").value("ROOT"))
+                .andExpect(jsonPath("$.root").value(true));
 
         String refreshToken = authResponse.get("refreshToken").asText();
         when(refreshTokenRepository.findByTokenHash(SecurityUtils.hashSHA256(refreshToken)))
@@ -278,6 +282,11 @@ class RealSecurityFlowIntegrationTest {
                 .andExpect(jsonPath("$.accessToken").isNotEmpty());
     }
 
+    private Usuario usuarioRoot(String username, String rawPassword) {
+        Usuario usuario = usuarioComPermissao(username, rawPassword, "USUARIO", "VISUALIZAR");
+        ReflectionTestUtils.setField(usuario, "root", true);
+        return usuario;
+    }
     private Usuario usuarioComPermissao(String username, String rawPassword, String papelCodigo, String permissaoCodigo) {
         Perfil perfil = new Perfil("PADRAO", "Perfil padrao");
         ReflectionTestUtils.setField(perfil, "id", 10L);

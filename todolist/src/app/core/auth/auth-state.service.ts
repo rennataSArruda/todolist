@@ -1,8 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, from, map, switchMap, tap, throwError } from 'rxjs';
+import { Observable, from, map, of, switchMap, tap, throwError } from 'rxjs';
 
 import { CurrentUser, LoginRequest, LoginResponse } from '../models/auth.model';
 import { AuthService } from '../services/auth/auth.service';
+import { CurrentUserService } from '../services/auth/current-user.service';
 import { TokenStorageService } from './token-storage.service';
 
 @Injectable({
@@ -10,6 +11,7 @@ import { TokenStorageService } from './token-storage.service';
 })
 export class AuthStateService {
   private readonly authService = inject(AuthService);
+  private readonly currentUserService = inject(CurrentUserService);
   private readonly tokenStorage = inject(TokenStorageService);
   private readonly currentUserSignal = signal<CurrentUser | null>(null);
   private readonly authenticatedSignal = signal(false);
@@ -34,6 +36,16 @@ export class AuthStateService {
 
     this.authenticatedSignal.set(true);
     return true;
+  }
+
+  loadCurrentUser(): Observable<CurrentUser> {
+    const currentUser = this.currentUserSignal();
+
+    if (currentUser) {
+      return of(currentUser);
+    }
+
+    return this.currentUserService.me().pipe(tap((user) => this.setCurrentUser(user)));
   }
 
   login(request: LoginRequest): Observable<LoginResponse> {

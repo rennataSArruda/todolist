@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.OAuthFlow;
 import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,8 @@ import org.springframework.context.annotation.Configuration;
                 title = "Todo List API",
                 version = "v1",
                 description = "Documentacao da API do projeto Todo List. Para autenticacao do frontend web, use /public/auth/login. O endpoint /public/auth/token existe para suporte ao Swagger/OpenAPI."
-        )
+        ),
+        security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
         name = "bearerAuth",

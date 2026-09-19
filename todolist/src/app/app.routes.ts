@@ -26,18 +26,19 @@ export const routes: Routes = [
     loadComponent: () => import('./features/auth/register/register.page').then((module) => module.RegisterPage),
   },
   {
-    path: 'dashboard',
-    canActivate: [authGuard],
-    loadComponent: () => import('./features/dashboard/dashboard.page').then((module) => module.DashboardPage),
-  },
-  {
     path: '',
-    redirectTo: 'dashboard',
-    pathMatch: 'full',
-  },
-  {
-    path: '**',
-    redirectTo: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./shared/components/authenticated-layout/authenticated-layout').then(
+        (module) => module.AuthenticatedLayout,
+      ),
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard.page').then((module) => module.DashboardPage),
+      },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: '**', redirectTo: 'dashboard' },
+    ],
   },
 ];
-

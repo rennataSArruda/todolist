@@ -4,10 +4,7 @@ import br.com.rennataarruda.todolist.controller.commons.AbstractSearchCrudContro
 import br.com.rennataarruda.todolist.controller.commons.SearchPaginationRequest;
 import br.com.rennataarruda.todolist.dto.UsuarioDto;
 import br.com.rennataarruda.todolist.dto.filter.UsuarioSearchFilter;
-import br.com.rennataarruda.todolist.security.authorization.PodeBloquearUsuario;
-import br.com.rennataarruda.todolist.security.authorization.PodeCriarUsuario;
-import br.com.rennataarruda.todolist.security.authorization.PodeEditarUsuario;
-import br.com.rennataarruda.todolist.security.authorization.PodeVisualizarUsuario;
+import br.com.rennataarruda.todolist.security.authorization.ApenasRoot;
 import br.com.rennataarruda.todolist.service.UsuarioService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@ApenasRoot
 @RequestMapping("api/usuario")
 public class UsuarioController extends AbstractSearchCrudController<Long, UsuarioDto, UsuarioSearchFilter, UsuarioService> {
 
@@ -31,48 +29,41 @@ public class UsuarioController extends AbstractSearchCrudController<Long, Usuari
 
     @Override
     @GetMapping
-    @PodeVisualizarUsuario
     public ResponseEntity<List<UsuarioDto>> get() {
         return super.get();
     }
 
     @Override
     @GetMapping("/{id}")
-    @PodeVisualizarUsuario
     public ResponseEntity<UsuarioDto> getById(@PathVariable Long id) {
         return super.getById(id);
     }
 
     @Override
     @PostMapping
-    @PodeCriarUsuario
     public ResponseEntity<UsuarioDto> create(@RequestBody UsuarioDto dto) {
         return super.create(dto);
     }
 
     @Override
     @PutMapping("/{id}")
-    @PodeEditarUsuario
     public ResponseEntity<UsuarioDto> update(@PathVariable Long id, @RequestBody UsuarioDto dto) {
         return super.update(id, dto);
     }
 
     @PutMapping("/{id}/bloquear")
-    @PodeBloquearUsuario
     public ResponseEntity<UsuarioDto> bloquear(@PathVariable Long id) {
         return ResponseEntity.ok(service().bloquear(id));
     }
 
     @Override
     @PostMapping("/search")
-    @PodeVisualizarUsuario
     public ResponseEntity<List<UsuarioDto>> search(@RequestBody UsuarioSearchFilter filter) {
         return super.search(filter);
     }
 
     @Override
     @PostMapping("/search-pagination")
-    @PodeVisualizarUsuario
     public ResponseEntity<Page<UsuarioDto>> searchPagination(@RequestBody SearchPaginationRequest<UsuarioSearchFilter> request) {
         return super.searchPagination(request);
     }
