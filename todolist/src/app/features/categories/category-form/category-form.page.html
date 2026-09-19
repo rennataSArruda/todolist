@@ -1,0 +1,66 @@
+<section class="category-form-page">
+  <header>
+    <div>
+      <p class="eyebrow">Cadastro</p>
+      <h1>{{ categoryId ? 'Editar categoria' : 'Nova categoria' }}</h1>
+      <p>Defina nome, descrição, cor, ícone e situação.</p>
+    </div>
+    <a mat-stroked-button routerLink="/categorias">
+      <mat-icon>{{ ICONS.ARROW_BACK }}</mat-icon>
+      Voltar
+    </a>
+  </header>
+
+  @if (loading()) {
+    <p>Carregando categoria…</p>
+  } @else {
+    <form [formGroup]="form" appFormValidation (ngSubmit)="save()">
+      <section class="form-card">
+        <app-input
+          label="Nome"
+          placeholder="Ex.: Trabalho"
+          [required]="true"
+          [errorMessages]="{ required: 'Informe o nome da categoria.' }"
+          formControlName="nome"
+        />
+
+        <app-icon-select
+          label="Ícone"
+
+          formControlName="icone"
+        />
+
+        <app-textarea
+          class="field-full"
+          label="Descrição"
+          placeholder="Descreva quando esta categoria deve ser utilizada."
+          [rows]="4"
+          formControlName="descricao"
+        />
+
+        <app-color-picker
+          label="Cor"
+          ariaLabel="Selecionar cor da categoria"
+          formControlName="corHex"
+        />
+      </section>
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <footer>
+        <a mat-button routerLink="/categorias">Cancelar</a>
+        <button mat-flat-button type="submit" [disabled]="saving()">
+          {{ saving() ? 'Salvando…' : 'Salvar categoria' }}
+        </button>
+      </footer>
+    </form>
+  }
+</section>
+
+
+
+
+
+

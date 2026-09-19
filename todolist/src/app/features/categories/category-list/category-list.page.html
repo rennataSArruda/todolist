@@ -1,0 +1,154 @@
+<section class="categories-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Organização</p>
+
+      <h1>Categorias</h1>
+
+      <p class="page-description">
+        Organize as categorias usadas para classificar suas tarefas.
+      </p>
+    </div>
+
+    <a
+      mat-flat-button
+      class="primary-action"
+      routerLink="/categorias/nova"
+    >
+      <mat-icon>{{ ICONS.ADD }}</mat-icon>
+      Nova categoria
+    </a>
+  </header>
+
+  <section
+    class="toolbar"
+    aria-label="Filtros de categorias"
+  >
+    <app-input class="search-field" type="search" [ngModel]="searchInputValue()"
+               placeholder="Buscar por nome ou descrição..." [prefixIcon]="ICONS.SEARCH" ariaLabel="Buscar categoria"
+               (ngModelChange)="updateSearch($event)"/>
+
+    <app-select class="status-filter" [options]="statusOptions" [ngModel]="status()" ariaLabel="Filtrar por status"
+                (ngModelChange)="updateStatus($event)"/>
+  </section>
+
+  @if (errorMessage()) {
+    <p
+      class="feedback error"
+      role="alert"
+    >
+      {{ errorMessage() }}
+    </p>
+  }
+
+  <app-data-table
+    [columns]="columns()"
+    [data]="categories()"
+    [loading]="loading()"
+    emptyMessage="Nenhuma categoria encontrada"
+    [pageIndex]="page()"
+    [pageSize]="pageSize"
+    [totalElements]="totalElements()"
+    [totalPages]="totalPages()"
+    (pageChange)="changePage($event)"
+  >
+    <ng-template
+      #categoryCell
+      let-category
+    >
+      <div class="category-cell">
+        <span
+          class="category-icon"
+          [style.background-color]="category.corHex || '#695be8'"
+        >
+          <mat-icon>
+            {{ category.icone || ICONS.CATEGORY }}
+          </mat-icon>
+        </span>
+
+        <strong>
+          {{ category.nome }}
+        </strong>
+      </div>
+    </ng-template>
+
+    <ng-template
+      #descriptionCell
+      let-category
+    >
+      <span class="description">
+        {{
+          category.descricao ||
+          'Sem descrição informada.'
+        }}
+      </span>
+    </ng-template>
+
+    <ng-template
+      #statusCell
+      let-category
+    >
+      <span
+        class="status-pill"
+        [class.status-pill--inactive]="category.ativo === false"
+      >
+        <i></i>
+
+        {{
+          category.ativo === false
+            ? 'Inativa'
+            : 'Ativa'
+        }}
+      </span>
+    </ng-template>
+
+    <ng-template
+      #actionsCell
+      let-category
+    >
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="actionsMenu"
+        aria-label="Ações da categoria"
+      >
+        <mat-icon>{{ ICONS.MORE_HORIZONTAL }}</mat-icon>
+      </button>
+
+      <mat-menu #actionsMenu="matMenu">
+        <a
+          mat-menu-item
+          [routerLink]="[
+            '/categorias',
+            category.id,
+            'editar'
+          ]"
+        >
+          <mat-icon>{{ ICONS.EDIT }}</mat-icon>
+          Editar
+        </a>
+
+        <button
+          mat-menu-item
+          (click)="toggleStatus(category)"
+        >
+          <mat-icon>
+            {{
+              category.ativo === false
+                ? ICONS.CHECK : ICONS.BLOCK
+            }}
+          </mat-icon>
+
+          {{
+            category.ativo === false
+              ? 'Ativar'
+              : 'Desativar'
+          }}
+        </button>
+      </mat-menu>
+    </ng-template>
+  </app-data-table>
+</section>
+
+
+
+

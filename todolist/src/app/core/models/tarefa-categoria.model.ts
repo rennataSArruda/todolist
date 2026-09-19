@@ -13,5 +13,6 @@ export interface TarefaCategoria {
 export interface TarefaCategoriaFilter {
   usuarioId?: number;
   nome?: string;
+  quickSearch?: string;
   ativo?: boolean;
 }

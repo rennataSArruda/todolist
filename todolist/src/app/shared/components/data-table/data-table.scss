@@ -1,0 +1,60 @@
+:host {
+  display: block
+}
+
+.data-table-card {
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 16px;
+  overflow: hidden
+}
+
+.table-scroll {
+  overflow-x: auto;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+table {
+  width: 100%
+}
+
+th {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: 15px 24px;
+  text-transform: uppercase
+}
+
+td {
+  padding: 16px 24px
+}
+
+.cell-end {
+  text-align: right
+}
+
+.state-message {
+  align-items: center;
+  color: var(--mat-sys-on-surface-variant);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  min-height: 220px
+}
+
+.state-message mat-icon {
+  color: var(--mat-sys-primary);
+  font-size: 36px;
+  height: 36px;
+  width: 36px
+}
+
+@media(max-width: 640px) {
+  th, td {
+    padding-left: 16px;
+    padding-right: 16px
+  }
+}

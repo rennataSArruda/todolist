@@ -6,6 +6,15 @@ export const ICONS = {
   USER: 'group',
   PROFILE: 'badge',
   SETTINGS: 'settings',
+  ADD: 'add',
+  SEARCH: 'search',
+  SEARCH_OFF: 'search_off',
+  MORE_HORIZONTAL: 'more_horiz',
+  EDIT: 'edit',
+  BLOCK: 'block',
+  CHECK: 'check',
+  CHEVRON_LEFT: 'chevron_left',
+  CHEVRON_RIGHT: 'chevron_right',
+  ARROW_BACK: 'arrow_back',
 } as const;
-
-export type IconName = typeof ICONS[keyof typeof ICONS];
+export type IconName = (typeof ICONS)[keyof typeof ICONS];

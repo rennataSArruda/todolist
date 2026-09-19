@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AbstractFormField, AppFormValidationDirective } from '../base';
 
-export type AppInputType = 'email' | 'number' | 'tel' | 'text' | 'url';
+export type AppInputType = 'email' | 'number' | 'search' | 'tel' | 'text' | 'url';
 
 @Component({
   selector: 'app-input',

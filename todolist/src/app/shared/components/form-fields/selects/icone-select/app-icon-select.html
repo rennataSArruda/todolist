@@ -1,0 +1,47 @@
+<div class="app-icon-select" [class.app-icon-select--invalid]="hasError">
+  @if (label) {
+    <label class="app-icon-select__label" [for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="app-icon-select__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
+
+  <div class="app-icon-select__control">
+    <mat-select
+      [id]="fieldId"
+      [value]="value ?? ''"
+      [attr.aria-label]="ariaLabel || label || 'Selecionar ícone'"
+      [attr.aria-describedby]="describedById"
+      [attr.aria-invalid]="hasError"
+      [disabled]="disabled || readonly"
+      [required]="required"
+      panelClass="app-icon-select__panel"
+      (selectionChange)="handleSelection($event.value)"
+      (closed)="markAsTouched()"
+    >
+      <mat-select-trigger>
+        <span class="app-icon-select__trigger">
+          <mat-icon aria-hidden="true">{{ selectedIcon }}</mat-icon>
+          <span>{{ iconLabel(selectedIcon) }}</span>
+        </span>
+      </mat-select-trigger>
+
+      @for (icon of icons; track icon) {
+        <mat-option [value]="icon">
+          <mat-icon aria-hidden="true">{{ icon }}</mat-icon>
+          <span>{{ iconLabel(icon) }}</span>
+        </mat-option>
+      }
+    </mat-select>
+  </div>
+
+  @if (hasError && errorMessage) {
+    <p class="app-icon-select__error" [id]="errorId">{{ errorMessage }}</p>
+  } @else if (hint) {
+    <p class="app-icon-select__hint" [id]="hintId">{{ hint }}</p>
+  }
+</div>
+
+

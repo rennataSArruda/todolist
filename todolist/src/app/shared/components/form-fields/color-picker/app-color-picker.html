@@ -1,0 +1,33 @@
+<div class="app-color-picker" [class.app-color-picker--invalid]="hasError">
+  @if (label) {
+    <label class="app-color-picker__label" [for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="app-color-picker__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
+
+  <div class="app-color-picker__control">
+    <input
+      class="app-color-picker__native-input"
+      [id]="fieldId"
+      type="color"
+      [value]="value || '#000000'"
+      [attr.aria-label]="ariaLabel || label || 'Selecionar cor'"
+      [attr.aria-describedby]="describedById"
+      [attr.aria-invalid]="hasError"
+      [disabled]="disabled"
+      [readOnly]="readonly"
+      [required]="required"
+      (input)="handleColorInput($event)"
+      (blur)="markAsTouched()"
+    />
+  </div>
+
+  @if (hasError && errorMessage) {
+    <p class="app-color-picker__error" [id]="errorId">{{ errorMessage }}</p>
+  } @else if (hint) {
+    <p class="app-color-picker__hint" [id]="hintId">{{ hint }}</p>
+  }
+</div>

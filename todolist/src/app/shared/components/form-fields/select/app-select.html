@@ -1,0 +1,37 @@
+<div class="app-form-field" [class.app-form-field--invalid]="hasError">
+  @if (label) {
+    <label class="app-form-field__label" [for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="app-form-field__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
+
+  <div class="app-form-field__control">
+    <mat-select
+      class="app-form-field__select"
+      [id]="fieldId"
+      [value]="value"
+      [attr.aria-label]="ariaLabel || label || placeholder"
+      [attr.aria-describedby]="describedById"
+      [attr.aria-invalid]="hasError"
+      [disabled]="disabled || readonly"
+      [required]="required"
+      (selectionChange)="handleSelection($event.value)"
+      (closed)="markAsTouched()"
+    >
+      @for (option of options; track option.value) {
+        <mat-option [value]="option.value" [disabled]="option.disabled">
+          {{ option.label }}
+        </mat-option>
+      }
+    </mat-select>
+  </div>
+
+  @if (hasError && errorMessage) {
+    <p class="app-form-field__error" [id]="errorId">{{ errorMessage }}</p>
+  } @else if (hint) {
+    <p class="app-form-field__hint" [id]="hintId">{{ hint }}</p>
+  }
+</div>

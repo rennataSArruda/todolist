@@ -104,6 +104,15 @@ public class TarefaCategoriaService extends AbstractUsuarioScopedSearchCrudServi
             ));
         }
 
+        if (StringUtils.hasText(filter.quickSearch())) {
+            predicates.add(criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(TarefaCategoria_.descricao)),
+                            "%" + filter.quickSearch().toLowerCase() + "%"),
+                    criteriaBuilder.or(criteriaBuilder.like(criteriaBuilder.lower(root.get(TarefaCategoria_.nome)),
+                            "%" + filter.quickSearch().toLowerCase() + "%"))
+            ));
+        }
+
         if (filter.ativo() != null) {
             predicates.add(criteriaBuilder.equal(root.get(TarefaCategoria_.ativo), filter.ativo()));
         }

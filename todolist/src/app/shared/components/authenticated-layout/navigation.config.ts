@@ -23,6 +23,7 @@ export const PRIMARY_NAVIGATION_ITEMS: readonly NavigationItem[] = [
   {
     label: 'Categorias',
     icon: ICONS.CATEGORY,
+    route: '/categorias',
     permission: ROLES.TASK_CATEGORY_VIEW,
   }
 ];

@@ -41,6 +41,21 @@ export const routes: Routes = [
         path: 'meu-perfil',
         loadComponent: () => import('./features/my-profile/my-profile.page').then((module) => module.MyProfilePage),
       },
+      {
+        path: 'categorias',
+        loadComponent: () =>
+          import('./features/categories/category-list/category-list.page').then((module) => module.CategoryListPage),
+      },
+      {
+        path: 'categorias/nova',
+        loadComponent: () =>
+          import('./features/categories/category-form/category-form.page').then((module) => module.CategoryFormPage),
+      },
+      {
+        path: 'categorias/:id/editar',
+        loadComponent: () =>
+          import('./features/categories/category-form/category-form.page').then((module) => module.CategoryFormPage),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],

@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.app-icon-select {
+  display: grid;
+  gap: 8px;
+}
+
+.app-icon-select__label {
+  color: var(--mat-sys-on-surface);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.app-icon-select__required, .app-icon-select__error {
+  color: var(--mat-sys-error);
+}
+
+.app-icon-select__required {
+  margin-left: 2px;
+}
+
+.app-icon-select__control {
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding: 0 16px;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  background: var(--mat-sys-surface);
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+}
+
+.app-icon-select__control:focus-within {
+  border-color: var(--mat-sys-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mat-sys-primary) 14%, transparent);
+}
+
+.app-icon-select__select {
+  flex: 1;
+  min-width: 0;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-large);
+}
+
+.app-icon-select__trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: capitalize;
+}
+
+.app-icon-select__trigger mat-icon {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.app-icon-select__panel .mat-mdc-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-icon-select__panel .mat-icon {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.app-icon-select__panel .mat-mdc-option.mdc-list-item--selected .mat-icon {
+  color: var(--mat-sys-primary);
+}
+
+.app-icon-select--invalid .app-icon-select__control {
+  border-color: var(--mat-sys-error);
+}
+
+.app-icon-select--invalid .app-icon-select__control:focus-within {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--mat-sys-error) 14%, transparent);
+}
+
+.app-icon-select__hint, .app-icon-select__error {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.app-icon-select__hint {
+  color: var(--mat-sys-on-surface-variant);
+}

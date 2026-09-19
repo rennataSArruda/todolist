@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+.app-color-picker {
+  display: grid;
+  gap: 8px;
+}
+
+.app-color-picker__label {
+  color: var(--mat-sys-on-surface);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+.app-color-picker__required, .app-color-picker__error {
+  color: var(--mat-sys-error);
+}
+
+.app-color-picker__required {
+  margin-left: 2px;
+}
+
+.app-color-picker__control, .app-color-picker__palette {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.app-color-picker__preset, .app-color-picker__native-input {
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 32px;
+  padding: 0;
+  width: 32px;
+}
+
+.app-color-picker__preset {
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 50%;
+}
+
+.app-color-picker__preset--selected, .app-color-picker__native-input:focus-visible {
+  outline: 3px solid var(--mat-sys-primary);
+  outline-offset: 2px;
+}
+
+.app-color-picker__preset:disabled, .app-color-picker__native-input:disabled {
+  cursor: not-allowed;
+  opacity: .62;
+}
+
+.app-color-picker__native-input {
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  overflow: hidden;
+}
+
+.app-color-picker__native-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.app-color-picker__native-input::-webkit-color-swatch, .app-color-picker__native-input::-moz-color-swatch {
+  border: 2px solid var(--mat-sys-surface);
+  border-radius: 50%;
+}
+
+.app-color-picker--invalid .app-color-picker__native-input {
+  outline: 1px solid var(--mat-sys-error);
+  outline-offset: 2px;
+}
+
+.app-color-picker__hint, .app-color-picker__error {
+  font-size: 12px;
+  line-height: 16px;
+  margin: 0;
+}
+
+.app-color-picker__hint {
+  color: var(--mat-sys-on-surface-variant);
+}
