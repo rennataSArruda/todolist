@@ -3,109 +3,654 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Focusly | Categorias</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+            rel="stylesheet"
+    >
+
     <link rel="stylesheet" href="styles.css">
+
     <script src="theme.js" defer></script>
 </head>
+
 <body>
+
 <div class="app-shell">
+
     <aside class="sidebar">
 
         <div class="brand">
             <div class="brand-mark">F</div>
-            <div class="brand-copy"><strong>Focusly</strong><span>Todo List</span></div>
-        </div>
-        <div class="nav-group">
-            <span class="nav-label">Principal</span>
 
-            <a class="nav-item" href="dashboard.html"><span class="nav-icon">◫</span><span>Dashboard</span></a>
-            <a class="nav-item" href="tasks.html"><span class="nav-icon">✓</span><span>Tarefas</span></a>
-            <a class="nav-item active" href="categories.html"><span class="nav-icon">◉</span><span>Categorias</span></a>
-            <a class="nav-item" href="indicators.html"><span class="nav-icon">◒</span><span>Indicadores</span></a>
-            <span class="nav-label">Administração</span>
-            <a class="nav-item" href="users.html"><span class="nav-icon">♙</span><span>Usuários</span></a>
-            <a class="nav-item" href="profiles.html"><span class="nav-icon">◈</span><span>Perfis</span></a>
-            <a class="nav-item" href="settings.html"><span class="nav-icon">⚙</span><span>Configurações</span></a>
-
-        </div>
-        <div class="sidebar-footer">
-            <div class="user-card">
-                <div class="avatar">RA</div>
-                <div class="user-copy"><strong>Rennata</strong><span>Usuário</span></div>
+            <div class="brand-copy">
+                <strong>Focusly</strong>
+                <span>Todo List</span>
             </div>
         </div>
+
+        <div class="nav-group">
+
+            <span class="nav-label">Principal</span>
+
+            <a class="nav-item" href="dashboard.html">
+                <span class="nav-icon">◫</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a class="nav-item" href="tasks.html">
+                <span class="nav-icon">✓</span>
+                <span>Tarefas</span>
+            </a>
+
+            <a class="nav-item active" href="categories.html">
+                <span class="nav-icon">◉</span>
+                <span>Categorias</span>
+            </a>
+
+            <a class="nav-item" href="indicators.html">
+                <span class="nav-icon">◒</span>
+                <span>Indicadores</span>
+            </a>
+
+            <span class="nav-label">Administração</span>
+
+            <a class="nav-item" href="users.html">
+                <span class="nav-icon">♙</span>
+                <span>Usuários</span>
+            </a>
+
+            <a class="nav-item" href="profiles.html">
+                <span class="nav-icon">◈</span>
+                <span>Perfis</span>
+            </a>
+
+            <a class="nav-item" href="settings.html">
+                <span class="nav-icon">⚙</span>
+                <span>Configurações</span>
+            </a>
+
+        </div>
+
+        <div class="sidebar-footer">
+
+            <div class="user-card">
+                <div class="avatar">RA</div>
+
+                <div class="user-copy">
+                    <strong>Rennata</strong>
+                    <span>Usuário</span>
+                </div>
+            </div>
+
+        </div>
+
     </aside>
+
     <main class="main">
 
         <header class="topbar">
+
             <div class="search">
                 <span>⌕</span>
-                <input type="search" placeholder="Pesquisar ou digitar um comando">
+
+                <input
+                        type="search"
+                        placeholder="Pesquisar ou digitar um comando"
+                >
             </div>
+
             <div class="top-actions">
-                <button class="theme-toggle" type="button" data-theme-toggle aria-label="Alternar tema"><span
-                        data-theme-icon>☾</span></button>
-                <button class="icon-button" aria-label="Notificações">♧</button>
-                <a class="btn btn-primary" href="task-form.html">＋ Nova tarefa</a>
+
+                <button
+                        class="theme-toggle"
+                        type="button"
+                        data-theme-toggle
+                        aria-label="Alternar tema"
+                >
+                    <span data-theme-icon>☾</span>
+                </button>
+
+                <button
+                        class="icon-button"
+                        type="button"
+                        aria-label="Notificações"
+                >
+                    ♧
+                </button>
+
+                <a
+                        class="btn btn-primary"
+                        href="task-form.html"
+                >
+                    ＋ Nova tarefa
+                </a>
+
             </div>
+
         </header>
 
         <div class="page">
 
             <div class="page-head">
+
                 <div>
-                    <p class="eyebrow">Organização</p>
+                    <p class="eyebrow">
+                        Organização
+                    </p>
+
                     <h1>Categorias</h1>
-                    <p>Use cores e ícones para identificar grupos de tarefas rapidamente.</p>
+
+                    <p>
+                        Organize as categorias usadas para classificar suas tarefas.
+                    </p>
                 </div>
-                <a class="btn btn-primary" href="category-form.html">＋ Nova categoria</a>
+
+                <a
+                        class="btn btn-primary"
+                        href="category-form.html"
+                >
+                    ＋ Nova categoria
+                </a>
+
             </div>
 
-            <div class="toolbar">
-                <input class="filter" style="min-width:260px" placeholder="Pesquisar categoria...">
-                <select class="filter">
-                    <option>Todas</option>
-                    <option>Ativas</option>
-                    <option>Inativas</option>
+            <!-- FILTROS -->
+            <div class="toolbar category-toolbar">
+
+                <div class="category-search">
+
+                    <span
+                            class="category-search-icon"
+                            aria-hidden="true"
+                    >
+                        ⌕
+                    </span>
+
+                    <input
+                            class="filter category-search-input"
+                            type="search"
+                            placeholder="Buscar por nome ou descrição..."
+                            aria-label="Buscar categoria"
+                    >
+
+                </div>
+
+                <select
+                        class="filter category-status-filter"
+                        aria-label="Filtrar por status"
+                >
+                    <option value="">
+                        Todas
+                    </option>
+
+                    <option value="active">
+                        Ativas
+                    </option>
+
+                    <option value="inactive">
+                        Inativas
+                    </option>
                 </select>
+
             </div>
 
-            <section class="category-grid">
-                <article class="category-card">
-                    <div class="category-top"><span class="category-icon"
-                                                    style="background:#695be8">💼</span><span>•••</span></div>
-                    <h3>Trabalho</h3>
-                    <p>Atividades profissionais e entregas do dia a dia.</p>
-                    <div class="category-meta"><span>14 tarefas</span><span class="status done">Ativa</span></div>
-                </article>
-                <article class="category-card">
-                    <div class="category-top"><span class="category-icon"
-                                                    style="background:#5a86e8">📚</span><span>•••</span></div>
-                    <h3>Estudos</h3>
-                    <p>Cursos, leituras, documentação e aprendizado.</p>
-                    <div class="category-meta"><span>9 tarefas</span><span class="status done">Ativa</span></div>
-                </article>
-                <article class="category-card">
-                    <div class="category-top"><span class="category-icon"
-                                                    style="background:#49a878">✨</span><span>•••</span></div>
-                    <h3>Projeto</h3>
-                    <p>Planejamento e evolução de projetos pessoais.</p>
-                    <div class="category-meta"><span>7 tarefas</span><span class="status done">Ativa</span></div>
-                </article>
-                <article class="category-card">
-                    <div class="category-top"><span class="category-icon"
-                                                    style="background:#eda542">☀</span><span>•••</span></div>
-                    <h3>Pessoal</h3>
-                    <p>Compromissos e atividades fora do trabalho.</p>
-                    <div class="category-meta"><span>5 tarefas</span><span class="status done">Ativa</span></div>
-                </article>
+            <!-- TABELA -->
+            <section class="card table-card category-table-card">
+
+                <table class="data-table category-table">
+
+                    <thead>
+                    <tr>
+                        <th>Categoria</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+
+                        <th class="category-actions-column">
+                            <span class="sr-only">Ações</span>
+                        </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <!-- TRABALHO -->
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name-cell">
+
+                                <span
+                                        class="category-table-icon"
+                                        style="background: #695be8"
+                                >
+                                    💼
+                                </span>
+
+                                <div class="table-title">
+
+                                    <strong>
+                                        Trabalho
+                                    </strong>
+
+                                    <span>
+                                        14 tarefas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="category-description">
+                            Atividades profissionais e entregas do dia a dia.
+                        </td>
+
+                        <td>
+
+                            <span class="status done category-status">
+                                Ativa
+                            </span>
+
+                        </td>
+
+                        <td class="category-actions-cell">
+
+                            <details class="category-actions">
+
+                                <summary
+                                        class="category-action-trigger"
+                                        aria-label="Ações da categoria Trabalho"
+                                >
+                                    •••
+                                </summary>
+
+                                <div class="category-action-menu">
+
+                                    <a href="category-form.html">
+                                        Editar
+                                    </a>
+
+                                    <button
+                                            class="category-action-danger"
+                                            type="button"
+                                    >
+                                        Desativar
+                                    </button>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- ESTUDOS -->
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name-cell">
+
+                                <span
+                                        class="category-table-icon"
+                                        style="background: #5a86e8"
+                                >
+                                    📚
+                                </span>
+
+                                <div class="table-title">
+
+                                    <strong>
+                                        Estudos
+                                    </strong>
+
+                                    <span>
+                                        9 tarefas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="category-description">
+                            Cursos, leituras, documentação e aprendizado.
+                        </td>
+
+                        <td>
+
+                            <span class="status done category-status">
+                                Ativa
+                            </span>
+
+                        </td>
+
+                        <td class="category-actions-cell">
+
+                            <details class="category-actions">
+
+                                <summary
+                                        class="category-action-trigger"
+                                        aria-label="Ações da categoria Estudos"
+                                >
+                                    •••
+                                </summary>
+
+                                <div class="category-action-menu">
+
+                                    <a href="category-form.html">
+                                        Editar
+                                    </a>
+
+                                    <button
+                                            class="category-action-danger"
+                                            type="button"
+                                    >
+                                        Desativar
+                                    </button>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- PROJETO -->
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name-cell">
+
+                                <span
+                                        class="category-table-icon"
+                                        style="background: #49a878"
+                                >
+                                    ✨
+                                </span>
+
+                                <div class="table-title">
+
+                                    <strong>
+                                        Projeto
+                                    </strong>
+
+                                    <span>
+                                        7 tarefas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="category-description">
+                            Planejamento e evolução de projetos pessoais.
+                        </td>
+
+                        <td>
+
+                            <span class="status done category-status">
+                                Ativa
+                            </span>
+
+                        </td>
+
+                        <td class="category-actions-cell">
+
+                            <details class="category-actions">
+
+                                <summary
+                                        class="category-action-trigger"
+                                        aria-label="Ações da categoria Projeto"
+                                >
+                                    •••
+                                </summary>
+
+                                <div class="category-action-menu">
+
+                                    <a href="category-form.html">
+                                        Editar
+                                    </a>
+
+                                    <button
+                                            class="category-action-danger"
+                                            type="button"
+                                    >
+                                        Desativar
+                                    </button>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- PESSOAL -->
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name-cell">
+
+                                <span
+                                        class="category-table-icon"
+                                        style="background: #eda542"
+                                >
+                                    ☀
+                                </span>
+
+                                <div class="table-title">
+
+                                    <strong>
+                                        Pessoal
+                                    </strong>
+
+                                    <span>
+                                        5 tarefas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="category-description">
+                            Compromissos e atividades fora do trabalho.
+                        </td>
+
+                        <td>
+
+                            <span class="status done category-status">
+                                Ativa
+                            </span>
+
+                        </td>
+
+                        <td class="category-actions-cell">
+
+                            <details class="category-actions">
+
+                                <summary
+                                        class="category-action-trigger"
+                                        aria-label="Ações da categoria Pessoal"
+                                >
+                                    •••
+                                </summary>
+
+                                <div class="category-action-menu">
+
+                                    <a href="category-form.html">
+                                        Editar
+                                    </a>
+
+                                    <button
+                                            class="category-action-danger"
+                                            type="button"
+                                    >
+                                        Desativar
+                                    </button>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
+                    </tr>
+
+                    <!-- ARQUIVADA -->
+                    <tr>
+
+                        <td>
+
+                            <div class="category-name-cell">
+
+                                <span
+                                        class="category-table-icon"
+                                        style="background: #9ca1af"
+                                >
+                                    ◉
+                                </span>
+
+                                <div class="table-title">
+
+                                    <strong>
+                                        Arquivada
+                                    </strong>
+
+                                    <span>
+                                        0 tarefas
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td class="category-description">
+                            Categoria antiga mantida apenas para histórico.
+                        </td>
+
+                        <td>
+
+                            <span class="status cancelled category-status">
+                                Inativa
+                            </span>
+
+                        </td>
+
+                        <td class="category-actions-cell">
+
+                            <details class="category-actions">
+
+                                <summary
+                                        class="category-action-trigger"
+                                        aria-label="Ações da categoria Arquivada"
+                                >
+                                    •••
+                                </summary>
+
+                                <div class="category-action-menu">
+
+                                    <a href="category-form.html">
+                                        Editar
+                                    </a>
+
+                                    <button type="button">
+                                        Ativar
+                                    </button>
+
+                                </div>
+
+                            </details>
+
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                <!-- PAGINAÇÃO -->
+                <footer class="category-pagination">
+
+                    <span class="category-pagination-info">
+                        Mostrando 1–5 de 12 categorias
+                    </span>
+
+                    <nav
+                            class="category-pagination-pages"
+                            aria-label="Paginação das categorias"
+                    >
+
+                        <button
+                                class="category-page-button"
+                                type="button"
+                                aria-label="Página anterior"
+                        >
+                            ‹
+                        </button>
+
+                        <button
+                                class="category-page-button active"
+                                type="button"
+                                aria-current="page"
+                        >
+                            1
+                        </button>
+
+                        <button
+                                class="category-page-button"
+                                type="button"
+                        >
+                            2
+                        </button>
+
+                        <button
+                                class="category-page-button"
+                                type="button"
+                        >
+                            3
+                        </button>
+
+                        <button
+                                class="category-page-button"
+                                type="button"
+                                aria-label="Próxima página"
+                        >
+                            ›
+                        </button>
+
+                    </nav>
+
+                </footer>
+
             </section>
 
         </div>
+
     </main>
+
 </div>
+
 </body>
 </html>
