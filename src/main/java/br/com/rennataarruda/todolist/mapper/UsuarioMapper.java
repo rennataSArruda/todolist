@@ -15,7 +15,8 @@ public class UsuarioMapper {
                 usuario.getEmail(),
                 usuario.getName(),
                 usuario.getAtivo(),
-                null
+                null,
+                usuario.getPerfil().getId()
         );
     }
 
@@ -24,6 +25,6 @@ public class UsuarioMapper {
     }
 
     public void updateEntity(Usuario usuario, UsuarioDto dto) {
-        usuario.atualizar(dto.username(), dto.email(), dto.name());
+        usuario.atualizarNome(dto.name());
     }
 }

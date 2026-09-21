@@ -93,6 +93,13 @@ public class PerfilService extends AbstractSearchCrudService<Perfil, Long, Perfi
         return toDto(repository.save(perfil));
     }
 
+    @Transactional
+    public PerfilDto bloquear(Long id) {
+        Perfil perfil = findByIdOrThrow(id);
+        perfil.alternarAtivo();
+        return toDto(repository.save(perfil));
+    }
+
     @Override
     @Transactional(readOnly = true)
     public List<PerfilDto> search(PerfilSearchFilter filter) {
@@ -154,6 +161,10 @@ public class PerfilService extends AbstractSearchCrudService<Perfil, Long, Perfi
                     criteriaBuilder.lower(root.get(Perfil_.codigo)),
                     "%" + filter.codigo().toLowerCase() + "%"
             ));
+        }
+
+        if (filter.ativo() != null) {
+            predicates.add(criteriaBuilder.equal(root.get(Perfil_.ativo), filter.ativo()));
         }
 
         if (StringUtils.hasText(filter.descricao())) {
@@ -244,3 +255,6 @@ public class PerfilService extends AbstractSearchCrudService<Perfil, Long, Perfi
         }
     }
 }
+
+
+

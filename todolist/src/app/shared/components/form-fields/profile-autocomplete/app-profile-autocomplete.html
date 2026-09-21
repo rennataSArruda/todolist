@@ -1,0 +1,56 @@
+<div class="app-form-field" [class.app-form-field--invalid]="hasError">
+  @if (label) {
+    <label class="app-form-field__label" [for]="fieldId">
+      {{ label }}
+      @if (required) {
+        <span class="app-form-field__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
+
+  <div class="app-form-field__control">
+    <mat-icon class="app-form-field__icon" aria-hidden="true">search</mat-icon>
+    <input
+      class="app-form-field__input"
+      [id]="fieldId"
+      [value]="inputValue"
+      [placeholder]="placeholder"
+      [attr.aria-label]="ariaLabel || label || placeholder"
+      [attr.aria-describedby]="describedById"
+      [attr.aria-invalid]="hasError"
+      [autocomplete]="autocomplete"
+      [disabled]="disabled"
+      [readOnly]="readonly"
+      [required]="required"
+      [matAutocomplete]="profileOptions"
+      (input)="handleInput($event)"
+      (focus)="loadInitialOptions()"
+      (blur)="markAsTouched()"
+    />
+  </div>
+
+  <mat-autocomplete #profileOptions="matAutocomplete" (optionSelected)="selectItem($event.option.value)">
+    @if (loading) {
+      <mat-option disabled>Carregando perfis...</mat-option>
+    } @else if (searchFailed) {
+      <mat-option disabled>Não foi possível carregar os perfis.</mat-option>
+    } @else if (items.length === 0) {
+      <mat-option disabled>Nenhum perfil encontrado.</mat-option>
+    } @else {
+      @for (profile of items; track profile.id ?? profile.codigo) {
+        <mat-option [value]="profile">
+          <span class="profile-option__code">{{ profile.codigo }}</span>
+          @if (profile.descricao) {
+            <span class="profile-option__description">{{ profile.descricao }}</span>
+          }
+        </mat-option>
+      }
+    }
+  </mat-autocomplete>
+
+  @if (hasError && errorMessage) {
+    <p class="app-form-field__error" [id]="errorId">{{ errorMessage }}</p>
+  } @else if (hint) {
+    <p class="app-form-field__hint" [id]="hintId">{{ hint }}</p>
+  }
+</div>

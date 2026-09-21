@@ -32,11 +32,13 @@ export const ADMINISTRATION_NAVIGATION_ITEMS: readonly NavigationItem[] = [
   {
     label: 'Usuários',
     icon: ICONS.USER,
+    route: '/usuarios',
     rootOnly: true,
   },
   {
     label: 'Perfis',
     icon: ICONS.PROFILE,
+    route: '/perfis',
     rootOnly: true,
   },
   {
@@ -45,3 +47,6 @@ export const ADMINISTRATION_NAVIGATION_ITEMS: readonly NavigationItem[] = [
     rootOnly: true,
   },
 ];
+
+
+

@@ -96,7 +96,7 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Usuário autenticado não encontrado"));
 
-        usuario.atualizar(usuario.getUsername(), usuario.getEmail(), request.name().trim());
+        usuario.atualizarNome(request.name().trim());
         return usuarioRepository.save(usuario).getName();
     }
     public void changePassword(String username, ChangePasswordRequest request) {

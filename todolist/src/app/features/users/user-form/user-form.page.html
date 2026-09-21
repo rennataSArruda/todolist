@@ -1,0 +1,40 @@
+<section class="user-form-page">
+  <header>
+    <div>
+      <p class="eyebrow">Administração</p>
+      <h1>{{ userId ? 'Editar usuário' : 'Novo usuário' }}</h1>
+      <p>Defina os dados de acesso e o perfil responsável pelas permissões.</p>
+    </div>
+    <a mat-stroked-button routerLink="/usuarios"><mat-icon>{{ ICONS.ARROW_BACK }}</mat-icon>Voltar</a>
+  </header>
+
+  @if (loading()) {
+    <p class="loading">Carregando dados do usuário…</p>
+  } @else {
+    <form [formGroup]="form" appFormValidation (ngSubmit)="save()">
+      <section class="form-card">
+        <div class="section-heading field-full">
+          <div>
+            <h2>Identificação e acesso</h2>
+            <p>O perfil determina as ações que esta conta poderá executar.</p>
+          </div>
+        </div>
+
+        <app-input class="field-full" formControlName="name" label="Nome" placeholder="Ex.: Maria Silva" [required]="true" [errorMessages]="{ required: 'Informe o nome do usuário.' }" />
+
+        <app-profile-autocomplete formControlName="perfil" label="Perfil" placeholder="Pesquise pelo código do perfil" [required]="true" hint="Somente perfis ativos podem ser vinculados." [errorMessages]="{ required: 'Selecione um perfil.' }" />
+
+        <app-input formControlName="username" label="Usuário" placeholder="maria.silva" autocomplete="username" [maxlength]="30" [readonly]="!!userId" [hint]="userId ? 'O usuário não pode ser alterado.' : ''" [required]="true" [errorMessages]="{ required: 'Informe um usuário.', minlength: 'O usuário deve ter pelo menos 3 caracteres.', maxlength: 'O usuário pode ter no máximo 30 caracteres.', pattern: 'Evite espaços, acentos e caracteres especiais.', unavailable: 'Este usuário já está em uso.' }" />
+
+        <app-input formControlName="email" label="E-mail" type="email" placeholder="maria@empresa.com" autocomplete="email" [readonly]="!!userId" [hint]="userId ? 'O e-mail não pode ser alterado.' : ''" [required]="true" [errorMessages]="{ required: 'Informe o e-mail.', email: 'Informe um e-mail válido.', unavailable: 'Este e-mail já está em uso.' }" />
+
+        @if (!userId) {
+          <app-input-password class="field-full" formControlName="password" label="Senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password" [required]="true" hint="A senha deve conter pelo menos 8 caracteres." [errorMessages]="{ required: 'Informe uma senha.', minlength: 'A senha deve ter pelo menos 8 caracteres.' }" />
+        }
+      </section>
+
+      @if (errorMessage()) { <p class="error" role="alert">{{ errorMessage() }}</p> }
+      <footer><a mat-button routerLink="/usuarios">Cancelar</a><button mat-flat-button type="submit" [disabled]="saving()">{{ saving() ? 'Salvando…' : 'Salvar usuário' }}</button></footer>
+    </form>
+  }
+</section>

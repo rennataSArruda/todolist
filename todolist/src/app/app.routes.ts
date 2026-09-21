@@ -56,6 +56,29 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/categories/category-form/category-form.page').then((module) => module.CategoryFormPage),
       },
+{
+        path: 'usuarios/novo',
+        loadComponent: () => import('./features/users/user-form/user-form.page').then((module) => module.UserFormPage),
+      },
+      {
+        path: 'usuarios/:id/editar',
+        loadComponent: () => import('./features/users/user-form/user-form.page').then((module) => module.UserFormPage),
+      },      {
+        path: 'usuarios',
+        loadComponent: () => import('./features/users/user-list/user-list.page').then((module) => module.UserListPage),
+      },
+      {
+        path: 'perfis',
+        loadComponent: () => import('./features/profiles/profile-list/profile-list.page').then((module) => module.ProfileListPage),
+      },
+      {
+        path: 'perfis/novo',
+        loadComponent: () => import('./features/profiles/profile-form/profile-form.page').then((module) => module.ProfileFormPage),
+      },
+      {
+        path: 'perfis/:id/editar',
+        loadComponent: () => import('./features/profiles/profile-form/profile-form.page').then((module) => module.ProfileFormPage),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],

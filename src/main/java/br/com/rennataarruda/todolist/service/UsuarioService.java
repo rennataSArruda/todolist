@@ -22,6 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, UsuarioDto, UsuarioSearchFilter> {
@@ -62,7 +63,7 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         }
     }
 
-    @Override
+@Override
     protected void validateForUpdate(Long id, UsuarioDto dto) {
         validateRequiredFieldsForUpdate(dto.username(), dto.email());
 
@@ -73,8 +74,12 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         if (repository.existsByEmailAndIdNot(dto.email(), id)) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email ja cadastrado");
         }
-    }
 
+        Usuario usuario = findByIdOrThrow(id);
+        if (!Objects.equals(usuario.getUsername(), dto.username()) || !Objects.equals(usuario.getEmail(), dto.email())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username e email não podem ser alterados");
+        }
+    }
     @Override
     protected UsuarioDto toDto(Usuario usuario) {
         return mapper.toDto(usuario);
@@ -82,12 +87,15 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
 
     @Override
     protected Usuario toNewEntity(UsuarioDto dto) {
-        return mapper.toEntity(dto, passwordService.encode(dto.password()), getDefaultPerfil());
+        return mapper.toEntity(dto, passwordService.encode(dto.password()), resolvePerfil(dto.perfilId()));
     }
 
     @Override
     protected void updateEntity(Usuario usuario, UsuarioDto dto) {
         mapper.updateEntity(usuario, dto);
+        if (dto.perfilId() != null) {
+            usuario.alterarPerfil(resolvePerfil(dto.perfilId()));
+        }
     }
 
     @Transactional
@@ -107,6 +115,10 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
             CriteriaBuilder criteriaBuilder,
             UsuarioSearchFilter filter
     ) {
+        if (filter == null) {
+            return;
+        }
+
         if (StringUtils.hasText(filter.username())) {
             predicates.add(criteriaBuilder.like(
                     criteriaBuilder.lower(root.get(Usuario_.username)),
@@ -126,6 +138,17 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
                     criteriaBuilder.lower(root.get(Usuario_.name)),
                     "%" + filter.name().toLowerCase() + "%"
             ));
+        }
+
+        if (StringUtils.hasText(filter.quickSearch())) {
+            String quickSearch = "%" + filter.quickSearch().toLowerCase() + "%";
+            predicates.add(criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(Usuario_.name)), quickSearch),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get(Usuario_.username)), quickSearch)
+            ));
+        }
+        if (filter.ativo() != null) {
+            predicates.add(criteriaBuilder.equal(root.get(Usuario_.ativo), filter.ativo()));
         }
     }
 
@@ -162,13 +185,26 @@ public class UsuarioService extends AbstractSearchCrudService<Usuario, Long, Usu
         }
     }
 
-    private Perfil getDefaultPerfil() {
+    private Perfil resolvePerfil(Long perfilId) {
+        if (perfilId != null) {
+            Perfil perfil = perfilRepository.findById(perfilId)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Perfil informado não encontrado"));
+
+            if (!Boolean.TRUE.equals(perfil.getAtivo())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Perfil informado está inativo");
+            }
+
+            return perfil;
+        }
+
         return perfilRepository.findByCodigo(PERFIL_PADRAO)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.INTERNAL_SERVER_ERROR,
                         "Perfil padrao nao configurado"
                 ));
     }
+
+
 }
 
 

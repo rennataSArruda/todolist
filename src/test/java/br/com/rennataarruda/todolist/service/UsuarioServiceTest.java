@@ -91,14 +91,14 @@ class UsuarioServiceTest {
         Usuario usuario = new Usuario("admin", "admin@email.com", "Administrador", "encoded", new Perfil("PADRAO", "Perfil padrao"));
 
         when(repository.existsByUsernameAndIdNot("admin", 1L)).thenReturn(false);
-        when(repository.existsByEmailAndIdNot("novo@email.com", 1L)).thenReturn(false);
+        when(repository.existsByEmailAndIdNot("admin@email.com", 1L)).thenReturn(false);
         when(repository.findById(1L)).thenReturn(Optional.of(usuario));
         when(repository.save(any(Usuario.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        UsuarioDto dto = service.update(1L, new UsuarioDto(1L, "admin", "novo@email.com", "Novo nome", false, null));
+        UsuarioDto dto = service.update(1L, new UsuarioDto(1L, "admin", "admin@email.com", "Novo nome", false, null));
 
         assertThat(dto.name()).isEqualTo("Novo nome");
-        assertThat(dto.email()).isEqualTo("novo@email.com");
+        assertThat(dto.email()).isEqualTo("admin@email.com");
         assertThat(dto.ativo()).isTrue();
     }
 

@@ -6,5 +6,11 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'categorias', renderMode: RenderMode.Client },
   { path: 'categorias/nova', renderMode: RenderMode.Client },
   { path: 'categorias/:id/editar', renderMode: RenderMode.Client },
+  { path: 'usuarios', renderMode: RenderMode.Client },
+  { path: 'usuarios/novo', renderMode: RenderMode.Client },
+  { path: 'usuarios/:id/editar', renderMode: RenderMode.Client },
+  { path: 'perfis', renderMode: RenderMode.Client },
+  { path: 'perfis/novo', renderMode: RenderMode.Client },
+  { path: 'perfis/:id/editar', renderMode: RenderMode.Client },
   { path: '**', renderMode: RenderMode.Prerender },
 ];

@@ -1,0 +1,81 @@
+<section class="profile-form-page">
+  <header>
+    <div>
+      <p class="eyebrow">Administração</p>
+      <h1>{{ profileId ? 'Editar perfil' : 'Novo perfil' }}</h1>
+      <p>Defina a identificação do perfil e os acessos que ele poderá conceder.</p>
+    </div>
+    <a mat-stroked-button routerLink="/perfis">
+      <mat-icon>{{ ICONS.ARROW_BACK }}</mat-icon>
+      Voltar</a>
+  </header>
+
+  @if (loading()) {
+    <p class="loading">Carregando dados do perfil…</p>
+  } @else {
+    <form [formGroup]="form" appFormValidation (ngSubmit)="save()">
+      <section class="form-card">
+        <app-input label="Código" placeholder="Ex.: GESTOR" [required]="true" [maxlength]="50"
+                   [errorMessages]="{ required: 'Informe o código do perfil.', maxlength: 'O código deve ter no máximo 50 caracteres.' }"
+                   formControlName="codigo"/>
+        <app-textarea class="field-full" label="Descrição" placeholder="Descreva o objetivo e o público deste perfil."
+                      [rows]="4" formControlName="descricao"/>
+      </section>
+
+      <section class="permissions-card"
+               [class.permissions-card--invalid]="form.controls.permissoes.invalid && form.controls.permissoes.touched">
+        <div class="section-heading">
+          <div><h2>Permissões</h2>
+            <p>Selecione pelo menos uma permissão vinculada a um papel.</p></div>
+          <span class="required-mark">Obrigatório</span>
+        </div>
+        <div class="permissions-scroll">
+          <table>
+            <thead>
+            <tr>
+              <th>Papel</th>@for (permission of permissionColumns; track permission.codigo) {
+              <th>
+                <mat-icon>{{ permission.icon }}</mat-icon>
+                <span>{{ permission.label }}</span></th>
+            }</tr>
+            </thead>
+            <tbody>
+              @for (role of roles(); track role.codigo) {
+                <tr>
+                  <td><strong>{{ role.descricao }}</strong><small>{{ role.codigo }}</small></td>
+                  @for (permission of permissionColumns; track permission.codigo) {
+                    <td>
+                      @if (isPermissionAvailable(role, permission.codigo)) {
+                        <mat-checkbox [checked]="isPermissionSelected(role.codigo, permission.codigo)"
+                                      [aria-label]="permission.label + ' para ' + role.descricao"
+                                      (change)="togglePermission(role.codigo, permission.codigo, $event.checked)"/>
+                      } @else {
+                        <span class="not-available" aria-label="Permissão não disponível">—</span>
+                      }
+                    </td>
+                  }
+                </tr>
+              } @empty {
+                <tr>
+                  <td class="empty-roles" [attr.colspan]="permissionColumns.length + 1">Nenhum papel disponível.</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        @if (form.controls.permissoes.invalid && form.controls.permissoes.touched) {
+          <p class="permission-error">Selecione pelo menos uma permissão.</p>
+        }
+      </section>
+
+      @if (errorMessage()) {
+        <p class="error" role="alert">{{ errorMessage() }}</p>
+      }
+      <footer><a mat-button routerLink="/perfis">Cancelar</a>
+        <button mat-flat-button type="submit" [disabled]="saving()">{{ saving() ? 'Salvando…' : 'Salvar perfil' }}
+        </button>
+      </footer>
+    </form>
+  }
+</section>
+

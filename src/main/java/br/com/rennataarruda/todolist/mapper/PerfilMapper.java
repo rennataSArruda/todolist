@@ -17,6 +17,7 @@ public class PerfilMapper {
                 perfil.getId(),
                 perfil.getCodigo(),
                 perfil.getDescricao(),
+                perfil.getAtivo(),
                 toPermissoes(perfil)
         );
     }
@@ -42,3 +43,6 @@ public class PerfilMapper {
                 .toList();
     }
 }
+
+
+

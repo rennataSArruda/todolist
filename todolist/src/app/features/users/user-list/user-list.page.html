@@ -1,0 +1,50 @@
+<section class="users-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Administração</p>
+      <h1>Usuários</h1>
+      <p class="page-description">Consulte as contas cadastradas e acompanhe suas situações de acesso.</p>
+    </div>
+    <a mat-flat-button class="primary-action" routerLink="/usuarios/novo">
+      <mat-icon>{{ ICONS.ADD }}</mat-icon>
+      Novo usuário
+    </a>
+  </header>
+  <section class="toolbar" aria-label="Filtros de usuários">
+    <app-input class="search-field" type="search" [ngModel]="searchInputValue()"
+               placeholder="Buscar por nome ou nome de usuário..." [prefixIcon]="ICONS.SEARCH"
+               ariaLabel="Buscar usuário" (ngModelChange)="updateSearch($event)"/>
+    <app-select class="status-filter" [options]="statusOptions" [ngModel]="status()" ariaLabel="Filtrar por status"
+                (ngModelChange)="updateStatus($event)"/>
+  </section>
+  @if (errorMessage()) {
+    <p class="feedback error" role="alert">{{ errorMessage() }}</p>
+  }
+  <app-data-table [columns]="columns()" [data]="users()" [loading]="loading()" emptyMessage="Nenhum usuário encontrado"
+                  [pageIndex]="page()" [pageSize]="pageSize" [totalElements]="totalElements()"
+                  [totalPages]="totalPages()" (pageChange)="changePage($event)">
+    <ng-template #userCell let-user>
+      <div class="user-cell"><span class="avatar"
+                                   aria-hidden="true">{{ user.name.charAt(0) || 'U' }}</span><strong>{{ user.name }}</strong>
+      </div>
+    </ng-template>
+    <ng-template #usernameCell let-user><span class="username">@{{ user.username }}</span></ng-template>
+    <ng-template #statusCell let-user><span class="status-pill"
+                                            [class.status-pill--inactive]="user.ativo === false"><i></i>{{ user.ativo === false ? 'Inativo' : 'Ativo' }}</span>
+    </ng-template>
+    <ng-template #actionsCell let-user>
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu" aria-label="Ações do usuário">
+        <mat-icon>{{ ICONS.MORE_HORIZONTAL }}</mat-icon>
+      </button>
+      <mat-menu #actionsMenu="matMenu">
+        <a mat-menu-item [routerLink]="['/usuarios', user.id, 'editar']">
+          <mat-icon>{{ ICONS.EDIT }}</mat-icon>
+          Editar</a>
+        <button mat-menu-item (click)="toggleStatus(user)">
+          <mat-icon>{{ user.ativo === false ? ICONS.CHECK : ICONS.BLOCK }}</mat-icon>
+          {{ user.ativo === false ? 'Ativar' : 'Desativar' }}
+        </button>
+      </mat-menu>
+    </ng-template>
+  </app-data-table>
+</section>

@@ -1,0 +1,56 @@
+<section class="profiles-page">
+  <header class="page-header">
+    <div><p class="eyebrow">Administração</p>
+      <h1>Perfis</h1>
+      <p class="page-description">Consulte os perfis de acesso e suas permissões configuradas.</p></div>
+    <div class="header-actions"><span class="result-summary"
+                                      aria-live="polite">{{ totalElements() }} {{ totalElements() === 1 ? 'perfil encontrado' : 'perfis encontrados' }}</span><a
+      mat-flat-button class="primary-action" routerLink="/perfis/novo">
+      <mat-icon>{{ ICONS.ADD }}</mat-icon>
+      Novo perfil</a></div>
+  </header>
+  <section class="toolbar" aria-label="Filtros de perfis">
+    <app-input class="search-field" type="search" [ngModel]="searchInputValue()"
+               placeholder="Buscar por código ou descrição..." [prefixIcon]="ICONS.SEARCH" ariaLabel="Buscar perfil"
+               (ngModelChange)="updateSearch($event)"/>
+    <app-select class="status-filter" [options]="statusOptions" [ngModel]="status()" ariaLabel="Filtrar por status"
+                (ngModelChange)="updateStatus($event)"/>
+  </section>
+  @if (errorMessage()) {
+    <p class="feedback error" role="alert">{{ errorMessage() }}</p>
+  }
+  <app-data-table [columns]="columns()" [data]="profiles()" [loading]="loading()"
+                  emptyMessage="Nenhum perfil encontrado" [pageIndex]="page()" [pageSize]="pageSize"
+                  [totalElements]="totalElements()" [totalPages]="totalPages()" (pageChange)="changePage($event)">
+    <ng-template #profileCell let-profile>
+      <div class="profile-cell"><span class="profile-icon" aria-hidden="true"><mat-icon>{{ ICONS.PROFILE }}</mat-icon></span><strong>{{ profile.codigo }}</strong>
+      </div>
+    </ng-template>
+    <ng-template #descriptionCell let-profile><span
+      class="description">{{ profile.descricao || 'Sem descrição informada.' }}</span></ng-template>
+    <ng-template #permissionsCell let-profile><span
+      class="permission-count">{{ profile.permissoes.length }} {{ profile.permissoes.length === 1 ? 'permissão' : 'permissões' }}</span>
+    </ng-template>
+    <ng-template #statusCell let-profile>
+      <span class="status-pill" [class.status-pill--inactive]="profile.ativo === false">
+        <i></i>{{ profile.ativo === false ? 'Inativo' : 'Ativo' }}
+      </span>
+    </ng-template>
+    <ng-template #actionsCell let-profile>
+      <button mat-icon-button [matMenuTriggerFor]="actionsMenu" aria-label="Ações do perfil">
+        <mat-icon>{{ ICONS.MORE_HORIZONTAL }}</mat-icon>
+      </button>
+      <mat-menu #actionsMenu="matMenu">
+        <a mat-menu-item [routerLink]="['/perfis', profile.id, 'editar']">
+          <mat-icon>{{ ICONS.EDIT }}</mat-icon>
+          Editar</a>
+        <button mat-menu-item (click)="toggleStatus(profile)">
+          <mat-icon>{{ profile.ativo === false ? ICONS.CHECK : ICONS.BLOCK }}</mat-icon>
+          {{ profile.ativo === false ? 'Ativar' : 'Desativar' }}
+        </button>
+      </mat-menu>
+    </ng-template>
+  </app-data-table>
+</section>
+
+

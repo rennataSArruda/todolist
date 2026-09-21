@@ -74,10 +74,12 @@ public class Usuario extends WithUpdatedAt {
         this.perfil = perfil;
     }
 
-    public void atualizar(String username, String email, String name) {
-        this.username = username;
-        this.email = email;
+    public void atualizarNome(String name) {
         this.name = name;
+    }
+
+    public void alterarPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     public void alterarSenha(String encodedPassword) {
