@@ -1,6 +1,6 @@
-import { DestroyRef, Directive, inject } from '@angular/core';
+import { ChangeDetectorRef, DestroyRef, Directive, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
+import { catchError, debounceTime, Observable, of, Subject, switchMap } from 'rxjs';
 
 import { NgControl } from '@angular/forms';
 
@@ -14,6 +14,7 @@ import { AppFormValidationDirective } from './app-form-validation.directive';
 @Directive()
 export abstract class AbstractAutocompleteFormField<TItem, TValue> extends AbstractFormField<TValue> {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly searchTerms = new Subject<string>();
 
   protected items: readonly TItem[] = [];
@@ -30,10 +31,7 @@ export abstract class AbstractAutocompleteFormField<TItem, TValue> extends Abstr
     this.searchTerms
       .pipe(
         debounceTime(220),
-        distinctUntilChanged(),
         switchMap((term) => {
-          this.loading = true;
-          this.searchFailed = false;
           return this.searchItems(term).pipe(
             catchError(() => {
               this.searchFailed = true;
@@ -46,6 +44,7 @@ export abstract class AbstractAutocompleteFormField<TItem, TValue> extends Abstr
       .subscribe((items) => {
         this.items = items;
         this.loading = false;
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -66,12 +65,12 @@ export abstract class AbstractAutocompleteFormField<TItem, TValue> extends Abstr
       this.onChange(null);
     }
 
-    this.searchTerms.next(term.trim());
+    this.requestSearch(term.trim());
   }
 
   protected loadInitialOptions(): void {
     if (!this.disabled && !this.readonly) {
-      this.searchTerms.next(this.inputValue.trim());
+      this.requestSearch(this.inputValue.trim());
     }
   }
 
@@ -82,6 +81,13 @@ export abstract class AbstractAutocompleteFormField<TItem, TValue> extends Abstr
     this.items = [];
     this.onChange(value);
     this.markAsTouched();
+  }
+
+  private requestSearch(term: string): void {
+    this.loading = true;
+    this.searchFailed = false;
+    this.changeDetectorRef.markForCheck();
+    this.searchTerms.next(term);
   }
 
   protected abstract searchItems(term: string): Observable<readonly TItem[]>;

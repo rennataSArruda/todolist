@@ -79,6 +79,10 @@ export const routes: Routes = [
         path: 'perfis/:id/editar',
         loadComponent: () => import('./features/profiles/profile-form/profile-form.page').then((module) => module.ProfileFormPage),
       },
+      {
+        path: 'configuracoes',
+        loadComponent: () => import('./features/settings/settings.page').then((module) => module.SettingsPage),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: '**', redirectTo: 'dashboard' },
     ],

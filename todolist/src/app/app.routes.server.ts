@@ -12,5 +12,6 @@ export const serverRoutes: ServerRoute[] = [
   { path: 'perfis', renderMode: RenderMode.Client },
   { path: 'perfis/novo', renderMode: RenderMode.Client },
   { path: 'perfis/:id/editar', renderMode: RenderMode.Client },
+  { path: 'configuracoes', renderMode: RenderMode.Client },
   { path: '**', renderMode: RenderMode.Prerender },
 ];

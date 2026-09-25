@@ -46,6 +46,9 @@ public class EmailConfigService extends AbstractSearchCrudService<
     @Override
     @Transactional
     public EmailConfigDto create(EmailConfigDto dto) {
+        if (repository.count() > 0) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe uma configuração de e-mail cadastrada");
+        }
         validateForCreate(dto);
         EmailConfig entity = toNewEntity(dto);
         if (Boolean.TRUE.equals(entity.getAtivo())) {

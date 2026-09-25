@@ -1,0 +1,70 @@
+<section class="settings-page">
+  <header class="page-header">
+    <div>
+      <p class="eyebrow">Administração</p>
+      <h1>Configurações</h1>
+      <p>Defina as regras de primeiro acesso e o canal de envio dos e-mails da aplicação.</p>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <p class="loading">Carregando configurações…</p>
+  } @else {
+    <div class="settings-layout">
+      <nav class="settings-navigation" aria-label="Seções de configurações">
+        <button type="button" [class.active]="activeSection() === 'gerais'" (click)="selectSection('gerais')">
+          <mat-icon>{{ ICONS.SETTINGS }}</mat-icon><span>Gerais</span><small>Primeiro acesso</small>
+        </button>
+        <button type="button" [class.active]="activeSection() === 'email'" (click)="selectSection('email')">
+          <mat-icon>mail_outline</mat-icon><span>E-mail</span><small>Servidor SMTP</small>
+        </button>
+      </nav>
+
+      <div class="settings-panel">
+        @if (activeSection() === 'gerais') {
+          <form [formGroup]="generalForm" appFormValidation (ngSubmit)="saveGeneral()">
+            <div class="panel-heading">
+              <div class="panel-icon"><mat-icon>person_add</mat-icon></div>
+              <div><h2>Primeiro acesso</h2><p>Escolha o perfil aplicado automaticamente a novos usuários.</p></div>
+            </div>
+            <div class="notice"><mat-icon>info</mat-icon><span>O perfil selecionado define as permissões iniciais. Depois, ele pode ser alterado individualmente em Usuários.</span></div>
+            <app-profile-autocomplete formControlName="perfil" label="Perfil padrão" placeholder="Pesquise pelo código do perfil" [required]="true" hint="Apenas perfis ativos estão disponíveis." [errorMessages]="{ required: 'Selecione um perfil padrão.' }" />
+            @if (generalMessage()) { <p class="feedback" [class.feedback--error]="generalMessage()!.startsWith('Não')" role="alert">{{ generalMessage() }}</p> }
+            <footer><button mat-flat-button type="submit" [disabled]="savingGeneral()">{{ savingGeneral() ? 'Salvando…' : 'Salvar configurações gerais' }}</button></footer>
+          </form>
+        } @else {
+          <div class="email-section">
+            <div class="panel-heading">
+              <div class="panel-icon"><mat-icon>alternate_email</mat-icon></div>
+              <div><h2>Configuração de e-mail</h2><p>Defina o servidor SMTP utilizado para enviar as mensagens da aplicação.</p></div>
+            </div>
+
+            <div class="email-workspace">
+              <form class="email-form" [formGroup]="emailForm" appFormValidation (ngSubmit)="saveEmail()">
+                <div class="form-grid">
+                  <app-input formControlName="host" class="field-full" label="Servidor SMTP" placeholder="smtp.exemplo.com" [required]="true" [maxlength]="150" [errorMessages]="{ required: 'Informe o servidor SMTP.' }" />
+                  <app-input formControlName="port" type="number" label="Porta" [required]="true" [min]="1" [max]="65535" [errorMessages]="{ required: 'Informe a porta.', min: 'Informe uma porta válida.', max: 'Informe uma porta válida.' }" />
+                  <app-input formControlName="fromAddress" type="email" label="E-mail do remetente" placeholder="no-reply@empresa.com" [required]="true" [maxlength]="150" [errorMessages]="{ required: 'Informe o e-mail do remetente.', email: 'Informe um e-mail válido.' }" />
+                  <app-input formControlName="fromName" label="Nome do remetente" placeholder="Todo List" [maxlength]="150" />
+                  <div class="field-full authentication-title"><h3>Autenticação e segurança</h3><p>Informe as credenciais fornecidas pelo seu serviço de e-mail.</p></div>
+                  <div class="toggle-row field-full"><div><strong>Exigir autenticação SMTP</strong><span>Use usuário e senha para se conectar ao servidor.</span></div><mat-slide-toggle formControlName="auth" /></div>
+                  @if (emailForm.controls.auth.value) {
+                    <app-input formControlName="username" label="Usuário SMTP" placeholder="usuario@empresa.com" [required]="true" [maxlength]="150" [errorMessages]="{ required: 'Informe o usuário SMTP.' }" />
+                    <app-input-password formControlName="password" label="Senha SMTP" placeholder="Informe a senha" [required]="!selectedEmailId()" hint="Deixe em branco para manter a senha já cadastrada." [errorMessages]="{ required: 'Informe a senha SMTP.' }" />
+                  }
+                  <div class="transport-options field-full">
+                    <mat-slide-toggle formControlName="startTls">Usar STARTTLS</mat-slide-toggle>
+                    <mat-slide-toggle formControlName="ssl">Usar SSL</mat-slide-toggle>
+                    <mat-slide-toggle formControlName="ativo">Ativar após salvar</mat-slide-toggle>
+                  </div>
+                </div>
+                @if (emailMessage()) { <p class="feedback" [class.feedback--error]="emailMessage()!.startsWith('Não')" role="alert">{{ emailMessage() }}</p> }
+                <footer><button mat-flat-button type="submit" [disabled]="savingEmail()">{{ savingEmail() ? 'Salvando…' : 'Salvar configuração' }}</button></footer>
+              </form>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</section>

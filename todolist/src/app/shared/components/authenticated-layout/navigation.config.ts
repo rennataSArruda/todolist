@@ -44,6 +44,7 @@ export const ADMINISTRATION_NAVIGATION_ITEMS: readonly NavigationItem[] = [
   {
     label: 'Configurações',
     icon: ICONS.SETTINGS,
+    route: '/configuracoes',
     rootOnly: true,
   },
 ];
